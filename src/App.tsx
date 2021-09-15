@@ -1,21 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { registerRootComponent } from "expo";
+import { StatusBar } from "expo-status-bar";
+import { extendTheme, NativeBaseProvider } from "native-base";
+import React from "react";
+import Login from "./components/Login";
 
-export default function App() {
+// const theme = extendTheme({
+//   fontConfig: {
+//     Roboto: {
+//       100: {
+//         normal: "Roboto-Light",
+//         italic: "Roboto-LightItalic",
+//       },
+//       200: {
+//         normal: "Roboto-Light",
+//         italic: "Roboto-LightItalic",
+//       },
+//       300: {
+//         normal: "Roboto-Light",
+//         italic: "Roboto-LightItalic",
+//       },
+//       400: {
+//         normal: "Roboto-Regular",
+//         italic: "Roboto-Italic",
+//       },
+//       500: {
+//         normal: "Roboto-Medium",
+//       },
+//       600: {
+//         normal: "Roboto-Medium",
+//         italic: "Roboto-MediumItalic",
+//       },
+//     },
+//   },
+//   fonts: {
+//     heading: "Roboto",
+//     body: "Roboto",
+//     mono: "Roboto",
+//   },
+// });
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider>
+      <Login />
+      <StatusBar />
+    </NativeBaseProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default registerRootComponent(App);
