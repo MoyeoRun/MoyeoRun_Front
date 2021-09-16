@@ -3,45 +3,21 @@ import { StatusBar } from "expo-status-bar";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import React from "react";
 import Login from "./components/Login";
+import * as Font from "expo-font";
+import customTheme from "./hooks/customTheme";
 
-// const theme = extendTheme({
-//   fontConfig: {
-//     Roboto: {
-//       100: {
-//         normal: "Roboto-Light",
-//         italic: "Roboto-LightItalic",
-//       },
-//       200: {
-//         normal: "Roboto-Light",
-//         italic: "Roboto-LightItalic",
-//       },
-//       300: {
-//         normal: "Roboto-Light",
-//         italic: "Roboto-LightItalic",
-//       },
-//       400: {
-//         normal: "Roboto-Regular",
-//         italic: "Roboto-Italic",
-//       },
-//       500: {
-//         normal: "Roboto-Medium",
-//       },
-//       600: {
-//         normal: "Roboto-Medium",
-//         italic: "Roboto-MediumItalic",
-//       },
-//     },
-//   },
-//   fonts: {
-//     heading: "Roboto",
-//     body: "Roboto",
-//     mono: "Roboto",
-//   },
-// });
+Font.loadAsync({
+  "apple-sd-gothic-neo-medium": require("./assets/fonts/AppleSDGothicNeoM.ttf"),
+  "apple-sd-gothic-neo-light": require("./assets/fonts/AppleSDGothicNeoL.ttf"),
+  "apple-sd-gothic-neo-bold": require("./assets/fonts/AppleSDGothicNeoB.ttf"),
+  "sf-compact-display": require("./assets/fonts/SfCompactDisplay.otf"),
+  "sf-compact-display-light": require("./assets/fonts/SfCompactDisplay-light.otf"),
+  "sf-compact-display-bold": require("./assets/fonts/SfCompactDisplay-bold.ttf"),
+});
 
 const App = () => {
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider theme={customTheme}>
       <Login />
       <StatusBar />
     </NativeBaseProvider>

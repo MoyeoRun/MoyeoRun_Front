@@ -10,6 +10,7 @@ const OauthItem = ({ fontColor = "#FFFFFF", ...props }: any) => (
     mb="10px"
     bg="#FFFFFF"
     borderRadius="4px"
+    fontFamily="body"
     {...props}
   ></Button>
 );
