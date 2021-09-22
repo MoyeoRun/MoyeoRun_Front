@@ -31,7 +31,6 @@ const linking: LinkingOptions<RootStackParamList> = {
                   PersonalScreen: "Personal",
                 },
               },
-              Modal: "modal",
             },
           },
           Mission: {
@@ -46,7 +45,6 @@ const linking: LinkingOptions<RootStackParamList> = {
           },
         },
       },
-      Modal: "modal",
       NotFound: "*",
     },
   },

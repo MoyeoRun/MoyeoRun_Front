@@ -1,6 +1,10 @@
 import { registerRootComponent } from "expo";
 import { StatusBar } from "expo-status-bar";
-import { extendTheme, NativeBaseProvider } from "native-base";
+import {
+  extendTheme,
+  NativeBaseProvider,
+  v3CompatibleTheme,
+} from "native-base";
 import React, { useEffect, useState } from "react";
 import { Intro, Login } from "./components/Login";
 import * as Font from "expo-font";
@@ -17,7 +21,7 @@ const App = () => {
 
   return (
     <SafeAreaProvider>
-      <NativeBaseProvider theme={customTheme}>
+      <NativeBaseProvider theme={extendTheme(v3CompatibleTheme, customTheme)}>
         {!isLoadingComplete ? (
           <Onboarding />
         ) : (

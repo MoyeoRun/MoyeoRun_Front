@@ -23,17 +23,16 @@ import {
   RootTabScreenProps,
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
-import HomeScreen from "../screens/HomeScreen";
+import HomeTabScreen from "../screens/bottomTab/HomeTabScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
-import MakeRoomScreen from "../screens/MakeRoomScreen";
 import HomeIcon from "../assets/svg/HomeIcon";
-import RecordScreen from "../screens/RecordScreen";
+import RecordTabScreen from "../screens/bottomTab/RecordTabScreen";
 import RecordIcon from "../assets/svg/RecordIcon";
-import RunningScreen from "../screens/RunningScreen";
+import RunningTabScreen from "../screens/bottomTab/RunningTabScreen";
 import RunningIcon from "../assets/svg/RunningIcon";
-import MissionScreen from "../screens/MissionScreen";
+import MissionTabScreen from "../screens/bottomTab/MissionTabScreen";
 import MissionIcon from "../assets/svg/MissionIcon";
-import FriendScreen from "../screens/FriendScreen";
+import FriendTabScreen from "../screens/bottomTab/FriendTabScreen";
 import FriendIcon from "../assets/svg/FriendIcon";
 
 export default function Navigation({
@@ -66,9 +65,6 @@ function RootNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={MakeRoomScreen} />
-      </Stack.Group>
     </Stack.Navigator>
   );
 }
@@ -88,7 +84,7 @@ function BottomTabNavigator() {
     >
       <BottomTab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeTabScreen}
         options={({ navigation }: RootTabScreenProps<"Home">) => ({
           title: "홈",
           tabBarIcon: ({ color }) => <HomeIcon color={color} />,
@@ -96,7 +92,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Record"
-        component={RecordScreen}
+        component={RecordTabScreen}
         options={{
           title: "기록",
           tabBarIcon: ({ color }) => <RecordIcon color={color} />,
@@ -104,7 +100,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Running"
-        component={RunningScreen}
+        component={RunningTabScreen}
         options={{
           title: "러닝",
           tabBarIcon: ({ color }) => <RunningIcon color={color} />,
@@ -112,7 +108,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Mission"
-        component={MissionScreen}
+        component={MissionTabScreen}
         options={{
           title: "미션",
           tabBarIcon: ({ color }) => <MissionIcon color={color} />,
@@ -120,7 +116,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Friend"
-        component={FriendScreen}
+        component={FriendTabScreen}
         options={{
           title: "친구",
           tabBarIcon: ({ color }) => <FriendIcon color={color} />,
