@@ -1,16 +1,18 @@
-import { Box, Center, HStack, Image, Text, VStack } from 'native-base';
+import { Box, Center, HStack, Image, ScrollView, Text, VStack } from 'native-base';
 import React from 'react';
 import FavoritRunning from './FavoritRunning';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import LogoMini from '../../assets/svg/LogoMini';
+import NewMission from './NewMission';
 
 export type HomeTabProps = {
   runList: Array<object>;
+  missionList: object;
 };
 
-const HomeTab = ({ runList }: HomeTabProps) => {
+const HomeTab = ({ runList, missionList }: HomeTabProps) => {
   return (
-    <Box flex={1} pt={getStatusBarHeight()} pl="20px">
+    <ScrollView flex={1} pt={getStatusBarHeight()} pl="20px" bg="#FFF">
       <Box>
         <HStack justifyContent="space-between" alignItems="center" mt="40px" pr="20px">
           <LogoMini />
@@ -28,10 +30,11 @@ const HomeTab = ({ runList }: HomeTabProps) => {
           인서님, 즐거운 러닝 되세요.
         </Text>
       </Box>
-      <VStack mt="22px">
+      <VStack mt="22px" mb="100px">
         <FavoritRunning runList={runList} />
+        <NewMission missionList={missionList} />
       </VStack>
-    </Box>
+    </ScrollView>
   );
 };
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HomeTab } from '../components/HomeTab';
 
 const HomeTabContainer = () => {
-  const [runList, setRunList] = useState([
+  const [runList] = useState([
     {
       id: 1,
       title: '바람 부는 날 5Km 함께 뛰어요',
@@ -29,7 +29,38 @@ const HomeTabContainer = () => {
     },
   ]);
 
-  return <HomeTab runList={runList} />;
+  const [missionList] = useState([
+    {
+      id: 1,
+      title: '8월 주간 챌린지',
+      description: '15Km 러닝',
+      image:
+        'https://images.unsplash.com/photo-1486739985386-d4fae04ca6f7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80',
+    },
+    {
+      id: 2,
+      title: '새로운 장소 달리기',
+      description: '성수동 7Km 코스',
+      image:
+        'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
+    },
+    {
+      id: 3,
+      title: '함께 뛰기',
+      description: '5개의 러닝방 참여',
+      image:
+        'https://images.unsplash.com/photo-1560073743-0a45c01b68c4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1074&q=80',
+    },
+    {
+      id: 4,
+      title: '나만의 러닝 코스',
+      description: '새로운 코스 등록',
+      image:
+        'https://images.unsplash.com/photo-1510078344547-e481316148ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+    },
+  ]);
+
+  return <HomeTab runList={runList} missionList={missionList} />;
 };
 
 export default HomeTabContainer;
