@@ -42,7 +42,7 @@ const FavoritRunning = ({ runList }: any) => {
         </Text>
         <RightArrow />
       </HStack>
-      <ScrollView horizontal={true} mt="18px">
+      <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} mt="18px">
         {runList.map((run: any) => (
           <RunCard key={run.id} run={run} />
         ))}
