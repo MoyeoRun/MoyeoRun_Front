@@ -22,8 +22,6 @@ const MissionCard = ({ mission }: any) => (
 );
 
 const NewMission = ({ missionList }: any) => {
-  const [mode, setMode] = useState<string>('solo');
-
   return (
     <VStack mt="40px">
       <Text fontFamily="text" fontSize="24px" fontWeight="700">

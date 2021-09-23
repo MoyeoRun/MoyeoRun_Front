@@ -4,13 +4,15 @@ import FavoritRunning from './FavoritRunning';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import LogoMini from '../../assets/svg/LogoMini';
 import NewMission from './NewMission';
+import LastRecord from './LastRecord';
 
 export type HomeTabProps = {
   runList: Array<object>;
-  missionList: object;
+  missionList: Array<object>;
+  lastRecordList: Array<object>;
 };
 
-const HomeTab = ({ runList, missionList }: HomeTabProps) => {
+const HomeTab = ({ runList, missionList, lastRecordList }: HomeTabProps) => {
   return (
     <ScrollView flex={1} pt={getStatusBarHeight()} pl="20px" bg="#FFF">
       <Box>
@@ -33,6 +35,7 @@ const HomeTab = ({ runList, missionList }: HomeTabProps) => {
       <VStack mt="22px" mb="100px">
         <FavoritRunning runList={runList} />
         <NewMission missionList={missionList} />
+        <LastRecord lastRecordList={lastRecordList} />
       </VStack>
     </ScrollView>
   );

@@ -60,7 +60,26 @@ const HomeTabContainer = () => {
     },
   ]);
 
-  return <HomeTab runList={runList} missionList={missionList} />;
+  const [lastRecordList] = useState([
+    {
+      id: 1,
+      title: '반포 한강공원 5Km',
+      rate: 700,
+      amount: 5000,
+      image:
+        'https://images.unsplash.com/photo-1535639019828-5afcac8f8a32?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80',
+    },
+    {
+      id: 2,
+      title: '서울숲 7Km',
+      rate: 900,
+      amount: 7000,
+      image:
+        'https://images.unsplash.com/photo-1560799260-b737af7dd0fc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1380&q=80',
+    },
+  ]);
+
+  return <HomeTab runList={runList} missionList={missionList} lastRecordList={lastRecordList} />;
 };
 
 export default HomeTabContainer;
