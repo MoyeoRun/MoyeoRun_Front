@@ -20,6 +20,7 @@ const PlusButton = (props: any) => {
   );
 };
 
+//  마찬가지로 runList : object로 바꿔주었다.
 const RunningTab = ({ runList, mode, onModeChange }: { runList: object; mode: string; onModeChange: any }) => {
   const user = '상준';
   return (
@@ -29,7 +30,7 @@ const RunningTab = ({ runList, mode, onModeChange }: { runList: object; mode: st
           <Text fontFamily="text" fontSize="24px" fontWeight="700" color="#333333" lineHeight="31px" letterSpacing="-1">
             {user}님,{'\n'}함께 달려 볼까요?
           </Text>
-          <PlusButton />
+          {mode == '모여런' && <PlusButton />}
         </HStack>
         {/* 모여런 , 개인런 탭*/}
         <VStack my="19px">

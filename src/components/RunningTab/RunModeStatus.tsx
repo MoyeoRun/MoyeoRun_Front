@@ -27,7 +27,6 @@ const Selected = ({ mode, onModeChange, children }: { mode: string; onModeChange
 };
 
 const RunModeStatus = ({ mode, onModeChange }: { mode: string; onModeChange: any }) => {
-  // console.log(mode);
   return (
     <HStack>
       <Selected mode={mode} onModeChange={onModeChange}>
