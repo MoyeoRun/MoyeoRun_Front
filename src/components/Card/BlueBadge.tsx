@@ -4,7 +4,7 @@ import SmallRunningIcon from '../../assets/svg/SmallRunningIcon';
 
 const BlueBadge = ({ children = '준비중' }: { children: string }, props: any) => {
   return (
-    <Flex position="absolute" top="14px" left="12px">
+    <Flex position="absolute" top="15px" left="12px">
       <HStack px="6px" h="24px" borderRadius="4px" bg="#1162FF">
         <Box mr="3px" my="auto">
           <SmallRunningIcon size={10} />
