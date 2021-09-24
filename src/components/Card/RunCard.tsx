@@ -3,7 +3,7 @@ import { VStack } from 'native-base';
 import ImageBackground from '../common/ImageBackground';
 import BlueBadge from './BlueBadge';
 import Title from './Title';
-// import SubTypo from './SubTypo';
+import SubTitle from './SubTitle';
 import Participant from './Participant';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -21,6 +21,7 @@ const RunCard = ({ startdate, title, subTitle, image = dummyImage, maximum, wait
           <BlueBadge>{startdate}</BlueBadge>
 
           <Title>{title}</Title>
+          {subTitle && <SubTitle>{subTitle}</SubTitle>}
           <Participant maximum={maximum} waiting={waiting} />
         </LinearGradient>
       </ImageBackground>

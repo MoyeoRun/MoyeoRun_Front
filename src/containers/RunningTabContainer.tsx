@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { RunningTab } from '../components/RunningTab';
-const initMode: { multy: boolean; solo: boolean } = { multy: true, solo: false };
+import { RunningTabProps } from '../components/RunningTab/RunningTab';
 
 const RunningTabContainer = (props: any) => {
-  const [runList, setRunList] = useState([
+  const [mode, setMode] = React.useState<string>('모여런');
+  const [runList, setRunList] = React.useState<object>([
     {
       id: 1,
       title: '바람 부는 날 5Km 함께 뛰어요',
@@ -50,8 +51,12 @@ const RunningTabContainer = (props: any) => {
         'https://images.unsplash.com/photo-1586987177718-54e088c798b6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
     },
   ]);
-  console.log(runList);
-  return <RunningTab runList={runList} />;
+
+  const onModeChange = (mode: string) => {
+    setMode(mode);
+  };
+
+  return <RunningTab runList={runList} mode={mode} onModeChange={onModeChange} />;
 };
 
 export default RunningTabContainer;

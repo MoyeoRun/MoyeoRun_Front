@@ -2,8 +2,9 @@ import { Box, HStack, Flex, Text, VStack, Pressable, ScrollView } from 'native-b
 import React from 'react';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import PlusIcon from '../../assets/svg/PlusIcon';
-import RunCard from '../Card/RunCard';
+import MultyRunMain from './MultyRunMain';
 import RunModeStatus from './RunModeStatus';
+import SoloRunMain from './SoloRunMain';
 
 export type RunningTabProps = {
   runList: Array<object>;
@@ -19,7 +20,7 @@ const PlusButton = (props: any) => {
   );
 };
 
-const RunningTab = ({ runList }: RunningTabProps) => {
+const RunningTab = ({ runList, mode, onModeChange }: { runList: object; mode: string; onModeChange: any }) => {
   const user = '상준';
   return (
     <Box flex={1} pt={getStatusBarHeight()} px="20px">
@@ -32,10 +33,18 @@ const RunningTab = ({ runList }: RunningTabProps) => {
         </HStack>
         {/* 모여런 , 개인런 탭*/}
         <VStack my="19px">
-          <RunModeStatus />
-          {runList.map((data: any) => (
-            <RunCard data={data} />
-          ))}
+          {mode == '모여런' && (
+            <>
+              <RunModeStatus mode={mode} onModeChange={onModeChange} />
+              <MultyRunMain runList={runList} />
+            </>
+          )}
+          {mode == '개인런' && (
+            <>
+              <RunModeStatus mode={mode} onModeChange={onModeChange} />
+              <SoloRunMain runList={runList} />
+            </>
+          )}
         </VStack>
       </ScrollView>
     </Box>
