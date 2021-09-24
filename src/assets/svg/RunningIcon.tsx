@@ -1,10 +1,10 @@
-import { Factory } from "native-base";
-import React from "react";
-import { SvgXml } from "react-native-svg";
+import { Factory } from 'native-base';
+import React from 'react';
+import { SvgXml } from 'react-native-svg';
 
-const RunningIcon = ({ color, ...props }: { color: string }) => {
+const RunningIcon = ({ color, width = 22, ...props }: { width: number; color: string }) => {
   const source = `
-  <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="${width}" height="${width}" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M14.8087 5.5422C16.0686 5.5422 17.0899 4.52539 17.0899 3.2711C17.0899 2.01681 16.0686 1 14.8087 1C13.5488 1 12.5275 2.01681 12.5275 3.2711C12.5275 4.52539 13.5488 5.5422 14.8087 5.5422Z" stroke=${color} stroke-width="1.5" stroke-miterlimit="10"/>
   <path d="M18.9721 7.53621C19.076 7.48668 19.1928 7.45872 19.3159 7.45872C19.7563 7.45872 20.1134 7.81427 20.1134 8.2527C20.1134 8.49398 20.005 8.71025 19.8346 8.85591L17.0983 10.9877C16.8923 11.1574 16.6278 11.2594 16.3392 11.2594C16.0845 11.2594 15.849 11.18 15.6554 11.0446L13.7979 9.44636L14.7205 7.23068L16.5564 9.01235L18.9721 7.53621Z" stroke=${color} stroke-width="1.5" stroke-miterlimit="10"/>
   <path d="M4.8904 16.0734L6.63963 12.5663L10.0944 12.0779L6.80985 17.5265L3.14116 19.5804C1.35616 20.3428 0.511661 18.5799 1.76745 17.7189L4.8904 16.0734Z" stroke=${color} stroke-width="1.5" stroke-linejoin="round"/>

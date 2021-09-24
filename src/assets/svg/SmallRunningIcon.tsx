@@ -2,9 +2,9 @@ import { Factory } from 'native-base';
 import React from 'react';
 import { SvgXml } from 'react-native-svg';
 
-const SmallRunningIcon = (props: any) => {
+const SmallRunningIcon = ({ size = 12, ...props }: any) => {
   const source = `
-  <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="${size}" height="${size}" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M8.78553 2.90996C9.59266 2.90996 10.247 2.25854 10.247 1.45498C10.247 0.651416 9.59266 0 8.78553 0C7.97839 0 7.32408 0.651416 7.32408 1.45498C7.32408 2.25854 7.97839 2.90996 8.78553 2.90996Z" fill="white" fill-opacity="0.8"/>
   <path d="M11.2688 4.03623C11.3354 4.0045 11.4102 3.98659 11.4891 3.98659C11.7712 3.98659 12 4.21438 12 4.49525C12 4.64983 11.9306 4.78839 11.8214 4.8817L10.0683 6.24745C9.93643 6.35615 9.76697 6.4215 9.58204 6.4215C9.41888 6.4215 9.26804 6.3706 9.14401 6.28389L7.95396 5.25997L8.54504 3.8405L9.72121 4.98192L11.2688 4.03623Z" fill="white" fill-opacity="0.8"/>
   <path d="M2.49236 9.49872L3.66325 7.18682L4.91558 8.43916L3.72206 10.4297L1.37172 11.7455C0.228164 12.2339 -0.312866 11.1045 0.491652 10.5529L2.49236 9.49872Z" fill="white" fill-opacity="0.8"/>
