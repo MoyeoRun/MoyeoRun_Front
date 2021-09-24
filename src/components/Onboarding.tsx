@@ -1,7 +1,7 @@
-import { Box } from "native-base";
-import React from "react";
-import Logo from "../assets/svg/Logo";
-import LogoWhite from "../assets/svg/LogoWhite";
+import { Box } from 'native-base';
+import React from 'react';
+// import Logo from "../assets/svg/Logo";
+import LogoWhite from '../assets/svg/LogoWhite';
 
 const Onboarding = () => {
   return (
