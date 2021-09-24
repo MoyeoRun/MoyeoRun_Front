@@ -1,8 +1,8 @@
-import React from "react";
-import HomeContainer from "../../containers/HomeTabContainer";
+import React from 'react';
+import RunningTabContainer from '../../containers/RunningTabContainer';
 
 const RunningTabScreen = () => {
-  return <HomeContainer />;
+  return <RunningTabContainer />;
 };
 
 export default RunningTabScreen;
