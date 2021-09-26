@@ -1,21 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { registerRootComponent } from "expo";
+import { StatusBar } from "expo-status-bar";
+import {
+  extendTheme,
+  NativeBaseProvider,
+  v3CompatibleTheme,
+} from "native-base";
+import React, { useEffect, useState } from "react";
+import { Intro, Login } from "./components/Login";
+import * as Font from "expo-font";
+import customTheme from "./hooks/customTheme";
+import Onboarding from "./components/Onboarding";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Navigation from "./navigation";
+import useCachedResources from "./hooks/useCachedResources";
+import useColorScheme from "./hooks/useColorScheme";
 
-export default function App() {
+const App = () => {
+  const isLoadingComplete = useCachedResources();
+  const colorScheme = useColorScheme();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <NativeBaseProvider theme={extendTheme(v3CompatibleTheme, customTheme)}>
+        {!isLoadingComplete ? (
+          <Onboarding />
+        ) : (
+          <Navigation colorScheme={colorScheme} />
+        )}
+        <StatusBar />
+      </NativeBaseProvider>
+    </SafeAreaProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default registerRootComponent(App);
