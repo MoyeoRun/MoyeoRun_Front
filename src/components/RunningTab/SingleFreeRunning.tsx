@@ -3,7 +3,7 @@ import React from 'react';
 import { Pressable } from 'react-native';
 import { RunCard } from '../Card';
 
-const SoloFreeRunning = (props: any) => {
+const SingleFreeRunningCard = (props: any) => {
   const freeRunData = {
     title: '자유 달리기',
     subTitle: '거리, 시간, 스피드를 기준으로 자유롭게 달립니다',
@@ -30,4 +30,4 @@ const SoloFreeRunning = (props: any) => {
     </>
   );
 };
-export default SoloFreeRunning;
+export default SingleFreeRunningCard;

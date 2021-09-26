@@ -29,7 +29,7 @@ const runningGuideData = [
   },
 ];
 
-const SoloRunningGuide = (props: any) => {
+const SingleRunningGuide = (props: any) => {
   return (
     <>
       <Box mt="6px">
@@ -56,7 +56,7 @@ const SoloRunningGuide = (props: any) => {
   );
 };
 
-export default SoloRunningGuide;
+export default SingleRunningGuide;
 // const RunCardTest = () => {
 //     return <RunCard />;
 // };
