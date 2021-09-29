@@ -21,6 +21,7 @@ import MissionTabScreen from '../screens/bottomTab/MissionTabScreen';
 import MissionIcon from '../assets/svg/MissionIcon';
 import FriendTabScreen from '../screens/bottomTab/FriendTabScreen';
 import FriendIcon from '../assets/svg/FriendIcon';
+import { Login } from '../components/Login';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -34,8 +35,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );
