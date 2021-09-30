@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Box, Button, Flex, HStack, Stack, Text } from 'native-base';
+import { Box, Button, Flex, HStack, Modal, Stack, Text } from 'native-base';
 import NumberPlease from 'react-native-number-please';
 import { Pressable } from 'react-native';
 
-const TextButton = (props: any) => (
-  <Pressable>
+const TextButton = ({ onPress, children }: any) => (
+  <Pressable onPress={onPress}>
     <Box
       m="auto"
       _text={{
@@ -14,58 +14,60 @@ const TextButton = (props: any) => (
         textAlign: 'center',
       }}
     >
-      {props.children}
+      {children}
     </Box>
   </Pressable>
 );
 
-const BodyInfoPicker = (props: any) => {
-  const order = [
-    { id: 'height', label: 'cm', min: 100, max: 200 },
-    { id: 'weight', label: 'kg', min: 30, max: 150 },
-  ];
-
-  const initialOrder = [
-    { id: 'height', value: 150 },
-    { id: 'weight', value: 50 },
-  ];
-
-  const [orderValues, setOrderValues] = React.useState(initialOrder);
+const BodyInfoPicker = ({ isOpen, digits, value, setValue, setShowPicker }: any) => {
+  const [curValue, setCurValue] = React.useState(value);
 
   return (
-    <Stack
+    <Modal
+      isOpen={isOpen}
       flex={1}
       justifyContent="flex-end"
       alignItems="center"
-      // p="8px"
-      bg="#87868A"
+      bg="rgba(0, 0, 0, 0.4)"
+      onClose={() => setShowPicker(false)}
     >
-      <Box m="24px" mb="0px" p="24px" w="100%" bg="#FFFFFF">
-        <HStack>
-          <TextButton>취소</TextButton>
-          <Box
-            mx="auto"
-            _text={{
-              fontSize: 15,
-              fontFamily: 'text',
-              fontWeight: 'bold',
-              textAlign: 'center',
-              color: '#9A99A2',
-            }}
-          >
-            신체정보 입력
-          </Box>
-          <TextButton>완료</TextButton>
-        </HStack>
+      <Modal.Content w="100%" m="24px" mb="0px" p="24px" bg="#ffffff" borderRadius="0">
         <Box>
-          <NumberPlease
-            digits={order}
-            values={orderValues}
-            onChange={(nextValues) => setOrderValues(nextValues)}
-          />
+          <HStack>
+            <TextButton
+              onPress={() => {
+                setShowPicker(false);
+              }}
+            >
+              취소
+            </TextButton>
+            <Box
+              mx="auto"
+              _text={{
+                fontSize: 15,
+                fontFamily: 'text',
+                fontWeight: 'bold',
+                textAlign: 'center',
+                color: '#9A99A2',
+              }}
+            >
+              신체정보 입력
+            </Box>
+            <TextButton
+              onPress={() => {
+                setValue(curValue);
+                setShowPicker(false);
+              }}
+            >
+              완료
+            </TextButton>
+          </HStack>
+          <Box>
+            <NumberPlease digits={digits} values={curValue} onChange={(value) => setCurValue(value)} />
+          </Box>
         </Box>
-      </Box>
-    </Stack>
+      </Modal.Content>
+    </Modal>
   );
 };
 export default BodyInfoPicker;
