@@ -10,10 +10,10 @@ const SubmitButton = ({ fontColor = '#FFFFFF', children, ...props }: any) => (
     _text={{ color: '#FFFFFF', fontSize: '14px', fontWeight: '600' }}
     w="100%"
     h="48px"
-    p="16px"
+    p="15px"
     mt="38px"
     bg={Colors.light.tint}
-    borderRadius="0px"
+    borderRadius="4px"
     fontFamily="text"
     {...props}
   >
@@ -28,9 +28,18 @@ const InputForm = ({ value, focus }: any) => {
         focus(true);
       }}
     >
-      <Text w="100%" h="48px" borderRadius={0}>
+      <Box
+        w="100%"
+        h="48px"
+        pl="15px"
+        borderRadius="2px"
+        borderColor="#D4D4D4"
+        borderWidth="1px"
+        display="flex"
+        justifyContent="center"
+      >
         {value}
-      </Text>
+      </Box>
     </Pressable>
   );
 };
@@ -50,7 +59,7 @@ const BodyInfo = () => {
   const [showPicker, setShowPicker] = React.useState(false);
 
   return (
-    <Stack flex={1} alignItems="center" mt="60px">
+    <Stack flex={1} alignItems="center" pt="60px" bg="#ffffff">
       <Box pt="60px" w="100%" px="20px">
         <PrevArrowIcon color="black" />
         <Box borderColor="#F5F5F5" borderWidth="2px" my="22.5px" />
@@ -62,13 +71,13 @@ const BodyInfo = () => {
         </Box>
         <VStack>
           <Box>
-            <Box my="17">
+            <Box mt="17px" mb="10px">
               <Text color="#C4C4C4">키(cm)</Text>
             </Box>
             <InputForm value={Info[0].value} focus={setShowPicker} />
           </Box>
           <Box>
-            <Box my="17">
+            <Box mt="17px" mb="10px">
               <Text color="#C4C4C4">몸무게(kg)</Text>
             </Box>
 
