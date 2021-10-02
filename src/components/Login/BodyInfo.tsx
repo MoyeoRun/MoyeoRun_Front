@@ -2,6 +2,7 @@ import { Box, Button, Input, Stack, Text, VStack } from 'native-base';
 import PrevArrowIcon from '../../assets/svg/PrevArrowIcon';
 import React from 'react';
 import Colors from '../../lib/styles/colors';
+import { useNavigation } from '@react-navigation/core';
 
 const SubmitButton = ({ fontColor = '#FFFFFF', children, ...props }: any) => (
   <Button
@@ -31,6 +32,7 @@ const SubmitButton = ({ fontColor = '#FFFFFF', children, ...props }: any) => (
 const BodyInfo = () => {
   const [height, setHeight] = React.useState();
   const [weight, setWeight] = React.useState();
+  const navigation = useNavigation();
 
   return (
     <Stack flex={1} alignItems="center" mt="60px">
@@ -38,12 +40,7 @@ const BodyInfo = () => {
         <PrevArrowIcon color="black" />
         <Box borderColor="#F5F5F5" borderWidth="2px" my="22.5px" />
         <Box mb="22.5px">
-          <Text
-            fontFamily="text"
-            color="#333333"
-            fontSize={19}
-            fontWeight="600"
-          >
+          <Text fontFamily="text" color="#333333" fontSize={19} fontWeight="600">
             신체 정보를 입력해주시면{'\n'}
             효과적인 러닝 데이터를 얻을 수 있어요
           </Text>
@@ -69,7 +66,13 @@ const BodyInfo = () => {
               //  onChange={}
             />
           </Box>
-          <SubmitButton>다음</SubmitButton>
+          <SubmitButton
+            onPress={() => {
+              navigation.navigate('Welcome');
+            }}
+          >
+            다음
+          </SubmitButton>
         </VStack>
       </Box>
     </Stack>

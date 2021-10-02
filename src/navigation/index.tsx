@@ -25,6 +25,7 @@ import { Login } from '../components/Login';
 import MyPage from '../components/MyPage/MyPage';
 import BodyInfo from '../components/Login/BodyInfo';
 import BodyInfoPicker from '../components/Login/BodyInfoPicker';
+import Welcome from '../components/Welcome';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -43,6 +44,7 @@ function RootNavigator() {
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="MyPage" component={MyPage} options={{ title: '내정보' }} />
       <Stack.Screen name="BodyInfo" component={BodyInfo} options={{ headerShown: false }} />
+      <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );

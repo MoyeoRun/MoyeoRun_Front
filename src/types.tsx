@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Login: undefined;
   MyPage: undefined;
   BodyInfo: undefined;
+  Welcome: undefined;
   Running: undefined;
   NotFound: undefined;
 };
