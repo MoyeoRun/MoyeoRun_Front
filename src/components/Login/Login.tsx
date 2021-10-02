@@ -38,6 +38,8 @@ const Login = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [source, setSource] = useState<string>();
   const [mode, setMode] = useState<string>();
+  const navigation = useNavigation();
+
   const handleOauth = (source: any) => {
     setOpen(true);
     setMode('code');
@@ -78,7 +80,12 @@ const Login = () => {
               네이버 계정으로 로그인
             </OauthItem>
             <AppleIcon position="absolute" left="20px" top="148px" zIndex="1" />
-            <OauthItem bg="#111111" handleOauth={handleOauth}>
+            <OauthItem
+              bg="#111111"
+              handleOauth={() => {
+                navigation.navigate('BodyInfo');
+              }}
+            >
               애플 계정으로 로그인
             </OauthItem>
             <GoogleIcon position="absolute" left="20px" top="216px" zIndex="1" />
