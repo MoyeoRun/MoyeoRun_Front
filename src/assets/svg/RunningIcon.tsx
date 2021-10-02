@@ -2,7 +2,7 @@ import { Factory } from 'native-base';
 import React from 'react';
 import { SvgXml } from 'react-native-svg';
 
-const RunningIcon = ({ color, width = 22, ...props }: { width: number; color: string }) => {
+const RunningIcon = ({ color, width = 22, ...props }: { width?: number; color: string }) => {
   const source = `
   <svg width="${width}" height="${width}" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M14.8087 5.5422C16.0686 5.5422 17.0899 4.52539 17.0899 3.2711C17.0899 2.01681 16.0686 1 14.8087 1C13.5488 1 12.5275 2.01681 12.5275 3.2711C12.5275 4.52539 13.5488 5.5422 14.8087 5.5422Z" stroke=${color} stroke-width="1.5" stroke-miterlimit="10"/>
