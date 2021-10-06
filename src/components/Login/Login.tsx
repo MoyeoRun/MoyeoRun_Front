@@ -1,15 +1,14 @@
-import { Box, Button, Stack } from "native-base";
-import React from "react";
-import KakaoIcon from "../../assets/svg/KakaoIcon";
-import NaverIcon from "../../assets/svg/NaverIcon";
-import GoogleIcon from "../../assets/svg/GoogleIcon";
-import AppleIcon from "../../assets/svg/AppleIcon";
-import Logo from "../../assets/svg/Logo";
-import LogoBlue from "../../assets/svg/LogoBlue";
+import { Box, Button, Stack } from 'native-base';
+import React from 'react';
+import KakaoIcon from '../../assets/svg/KakaoIcon';
+import NaverIcon from '../../assets/svg/NaverIcon';
+import GoogleIcon from '../../assets/svg/GoogleIcon';
+import AppleIcon from '../../assets/svg/AppleIcon';
+import LogoBlue from '../../assets/svg/LogoBlue';
 
-const OauthItem = ({ fontColor = "#FFFFFF", ...props }: any) => (
+const OauthItem = ({ fontColor = '#FFFFFF', ...props }: any) => (
   <Button
-    _text={{ color: fontColor, fontSize: "18px", fontWeight: "500" }}
+    _text={{ color: fontColor, fontSize: '18px', fontWeight: '500' }}
     w="322px"
     h="56px"
     mb="10px"

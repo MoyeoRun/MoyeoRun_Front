@@ -1,26 +1,19 @@
-import { FontAwesome } from '@expo/vector-icons';
-import { createBottomTabNavigator, useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable, StyleSheet } from 'react-native';
-
+import { ColorSchemeName } from 'react-native';
 import colors from '../lib/styles/colors';
 import useColorScheme from '../hooks/useColorScheme';
-
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import HomeTabScreen from '../screens/bottomTab/HomeTabScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
-import HomeIcon from '../assets/svg/HomeIcon';
-import RecordTabScreen from '../screens/bottomTab/RecordTabScreen';
-import RecordIcon from '../assets/svg/RecordIcon';
-import RunningTabScreen from '../screens/bottomTab/RunningTabScreen';
-import RunningIcon from '../assets/svg/RunningIcon';
-import MissionTabScreen from '../screens/bottomTab/MissionTabScreen';
-import MissionIcon from '../assets/svg/MissionIcon';
-import FriendTabScreen from '../screens/bottomTab/FriendTabScreen';
-import FriendIcon from '../assets/svg/FriendIcon';
+import NotFound from '../components/NotFound';
+import RecordTabContainer from '../containers/RecordTabContainer';
+import HomeTabContainer from '../containers/HomeTabContainer';
+import RunningTabContainer from '../containers/RunningTabContainer';
+import MissionTabContainer from '../containers/MissionTabContainer';
+import FriendTabContainer from '../containers/FriendTabContainer';
+import { FriendIcon, HomeIcon, MissionIcon, RecordIcon, RunningIcon } from '../assets/svg';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -36,7 +29,7 @@ function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );
 }
@@ -63,7 +56,7 @@ function BottomTabNavigator() {
     >
       <BottomTab.Screen
         name="Home"
-        component={HomeTabScreen}
+        component={HomeTabContainer}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: '홈',
           tabBarIcon: ({ color }) => <HomeIcon color={color} />,
@@ -71,7 +64,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Record"
-        component={RecordTabScreen}
+        component={RecordTabContainer}
         options={{
           title: '기록',
           tabBarIcon: ({ color }) => <RecordIcon color={color} />,
@@ -79,7 +72,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Running"
-        component={RunningTabScreen}
+        component={RunningTabContainer}
         options={{
           title: '러닝',
           tabBarIcon: ({ color }) => <RunningIcon color={color} />,
@@ -87,7 +80,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Mission"
-        component={MissionTabScreen}
+        component={MissionTabContainer}
         options={{
           title: '미션',
           tabBarIcon: ({ color }) => <MissionIcon color={color} />,
@@ -95,7 +88,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Friend"
-        component={FriendTabScreen}
+        component={FriendTabContainer}
         options={{
           title: '친구',
           tabBarIcon: ({ color }) => <FriendIcon color={color} />,
