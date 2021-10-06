@@ -34,7 +34,11 @@ const apiUrl = {
   },
 };
 
-const Login = () => {
+type LoginProps = {
+  onKakaoOauth: (accessToken: string) => void;
+};
+
+const Login = ({ onKakaoOauth }: LoginProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [source, setSource] = useState<string>();
   const [mode, setMode] = useState<string>();
@@ -51,7 +55,7 @@ const Login = () => {
   };
 
   const onTokenSuccess = (access_token: string) => {
-    console.log(access_token);
+    onKakaoOauth(access_token);
     setOpen(false);
   };
 
