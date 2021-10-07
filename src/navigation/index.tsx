@@ -1,9 +1,8 @@
-import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator, useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable, StyleSheet } from 'react-native';
+import { ColorSchemeName } from 'react-native';
 
 import colors from '../lib/styles/colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -21,6 +20,10 @@ import MissionTabScreen from '../screens/bottomTab/MissionTabScreen';
 import MissionIcon from '../assets/svg/MissionIcon';
 import FriendTabScreen from '../screens/bottomTab/FriendTabScreen';
 import FriendIcon from '../assets/svg/FriendIcon';
+import MyPage from '../components/MyPage/MyPage';
+import BodyInfo from '../components/Login/BodyInfo';
+import Welcome from '../components/Welcome';
+import LoginScreen from '../screens/LoginScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -34,8 +37,12 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="MyPage" component={MyPage} options={{ title: '내정보' }} />
+      <Stack.Screen name="BodyInfo" component={BodyInfo} options={{ headerShown: false }} />
+      <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );

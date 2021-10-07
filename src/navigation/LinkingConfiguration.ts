@@ -1,51 +1,56 @@
-import { LinkingOptions } from "@react-navigation/native";
-import * as Linking from "expo-linking";
+import { LinkingOptions } from '@react-navigation/native';
+import * as Linking from 'expo-linking';
 
-import { RootStackParamList } from "../types";
+import { RootStackParamList } from '../types';
 
 const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: [Linking.makeUrl("/")],
+  prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
       Root: {
         screens: {
           Home: {
             screens: {
-              HomeScreen: "Home",
+              HomeScreen: 'Home',
             },
           },
           Record: {
             screens: {
-              RecordScreen: "Record",
+              RecordScreen: 'Record',
             },
           },
           Running: {
             screens: {
               MoyeoRun: {
                 screens: {
-                  MoyeoRunScreen: "MoyeoRun",
+                  MoyeoRunScreen: 'MoyeoRun',
                 },
               },
               Personal: {
                 screens: {
-                  PersonalScreen: "Personal",
+                  PersonalScreen: 'Personal',
                 },
               },
             },
           },
           Mission: {
             screens: {
-              MissionScreen: "Mission",
+              MissionScreen: 'Mission',
             },
           },
           Friend: {
             screens: {
-              FriendScreen: "Friend",
+              FriendScreen: 'Friend',
             },
           },
         },
       },
-      NotFound: "*",
+      Login: {
+        screens: {
+          Login: 'login',
+        },
+      },
+      NotFound: '*',
     },
   },
 };
