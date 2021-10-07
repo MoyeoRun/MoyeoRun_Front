@@ -1,7 +1,7 @@
-import { Box, Button, Text } from "native-base";
-import React from "react";
+import { Box, Button, Text } from 'native-base';
+import React from 'react';
 
-const NotFoundScreen = () => {
+const NotFound = () => {
   return (
     <Box>
       <Text>이 스크린은 존재하지 않습니다.</Text>
@@ -10,4 +10,4 @@ const NotFoundScreen = () => {
   );
 };
 
-export default NotFoundScreen;
+export default NotFound;
