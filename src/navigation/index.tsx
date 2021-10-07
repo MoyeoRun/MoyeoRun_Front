@@ -14,6 +14,10 @@ import RunningTabContainer from '../containers/RunningTabContainer';
 import MissionTabContainer from '../containers/MissionTabContainer';
 import FriendTabContainer from '../containers/FriendTabContainer';
 import { FriendIcon, HomeIcon, MissionIcon, RecordIcon, RunningIcon } from '../assets/svg';
+import LoginContainer from '../containers/LoginContainer';
+import MyPage from '../components/MyPage/MyPage';
+import BodyInfo from '../components/BodyInfo/BodyInfo';
+import Welcome from '../components/Welcome';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -27,8 +31,12 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
+      <Stack.Screen name="MyPage" component={MyPage} options={{ title: '내정보' }} />
+      <Stack.Screen name="BodyInfo" component={BodyInfo} options={{ headerShown: false }} />
+      <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );

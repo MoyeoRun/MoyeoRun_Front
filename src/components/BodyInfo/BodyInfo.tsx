@@ -83,7 +83,13 @@ const BodyInfo = () => {
 
             <InputForm value={Info[1].value} focus={setShowPicker} />
           </Box>
-          <SubmitButton>다음</SubmitButton>
+          <SubmitButton
+            onPress={() => {
+              navigation.navigate('Welcome');
+            }}
+          >
+            다음
+          </SubmitButton>
         </VStack>
       </Box>
       <BodyInfoPicker
