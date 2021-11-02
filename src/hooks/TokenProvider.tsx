@@ -1,10 +1,10 @@
 import React from 'react';
 import { setToken } from '../modules/auth';
-import { setAuthorizeToken } from '../lib/api/auth';
 import { useDispatch } from 'react-redux';
 import Navigation from '../navigation';
 import useColorScheme from './useColorScheme';
 import { useEffect } from 'react';
+import { setAuthorizeToken } from '../lib/api/auth';
 
 type TokenProviderProps = {
   accessToken: null | { token: string; expiresIn: Date };
@@ -17,6 +17,7 @@ const TokenProvider = ({ accessToken, refreshToken }: TokenProviderProps) => {
 
   useEffect(() => {
     if (accessToken && refreshToken) {
+      setAuthorizeToken(accessToken.token);
       dispatch(setToken({ accessToken, refreshToken }));
     }
   }, []);
