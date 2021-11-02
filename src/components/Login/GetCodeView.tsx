@@ -7,13 +7,13 @@ import config from '../../config';
 const INJECTED_JAVASCRIPT =
   '(function() {if(window.document.getElementsByTagName("pre").length>0){window.ReactNativeWebView.postMessage((window.document.getElementsByTagName("pre")[0].innerHTML));}})();';
 
-const GetCodeView = ({ mode, open, source, onCodeSuccess, onTokenSuccess, ...props }: any) => {
+const GetCodeView = ({ mode, source, onCodeSuccess, onTokenSuccess, ...props }: any) => {
   const navigation = useNavigation();
 
   const onSuccess = (event: any) => {
     if (mode === 'code') {
-      const { message } = JSON.parse(event.nativeEvent.data);
-      const accessCode = message.substring(message.indexOf('=') + 1, message.indexOf('라') - 1);
+      const message = event.nativeEvent.data;
+      const accessCode = message.substring(message.indexOf('code=') + 5, message.indexOf('","err'));
       onCodeSuccess(accessCode);
     } else {
       const { access_token } = JSON.parse(event.nativeEvent.data);
