@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
-import { extendTheme, NativeBaseProvider, v3CompatibleTheme } from 'native-base';
+import { NativeBaseProvider } from 'native-base';
 import React from 'react';
 import customTheme from './hooks/customTheme';
 import Onboarding from './components/Onboarding';
@@ -16,7 +16,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <NativeBaseProvider theme={extendTheme(v3CompatibleTheme, customTheme)}>
+        <NativeBaseProvider theme={customTheme}>
           {!isLoadingComplete ? (
             <Onboarding />
           ) : (
