@@ -1,8 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../modules';
+import { setAuthorizeToken } from '../lib/api/auth';
 import { getAccessToken, initToken } from '../modules/auth';
 
-const actionMiddleware = async (dispatch: any, refreshToken: any, action: any, payload: any): Promise<any> => {
+const actionMiddleware = async (
+  dispatch: any,
+  accessToken: any,
+  refreshToken: any,
+  action: any,
+  payload: any,
+): Promise<any> => {
   try {
     console.log('미들웨어 시작', payload);
     await dispatch(action(payload));
@@ -11,6 +16,7 @@ const actionMiddleware = async (dispatch: any, refreshToken: any, action: any, p
       if (refreshToken) {
         console.log('리프레시 시도', refreshToken, payload);
         await dispatch(getAccessToken(refreshToken.token));
+        setAuthorizeToken(accessToken.token);
         dispatch(action(payload));
       } else {
         console.log('리프레시 실패', payload);

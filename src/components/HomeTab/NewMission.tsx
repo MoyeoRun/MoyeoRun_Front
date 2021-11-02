@@ -33,7 +33,7 @@ const NewMission = ({ missionList }: any) => {
         numColumns={2}
         data={missionList}
         renderItem={({ item }) => <MissionCard mission={item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id + ''}
       />
       <Button
         _pressed={{ bg: '#cbcaca' }}

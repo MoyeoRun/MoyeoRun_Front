@@ -7,8 +7,8 @@ import useColorScheme from './useColorScheme';
 import { useEffect } from 'react';
 
 type TokenProviderProps = {
-  accessToken: null | string;
-  refreshToken: null | string;
+  accessToken: null | { token: string; expiresIn: Date };
+  refreshToken: null | { token: string; expiresIn: Date };
 };
 
 const TokenProvider = ({ accessToken, refreshToken }: TokenProviderProps) => {

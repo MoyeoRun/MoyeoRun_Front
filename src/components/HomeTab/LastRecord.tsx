@@ -37,7 +37,7 @@ const LastRecord = ({ lastRecordList }: any) => {
         pr="10px"
         data={lastRecordList}
         renderItem={({ item }) => <RecordCard record={item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id + ''}
       />
       <Button
         _pressed={{ bg: '#cbcaca' }}

@@ -8,7 +8,7 @@ import { getUserData } from '../modules/user';
 
 const HomeTabContainer = () => {
   const { user } = useSelector((state: RootState) => state.user);
-  const { refreshToken } = useSelector((state: RootState) => state.auth);
+  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
 
   const [runList] = useState([
     {
@@ -90,7 +90,7 @@ const HomeTabContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    actionMiddleware(dispatch, refreshToken, getUserData, null);
+    actionMiddleware(dispatch, accessToken, refreshToken, getUserData, null);
   }, [dispatch]);
 
   if (!user) return null;
