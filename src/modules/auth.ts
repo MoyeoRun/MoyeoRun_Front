@@ -5,17 +5,23 @@ import * as authAPI from '../lib/api/auth';
 const KAKAO_OAUTH = 'auth/KAKAO_OAUTH' as const;
 const GOOGLE_OAUTH = 'auth/GOOGLE_OAUTH' as const;
 const NAVER_OAUTH = 'auth/NAVER_OAUTH' as const;
+const GET_ACCESS_TOKEN = 'auth/GET_ACCESS_TOKEN' as const;
+const SET_TOKEN = 'auth/SET_TOKEN' as const;
+const INIT_TOKEN = 'auth/INIT_TOKEN' as const;
 
 export const kakaoOauth = createAction(KAKAO_OAUTH, authAPI.kakaoOauth);
 export const googleOauth = createAction(GOOGLE_OAUTH, authAPI.googleOauth);
 export const naverOauth = createAction(NAVER_OAUTH, authAPI.naverOauth);
+export const getAccessToken = createAction(GET_ACCESS_TOKEN, authAPI.getAccessToken);
+export const setToken = createAction(SET_TOKEN, (token: object) => token);
+export const initToken = createAction(INIT_TOKEN);
 
 type AuthAction = ReturnType<typeof kakaoOauth> | ReturnType<typeof googleOauth> | ReturnType<typeof naverOauth>;
 
 type AuthState = {
   auth: null | object;
-  accessToken: null | string;
-  refreshToken: null | string;
+  accessToken: null | { token: string; expiresIn: Date };
+  refreshToken: null | { token: string; expiresIn: Date };
 };
 
 const initialState: AuthState = {
@@ -26,12 +32,30 @@ const initialState: AuthState = {
 
 export default handleActions(
   {
+    [SET_TOKEN]: (state: AuthState, { payload }: any) => ({
+      ...state,
+      accessToken: payload.accessToken,
+      refreshToken: payload.refreshToken,
+    }),
+    [INIT_TOKEN]: (state: AuthState) => ({
+      ...state,
+      accessToken: null,
+      refreshToken: null,
+    }),
     ...pender({
       type: KAKAO_OAUTH,
       onSuccess: (state: AuthState, { payload }) => ({
         ...state,
         accessToken: payload.token.accessToken,
         refreshToken: payload.token.refreshToken,
+      }),
+    }),
+    ...pender({
+      type: GET_ACCESS_TOKEN,
+      onSuccess: (state: AuthState, { payload }) => ({
+        ...state,
+        accessToken: payload.accessToken,
+        refreshToken: payload.refreshToken,
       }),
     }),
   },

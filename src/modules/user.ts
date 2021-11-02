@@ -24,7 +24,7 @@ export default handleActions(
       type: GET_USER_DATA,
       onSuccess: (state: UserState, { payload }) => ({
         ...state,
-        user: payload.data,
+        user: payload,
       }),
     }),
     ...pender({

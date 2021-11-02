@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Login } from '../components/Login';
+import { setAuthorizeToken } from '../lib/api/auth';
 import { RootState } from '../modules';
 import { kakaoOauth } from '../modules/auth';
 
@@ -16,9 +17,10 @@ const LoginContainer = () => {
 
   useEffect(() => {
     if (accessToken) {
+      setAuthorizeToken(accessToken);
       navigation.reset({ index: 0, routes: [{ name: 'Root' }] });
     }
-  }, [dispatch, accessToken]);
+  }, [accessToken]);
 
   return <Login onKakaoOauth={onKakaoOauth} />;
 };

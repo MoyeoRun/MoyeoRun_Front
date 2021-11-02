@@ -1,18 +1,24 @@
-import { Box, Center, HStack, Image, ScrollView, Text, VStack } from 'native-base';
+import { Box, Button, Center, HStack, Image, ScrollView, Text, VStack } from 'native-base';
 import React from 'react';
 import FavoritRunning from './FavoritRunning';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import LogoMini from '../../assets/svg/LogoMini';
 import NewMission from './NewMission';
 import LastRecord from './LastRecord';
+import { useDispatch, useSelector } from 'react-redux';
+import { setToken } from '../../modules/auth';
+import { RootState } from '../../modules';
 
 export type HomeTabProps = {
   runList: Array<object>;
   missionList: Array<object>;
   lastRecordList: Array<object>;
+  user: any;
 };
 
-const HomeTab = ({ runList, missionList, lastRecordList }: HomeTabProps) => {
+const HomeTab = ({ runList, missionList, lastRecordList, user }: HomeTabProps) => {
+  const dispatch = useDispatch();
+  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
   return (
     <ScrollView flex={1} pt={getStatusBarHeight()} pl="20px" bg="#FFF">
       <Box>
@@ -29,8 +35,15 @@ const HomeTab = ({ runList, missionList, lastRecordList }: HomeTabProps) => {
           />
         </HStack>
         <Text fontFamily="text" fontSize="24px" fontWeight="700" color="#333333" mt="24px">
-          인서님, 즐거운 러닝 되세요.
+          {user.name}님, 즐거운 러닝 되세요.
         </Text>
+        <Button
+          onPress={() => {
+            dispatch(setToken({ accessToken: null, refreshToken }));
+          }}
+        >
+          로그아웃
+        </Button>
       </Box>
       <VStack mt="22px" mb="100px">
         <FavoritRunning runList={runList} />

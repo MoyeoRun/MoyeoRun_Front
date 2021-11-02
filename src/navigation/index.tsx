@@ -1,12 +1,10 @@
 import { createBottomTabNavigator, useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
-
 import colors from '../lib/styles/colors';
 import useColorScheme from '../hooks/useColorScheme';
-
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import HomeTabScreen from '../screens/bottomTab/HomeTabScreen';
@@ -24,6 +22,11 @@ import MyPage from '../components/MyPage/MyPage';
 import BodyInfo from '../components/Login/BodyInfo';
 import Welcome from '../components/Welcome';
 import LoginScreen from '../screens/LoginScreen';
+import { getAccessToken, kakaoOauth } from '../modules/auth';
+import * as SecureStore from 'expo-secure-store';
+import { setAuthorizeToken } from '../lib/api/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../modules';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -36,6 +39,37 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const manageToken = async () => {
+    if (refreshToken) {
+      if (accessToken) {
+        console.log('@@@@@@ token exists, set Authorization');
+        console.log(accessToken, refreshToken);
+        setAuthorizeToken(accessToken.token);
+        SecureStore.setItemAsync('accessToken', JSON.stringify(accessToken));
+        SecureStore.setItemAsync('refreshToken', JSON.stringify(refreshToken));
+      } else {
+        try {
+          console.log('@@@@@@ Access token remove perceive, try refresh');
+          await dispatch(getAccessToken(refreshToken.token));
+        } catch {
+          console.log('@@@@@@ Access token refresh failed');
+          navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
+        }
+      }
+    } else {
+      console.log('@@@@@@ refresh token not found');
+      navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
+    }
+  };
+
+  React.useEffect(() => {
+    manageToken();
+  }, [accessToken, refreshToken]);
+
   return (
     <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
