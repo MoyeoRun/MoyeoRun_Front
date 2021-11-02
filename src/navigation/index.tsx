@@ -23,6 +23,7 @@ import * as SecureStore from 'expo-secure-store';
 import { setAuthorizeToken } from '../lib/api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
+import { SingleRun } from '../components/SingleRun';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -71,6 +72,7 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
       <Stack.Screen name="MyPage" component={MyPage} options={{ title: '내정보' }} />
+      <Stack.Screen name="SingleRun" component={SingleRun} options={{ headerShown: false }} />
       <Stack.Screen name="BodyInfo" component={BodyInfo} options={{ headerShown: false }} />
       <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
@@ -116,7 +118,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Running"
-        component={RunningTabContainer}
+        component={SingleRun}
         options={{
           title: '러닝',
           tabBarIcon: ({ color }) => <RunningIcon color={color} />,

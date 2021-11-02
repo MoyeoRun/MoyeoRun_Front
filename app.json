@@ -18,7 +18,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "infoPlist": {
+        "UIBackgroundModes": ["location", "fetch"]
+      }
     },
     "android": {
       "userInterfaceStyle": "automatic",
