@@ -1,14 +1,7 @@
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
-<<<<<<< HEAD
-import { extendTheme, NativeBaseProvider, v3CompatibleTheme } from 'native-base';
-import React, { useEffect, useState } from 'react';
-// import { Intro, Login } from './components/Login';
-import * as Font from 'expo-font';
-=======
 import { NativeBaseProvider } from 'native-base';
 import React from 'react';
->>>>>>> develop
 import customTheme from './hooks/customTheme';
 import Onboarding from './components/Onboarding';
 import { SafeAreaProvider } from 'react-native-safe-area-context';

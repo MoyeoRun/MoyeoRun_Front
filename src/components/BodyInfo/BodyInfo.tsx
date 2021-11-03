@@ -84,17 +84,7 @@ const BodyInfo = ({ onUploadBodyInfo }: BodyInfoProps) => {
 
             <InputForm value={Info[1].value} focus={setShowPicker} />
           </Box>
-<<<<<<< HEAD
-          <SubmitButton
-            onPress={() => {
-              // navigation.navigate('Welcome');
-            }}
-          >
-            다음
-          </SubmitButton>
-=======
           <SubmitButton onPress={onSubmit}>다음</SubmitButton>
->>>>>>> develop
         </VStack>
       </Box>
       <BodyInfoPicker
