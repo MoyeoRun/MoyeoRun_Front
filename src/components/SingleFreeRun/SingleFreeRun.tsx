@@ -45,17 +45,18 @@ const SingleFreeRun = () => {
     );
   };
 
-  console.log(runMode);
   return (
     <ScreenBox>
       {/* 자유달리기 */}
       <Box position="absolute" top="65px" left="24px" zIndex={2}>
-        <HStack alignItems="center">
-          <BackIcon />
-          <Box ml="15px" _text={{ fontSize: 24 }}>
-            자유 달리기
-          </Box>
-        </HStack>
+        <Pressable onPress={() => navigation.dispatch(StackActions.pop())}>
+          <HStack alignItems="center">
+            <BackIcon />
+            <Box ml="15px" _text={{ fontSize: 24 }}>
+              자유 달리기
+            </Box>
+          </HStack>
+        </Pressable>
       </Box>
 
       <VStack flex={1} px="30px" pt="175px">

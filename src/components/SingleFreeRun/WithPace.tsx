@@ -59,6 +59,8 @@ const SingleRunWithPace = (props: any) => {
           <Keyword>시간</Keyword>
           <TimeValue ml="9px">0:00</TimeValue>
         </HStack>
+        <Box borderWidth="0.5px" borderColor="#828282" height="100%" />
+
         <HStack alignItems="center">
           <Keyword>페이스</Keyword>
           <TimeValue ml="9px">0'00"</TimeValue>

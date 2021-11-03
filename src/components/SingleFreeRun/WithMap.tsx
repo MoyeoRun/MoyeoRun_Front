@@ -55,10 +55,12 @@ const SingleRunWithMap = (props: any) => {
             <Value>1.50</Value>
             <Keyword>킬로미터</Keyword>
           </VStack>
+          <Box borderWidth="0.5px" borderColor="#828282" height="100%" />
           <VStack alignItems="center">
             <Value ml="9px">0:00</Value>
             <Keyword>시간</Keyword>
           </VStack>
+          <Box borderWidth="0.5px" borderColor="#828282" height="100%" />
           <VStack alignItems="center">
             <Value ml="9px">0'00"</Value>
             <Keyword>페이스</Keyword>
@@ -66,11 +68,11 @@ const SingleRunWithMap = (props: any) => {
         </HStack>
         <HStack alignItems="center" justifyContent="center" mt="30px">
           {runStatus ? (
-            <OperationButton type="pause" size="small" onLongPress={onPause} />
+            <OperationButton type="pause" size="88" onLongPress={onPause} />
           ) : (
             <>
-              <OperationButton type="start" size="small" onLongPress={onStart} />
-              <OperationButton type="stop" size="small" ml="24px" />
+              <OperationButton type="start" size="88" onLongPress={onStart} />
+              <OperationButton type="stop" size="88" ml="24px" />
             </>
           )}
         </HStack>

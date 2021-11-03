@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Box, Pressable, Text } from 'native-base';
 import PauseIcon from '../../assets/svg/PauseIcon';
 import StopIcon from '../../assets/svg/StopIcon';
 import PlayIcon from '../../assets/svg/PlayIcon';
+import { Animated } from 'react-native';
 
 const IconGenerator = ({ type, color }: { type: string; color?: string }) => {
   switch (type) {
@@ -27,28 +28,73 @@ const IconGenerator = ({ type, color }: { type: string; color?: string }) => {
 const OperationButton = ({
   type,
   color,
-  size,
+  size = 100,
   ml,
   onPress,
   onLongPress,
+  pressEffect = true,
 }: {
   type: string;
   color?: string;
-  size?: string;
+  size?: number;
   ml?: string;
   onLongPress?: any;
   onPress?: any;
+  pressEffect?: boolean;
 }) => {
-  return (
+  const buttonValue = useRef(new Animated.Value(1)).current;
+  const onPressInEffect = () => {
+    Animated.timing(buttonValue, {
+      useNativeDriver: true,
+      toValue: 1.1,
+      duration: 500,
+    }).start();
+  };
+  const onPressOutEffect = () => {
+    Animated.spring(buttonValue, {
+      useNativeDriver: true,
+      toValue: 1,
+    }).start();
+  };
+
+  return pressEffect ? (
+    <Animated.View
+      style={{
+        transform: [
+          { scale: buttonValue },
+          { perspective: 1000 }, // without this line this Animation will not render on Android while working fine on iOS
+        ],
+      }}
+    >
+      <Pressable
+        zIndex={2}
+        bg="#1162FF"
+        w={size}
+        h={size}
+        borderRadius="100px"
+        ml={ml}
+        onLongPress={onLongPress}
+        onPress={onPress}
+        onPressIn={onPressInEffect}
+        onPressOut={onPressOutEffect}
+      >
+        <Box m="auto">
+          <IconGenerator type={type} color={color} />
+        </Box>
+      </Pressable>
+    </Animated.View>
+  ) : (
     <Pressable
       zIndex={2}
       bg="#1162FF"
-      w="100px"
-      h="100px"
+      w={size}
+      h={size}
       borderRadius="100px"
       ml={ml}
       onLongPress={onLongPress}
       onPress={onPress}
+      onPressIn={onPressInEffect}
+      onPressOut={onPressOutEffect}
     >
       <Box m="auto">
         <IconGenerator type={type} color={color} />

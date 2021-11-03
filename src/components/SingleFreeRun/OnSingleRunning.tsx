@@ -20,9 +20,10 @@ const OnSinglRunning = (props: any) => {
   const arr = [0, 1];
 
   return (
-    <ScreenBox borderWidth="1px">
+    <ScreenBox>
       <ScrollView
         horizontal={true}
+        bounces={false}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={Animated.event([
