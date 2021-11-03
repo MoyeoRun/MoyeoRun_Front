@@ -130,7 +130,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Running"
-        component={SingleRun}
+        component={RunningTabContainer}
         options={{
           title: '러닝',
           tabBarIcon: ({ color }) => <RunningIcon color={color} />,

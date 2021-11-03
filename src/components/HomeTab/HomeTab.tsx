@@ -1,10 +1,11 @@
-import { HStack, Image, ScrollView, Text, VStack } from 'native-base';
+import { Button, HStack, Image, ScrollView, Text, VStack } from 'native-base';
 import React from 'react';
 import FavoritRunning from './FavoritRunning';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import LogoMini from '../../assets/svg/LogoMini';
 import NewMission from './NewMission';
 import LastRecord from './LastRecord';
+import { useNavigation } from '@react-navigation/core';
 
 export type HomeTabProps = {
   runList: Array<object>;
@@ -14,6 +15,7 @@ export type HomeTabProps = {
 };
 
 const HomeTab = ({ runList, missionList, lastRecordList, user }: HomeTabProps) => {
+  const navigation = useNavigation();
   return (
     <ScrollView flex={1} pt={getStatusBarHeight()} pl="20px" bg="#FFF">
       <HStack justifyContent="space-between" alignItems="center" mt="40px" pr="20px">
@@ -31,6 +33,13 @@ const HomeTab = ({ runList, missionList, lastRecordList, user }: HomeTabProps) =
       <Text fontFamily="text" fontSize="24px" fontWeight="700" color="#333333" mt="24px">
         {user.name}님, 즐거운 러닝 되세요.
       </Text>
+      <Button
+        onPress={() => {
+          navigation.navigate('SingleRun');
+        }}
+      >
+        러닝 테스트
+      </Button>
       <VStack mt="22px" mb="100px">
         <FavoritRunning runList={runList} />
         <NewMission missionList={missionList} />

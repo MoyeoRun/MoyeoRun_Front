@@ -28,6 +28,7 @@ const GetCodeView = ({ mode, source, onCodeSuccess, onTokenSuccess, ...props }: 
       injectedJavaScript={INJECTED_JAVASCRIPT}
       javaScriptEnabled={true}
       onMessage={onSuccess}
+      style={mode !== 'code' && { display: 'none' }}
     />
   );
 };
