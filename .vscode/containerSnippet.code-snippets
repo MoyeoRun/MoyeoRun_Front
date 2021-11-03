@@ -1,0 +1,26 @@
+{
+	"MoyeoRunContainer": {
+		"prefix": "mcn",
+		"body": [
+			"import { useNavigation } from '@react-navigation/core';",
+			"import React, { useEffect } from 'react';",
+			"import { useDispatch, useSelector } from 'react-redux';",
+			"import { RootState } from '../modules';",
+			"",
+			"const ${1}Container = () => {",
+			"const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);",
+			"const navigation = useNavigation();",
+			"const dispatch = useDispatch();",
+			"",
+			"useEffect(() => {",
+			"",
+			"}, [dispatch]);",
+			"",
+			"return <${1} />;",
+			"}",
+			"",
+			"export default ${1}Container;",
+		],
+		"description": "MoyeoRun Container code"
+	}
+}

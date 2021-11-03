@@ -6,23 +6,23 @@ import { ColorSchemeName } from 'react-native';
 import colors from '../lib/styles/colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { FriendIcon, HomeIcon, MissionIcon, RecordIcon, RunningIcon } from '../assets/svg';
 import LinkingConfiguration from './LinkingConfiguration';
-import NotFound from '../components/NotFound';
 import RecordTabContainer from '../containers/RecordTabContainer';
 import HomeTabContainer from '../containers/HomeTabContainer';
 import RunningTabContainer from '../containers/RunningTabContainer';
 import MissionTabContainer from '../containers/MissionTabContainer';
 import FriendTabContainer from '../containers/FriendTabContainer';
-import { FriendIcon, HomeIcon, MissionIcon, RecordIcon, RunningIcon } from '../assets/svg';
+import BodyInfoContainer from '../containers/BodyInfoContainer';
+import MyPageContainer from '../containers/MyPageContainer';
 import LoginContainer from '../containers/LoginContainer';
-import MyPage from '../components/MyPage/MyPage';
-import BodyInfo from '../components/BodyInfo/BodyInfo';
+import NotFound from '../components/NotFound';
 import Welcome from '../components/Welcome';
-import { getAccessToken, kakaoOauth } from '../modules/auth';
 import * as SecureStore from 'expo-secure-store';
 import { setAuthorizeToken } from '../lib/api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
+import { getAccessToken, kakaoOauth } from '../modules/auth';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -70,8 +70,8 @@ function RootNavigator() {
     <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
-      <Stack.Screen name="MyPage" component={MyPage} options={{ title: '내정보' }} />
-      <Stack.Screen name="BodyInfo" component={BodyInfo} options={{ headerShown: false }} />
+      <Stack.Screen name="MyPage" component={MyPageContainer} options={{ title: '내정보' }} />
+      <Stack.Screen name="BodyInfo" component={BodyInfoContainer} options={{ headerShown: false }} />
       <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
