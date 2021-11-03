@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { HomeTab } from '../components/HomeTab';
+import actionMiddleware from '../middlewares/actionMiddleware';
+import { RootState } from '../modules';
+import { getAccessToken, initToken } from '../modules/auth';
+import { getUserData } from '../modules/user';
 
 const HomeTabContainer = () => {
+  const { user } = useSelector((state: RootState) => state.user);
+  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
+
   const [runList] = useState([
     {
       id: 1,
@@ -79,7 +87,14 @@ const HomeTabContainer = () => {
     },
   ]);
 
-  return <HomeTab runList={runList} missionList={missionList} lastRecordList={lastRecordList} />;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    actionMiddleware(dispatch, accessToken, refreshToken, getUserData, null);
+  }, [dispatch]);
+
+  if (!user) return null;
+  return <HomeTab runList={runList} missionList={missionList} lastRecordList={lastRecordList} user={user} />;
 };
 
 export default HomeTabContainer;

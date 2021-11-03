@@ -4,6 +4,7 @@ import React from 'react';
 import Colors from '../../lib/styles/colors';
 import BodyInfoPicker from './BodyInfoPicker';
 import { Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 const SubmitButton = ({ fontColor = '#FFFFFF', children, ...props }: any) => (
   <Button
@@ -44,19 +45,19 @@ const InputForm = ({ value, focus }: any) => {
   );
 };
 
-const BodyInfo = () => {
-  const digits = [
-    { id: 'height', label: 'cm', min: 100, max: 250 },
-    { id: 'weight', label: 'kg', min: 30, max: 150 },
-  ];
+type BodyInfoProps = {
+  onUploadBodyInfo: (weight: number, height: number) => void;
+};
 
-  const InitInfo = [
+const BodyInfo = ({ onUploadBodyInfo }: BodyInfoProps) => {
+  const [Info, setInfo] = React.useState([
     { id: 'height', value: 10 },
     { id: 'weight', value: 50 },
-  ];
-
-  const [Info, setInfo] = React.useState(InitInfo);
+  ]);
   const [showPicker, setShowPicker] = React.useState(false);
+  const onSubmit = () => {
+    onUploadBodyInfo(Info[0].value, Info[1].value);
+  };
 
   return (
     <Stack flex={1} alignItems="center" pt="60px" bg="#ffffff">
@@ -83,6 +84,7 @@ const BodyInfo = () => {
 
             <InputForm value={Info[1].value} focus={setShowPicker} />
           </Box>
+<<<<<<< HEAD
           <SubmitButton
             onPress={() => {
               // navigation.navigate('Welcome');
@@ -90,11 +92,13 @@ const BodyInfo = () => {
           >
             다음
           </SubmitButton>
+=======
+          <SubmitButton onPress={onSubmit}>다음</SubmitButton>
+>>>>>>> develop
         </VStack>
       </Box>
       <BodyInfoPicker
         isOpen={showPicker}
-        digits={digits}
         value={Info}
         setValue={setInfo}
         setShowPicker={setShowPicker}

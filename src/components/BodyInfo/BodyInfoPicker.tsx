@@ -19,8 +19,17 @@ const TextButton = ({ onPress, children }: any) => (
   </Pressable>
 );
 
-const BodyInfoPicker = ({ isOpen, digits, value, setValue, setShowPicker }: any) => {
+const digits = [
+  { id: 'height', label: 'cm', min: 100, max: 250 },
+  { id: 'weight', label: 'kg', min: 30, max: 150 },
+];
+
+const BodyInfoPicker = ({ isOpen, value, setValue, setShowPicker }: any) => {
   const [curValue, setCurValue] = React.useState(value);
+
+  React.useEffect(() => {
+    console.log(curValue);
+  }, [curValue]);
 
   return (
     <Modal
@@ -63,7 +72,11 @@ const BodyInfoPicker = ({ isOpen, digits, value, setValue, setShowPicker }: any)
             </TextButton>
           </HStack>
           <Box>
-            <NumberPlease digits={digits} values={curValue} onChange={(value) => setCurValue(value)} />
+            <NumberPlease
+              digits={digits}
+              values={curValue}
+              onChange={(values) => setCurValue(values)}
+            />
           </Box>
         </Box>
       </Modal.Content>

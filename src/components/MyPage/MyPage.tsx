@@ -1,6 +1,16 @@
 import { Box, Image, Text } from 'native-base';
 import React from 'react';
 
+type MyPageProps = {
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    weight: number;
+    height: number;
+  };
+};
+
 const FormTitle = (props: any) => <Text w="86px" fontFamily="text" fontSize="16px" color="#82837E" {...props} />;
 
 const FormContent = (props: any) => <Text fontFamily="text" fontSize="19px" color="#333333" {...props} />;
@@ -9,7 +19,7 @@ const Form = (props: any) => (
   <Box w="100%" flexDirection="row" justifyContent="flex-start" alignItems="center" {...props} mt="34px" />
 );
 
-const MyPage = () => {
+const MyPage = ({ user }: MyPageProps) => {
   return (
     <Box flex={1} bg="#FFF">
       <Box
@@ -30,7 +40,7 @@ const MyPage = () => {
         ></Image>
         <Form flexDirection="row">
           <FormTitle w="86px">이름</FormTitle>
-          <FormContent>황인서</FormContent>
+          <FormContent>{user.name}</FormContent>
         </Form>
       </Box>
       <Box mx="24px">
@@ -39,11 +49,11 @@ const MyPage = () => {
         </Text>
         <Form flexDirection="row">
           <FormTitle>키</FormTitle>
-          <FormContent>170cm</FormContent>
+          <FormContent>{user.height}cm</FormContent>
         </Form>
         <Form flexDirection="row">
           <FormTitle w="86px">몸무게</FormTitle>
-          <FormContent>65Kg</FormContent>
+          <FormContent>{user.weight}kg</FormContent>
         </Form>
       </Box>
     </Box>

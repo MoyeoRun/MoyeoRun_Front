@@ -15,12 +15,22 @@ export const googleOauth = async (accessToken: string) => {
   return response.data;
 };
 
-export const getRefreshToken = async () => {
-  const response = await axios.post('http://45.248.73.50:30007/oauth/refresh');
+export const getAccessToken = async (refreshToken: string) => {
+  const response = await axios({
+    url: 'http://45.248.73.50:30007/auth/refresh',
+    method: 'post',
+    headers: {
+      Authorization: 'Bearer ' + refreshToken,
+    },
+  });
   return response.data;
 };
 
 export const logout = async () => {
-  const response = await axios.post('http://45.248.73.50:30007/oauth/logout');
+  const response = await axios.post('http://45.248.73.50:30007/auth/logout');
   return response.data;
+};
+
+export const setAuthorizeToken = (token: string) => {
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 };

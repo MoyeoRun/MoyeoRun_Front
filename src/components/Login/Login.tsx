@@ -29,8 +29,8 @@ const OauthItem = ({ fontColor = '#FFFFFF', url, handleOauth, ...props }: any) =
 
 const apiUrl = {
   kakao: {
-    code: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${config.KAKAO_KEY}&redirect_uri=http://34.64.247.1:4000/api/OAuth/kakao`,
-    token: `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${config.KAKAO_KEY}&redirect_uri=http://34.64.247.1:4000/api/OAuth/kakao`,
+    code: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${config.KAKAO_KEY}&redirect_uri=http://45.248.73.50:30007/oauth/kakao`,
+    token: `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${config.KAKAO_KEY}&redirect_uri=http://45.248.73.50:30007/oauth/kakao`,
   },
 };
 
@@ -62,13 +62,7 @@ const Login = ({ onKakaoOauth }: LoginProps) => {
   return (
     <>
       {open ? (
-        <GetCodeView
-          mode={mode}
-          open={open}
-          source={source}
-          onCodeSuccess={onCodeSuccess}
-          onTokenSuccess={onTokenSuccess}
-        />
+        <GetCodeView mode={mode} source={source} onCodeSuccess={onCodeSuccess} onTokenSuccess={onTokenSuccess} />
       ) : (
         <Stack flex={1} alignItems="center" justifyContent="center">
           <Box my="82.5px">
