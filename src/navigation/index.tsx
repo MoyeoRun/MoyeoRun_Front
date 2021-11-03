@@ -1,5 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme, useNavigation } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+  useNavigation,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
@@ -18,6 +23,8 @@ import MyPageContainer from '../containers/MyPageContainer';
 import LoginContainer from '../containers/LoginContainer';
 import NotFound from '../components/NotFound';
 import Welcome from '../components/Welcome';
+import { SingleFreeRun } from '../components/SingleFreeRun';
+import OnSingleRunning from '../components/SingleFreeRun/OnSingleRunning';
 import * as SecureStore from 'expo-secure-store';
 import { setAuthorizeToken } from '../lib/api/auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,7 +33,10 @@ import { getAccessToken, kakaoOauth } from '../modules/auth';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
-    <NavigationContainer linking={LinkingConfiguration} theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer
+      linking={LinkingConfiguration}
+      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+    >
       <RootNavigator />
     </NavigationContainer>
   );
@@ -67,13 +77,27 @@ function RootNavigator() {
   }, [accessToken, refreshToken]);
 
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Root">
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
       <Stack.Screen name="MyPage" component={MyPageContainer} options={{ title: '내정보' }} />
-      <Stack.Screen name="BodyInfo" component={BodyInfoContainer} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="BodyInfo"
+        component={BodyInfoContainer}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
+      <Stack.Screen
+        name="SingleFreeRun"
+        component={SingleFreeRun}
+        options={{ title: '개인런', headerShown: false }}
+      />
+      <Stack.Screen
+        name="OnSingleRunning"
+        component={OnSingleRunning}
+        options={{ title: '개인러닝중', headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

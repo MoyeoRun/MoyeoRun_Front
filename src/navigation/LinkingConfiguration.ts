@@ -26,9 +26,9 @@ const linking: LinkingOptions<RootStackParamList> = {
                   MoyeoRunScreen: 'MoyeoRun',
                 },
               },
-              Personal: {
+              SingleRun: {
                 screens: {
-                  PersonalScreen: 'Personal',
+                  SingleFreeRunScreen: 'SingleFreeRun',
                 },
               },
             },
