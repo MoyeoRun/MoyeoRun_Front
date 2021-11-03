@@ -1,9 +1,12 @@
+import { StackActions, useNavigation } from '@react-navigation/native';
 import { Box } from 'native-base';
 import React from 'react';
 import { Pressable } from 'react-native';
 import { RunCard } from '../Card';
 
 const SingleFreeRunningCard = (props: any) => {
+  const navigation = useNavigation();
+
   const freeRunData = {
     title: '자유 달리기',
     subTitle: '거리, 시간, 스피드를 기준으로 자유롭게 달립니다',
@@ -15,7 +18,7 @@ const SingleFreeRunningCard = (props: any) => {
     <>
       <Pressable
         onPress={() => {
-          console.log('자유 달리기 페이지로 이동');
+          navigation.dispatch(StackActions.push('SingleFreeRun'));
         }}
       >
         <RunCard
