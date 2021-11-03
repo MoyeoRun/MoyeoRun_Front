@@ -2,7 +2,7 @@ import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { extendTheme, NativeBaseProvider, v3CompatibleTheme } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { Intro, Login } from './components/Login';
+// import { Intro, Login } from './components/Login';
 import * as Font from 'expo-font';
 import customTheme from './hooks/customTheme';
 import Onboarding from './components/Onboarding';

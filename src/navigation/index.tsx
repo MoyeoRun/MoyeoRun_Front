@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme, StackActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
@@ -18,6 +18,8 @@ import LoginContainer from '../containers/LoginContainer';
 import MyPage from '../components/MyPage/MyPage';
 import BodyInfo from '../components/BodyInfo/BodyInfo';
 import Welcome from '../components/Welcome';
+import { SingleFreeRun } from '../components/SingleFreeRun';
+import OnSingleRunning from '../components/SingleFreeRun/OnSingleRunning';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -31,13 +33,19 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Root">
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
       <Stack.Screen name="MyPage" component={MyPage} options={{ title: '내정보' }} />
       <Stack.Screen name="BodyInfo" component={BodyInfo} options={{ headerShown: false }} />
       <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="SingleFreeRun" component={SingleFreeRun} options={{ title: '개인런', headerShown: false }} />
+      <Stack.Screen
+        name="OnSingleRunning"
+        component={OnSingleRunning}
+        options={{ title: '개인러닝중', headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

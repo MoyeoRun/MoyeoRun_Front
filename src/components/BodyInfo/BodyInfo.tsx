@@ -85,7 +85,7 @@ const BodyInfo = () => {
           </Box>
           <SubmitButton
             onPress={() => {
-              navigation.navigate('Welcome');
+              // navigation.navigate('Welcome');
             }}
           >
             다음
