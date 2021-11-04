@@ -18,6 +18,7 @@ export type RootStackParamList = {
   NotFound: undefined;
   SingleFreeRun: undefined;
   OnSingleRunning: undefined;
+  MoyeoRunRoom: undefined;
 };
 
 export type RootTabParamList = {
