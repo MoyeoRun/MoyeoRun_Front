@@ -44,12 +44,6 @@ const BodyText = ({ children }: any) => (
 
 const WideButton = ({ onPress, children, ...props }: any) => (
   <Pressable
-    _text={{
-      color: 'white',
-      fontSize: 18,
-      fontWeight: 600,
-      lineHeight: 21.6,
-    }}
     w="100%"
     h="56px"
     px="20px"

@@ -15,3 +15,4 @@ export { default as RecordIcon } from './RecordIcon';
 export { default as RightArrow } from './RightArrow';
 export { default as RunningIcon } from './RunningIcon';
 export { default as SmallRunningIcon } from './SmallRunningIcon';
+export { default as NumberInputIcon } from './NumberInputIcon';
