@@ -37,6 +37,7 @@ import { setAuthorizeToken } from '../lib/api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import { getAccessToken, kakaoOauth } from '../modules/auth';
+import MoyeoRunRoom from '../components/MoyeoRunRoom/MoyeoRunRoom';
 import { checkPermission } from 'react-native-location';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -105,6 +106,11 @@ function RootNavigator() {
         name="OnSingleRunning"
         component={OnSingleRunning}
         options={{ title: '개인러닝중', headerShown: false }}
+      />
+      <Stack.Screen
+        name="MoyeoRunRoom"
+        component={MoyeoRunRoom}
+        options={{ headerShown: false, title: '방만들기' }}
       />
     </Stack.Navigator>
   );
