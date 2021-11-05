@@ -2,7 +2,7 @@ import { Factory } from 'native-base';
 import React from 'react';
 import { SvgXml } from 'react-native-svg';
 
-const ParticiPantIcon = ({ size = 22, ...props }: { size: number }) => {
+const ParticiPantIcon = ({ size = 22, ...props }: { size?: number }) => {
   const source = `
 <svg width="${
     size / 3

@@ -3,6 +3,7 @@ import { Box, HStack, Modal } from 'native-base';
 import { Pressable } from 'react-native';
 import CustomPicker from '../common/CustomPicker';
 import { digit, digitValue } from '../common/CustomPicker';
+import { NumberInputIcon } from '../../assets/svg';
 
 const TextButton = ({ onPress, children }: any) => (
   <Pressable onPress={onPress}>
@@ -57,6 +58,9 @@ const NumberInputForm = ({ values, onPress }: { values: Array<digitValue>; onPre
         }}
       >
         {displayValue}
+        <Box position="absolute" right={18}>
+          <NumberInputIcon />
+        </Box>
       </Box>
     </Pressable>
   );

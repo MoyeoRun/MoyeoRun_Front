@@ -140,8 +140,6 @@ const MoyeoRunRoom = ({ onUploadBodyInfo }: BodyInfoProps) => {
   }, [roomName, discription, startTime, distance, timeLimit]);
 
   const onSubmit = () => {
-    // onUploadBodyInfo(Info[0].value, Info[1].value);
-    console.log('123123');
     navigation.dispatch(StackActions.replace('Root'));
   };
 
