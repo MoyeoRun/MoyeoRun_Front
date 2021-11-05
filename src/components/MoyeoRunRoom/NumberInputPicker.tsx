@@ -1,80 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Box, HStack, Modal, Text } from 'native-base';
-import NumberPlease from 'react-native-number-please';
+import React, { useState } from 'react';
+import { Box, HStack, Modal } from 'native-base';
 import { Pressable } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import CustomPicker from '../common/CustomPicker';
-
-const NumberInputForm = ({ value, focus, onPress }: any) => {
-  return (
-    <Pressable
-      onPress={() => {
-        onPress(true);
-      }}
-    >
-      <Box
-        w="100%"
-        h="56px"
-        pl="15px"
-        borderRadius="2px"
-        borderColor="#D4D4D4"
-        borderWidth="1px"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        {value}
-      </Box>
-    </Pressable>
-  );
-};
-
-// const Value = ({ placeHolder, onPress, value }: any) => {
-//   const textStyle = {
-//     fontFamily: 'text',
-//     fontSize: '80px',
-//     color: '#333333',
-//     fontWeight: 700,
-//     lineHeight: '103.6px',
-//     letterSpacing: '2px',
-//   };
-//   const subTextStyle = {
-//     fontFamily: 'text',
-//     fontSize: '20px',
-//     fontWeight: 400,
-//     lineHeight: '24px',
-//     color: '#828282',
-//   };
-//   const freeModeTextStyle = {
-//     fontFamily: 'text',
-//     fontSize: '32px',
-//     fontWeight: 600,
-//     color: '#000000',
-//   };
-//   return (
-//     <Box>
-//       {placeHolder.id === 'free' ? (
-//         <Box
-//           display="flex"
-//           flexDirection="column"
-//           alignItems="center"
-//           width="100%"
-//           mt="80px"
-//           _text={freeModeTextStyle}
-//         >
-//           {placeHolder.Typo}
-//         </Box>
-//       ) : (
-//         <Pressable onPress={() => onPress(true)}>
-//           <Box display="flex" flexDirection="column" alignItems="center">
-//             <Box _text={textStyle}>{`${value[0].value}${placeHolder.divide}${value[1].value}`}</Box>
-//             <Box _text={subTextStyle}>{placeHolder.subTypo}</Box>
-//           </Box>
-//         </Pressable>
-//       )}
-//     </Box>
-//   );
-// };
+import { digit, digitValue } from '../common/CustomPicker';
 
 const TextButton = ({ onPress, children }: any) => (
   <Pressable onPress={onPress}>
@@ -92,51 +20,64 @@ const TextButton = ({ onPress, children }: any) => (
   </Pressable>
 );
 
-const NumberInputPicker = ({ runMode, value }: any) => {
-  const strArr = ['오후', '오전'];
-  const initDigits = { label: '.', numRange: { min: 0, max: 200 } };
-  const strDigits = { label: 'str', strRange: strArr };
+const NumberInputForm = ({ values, onPress }: { values: Array<digitValue>; onPress: any }) => {
+  let displayValue: string = '';
 
-  const startTimeDigits = [
-    { id: 'slot', label: '', min: '오전', max: '오후' },
-    { id: 'first', label: '.', min: 0, max: 50 },
-    { id: 'second', label: 'km', min: 0, max: 9 },
-  ];
+  for (let i of values) {
+    let value,
+      label = '';
+    typeof i.value === 'number' ? (value = i.value.toString()) : (value = i.value);
 
-  const distanceDigits = [
-    { id: 'first', label: '.', min: 0, max: 50 },
-    { id: 'second', label: 'km', min: 0, max: 9 },
-  ];
-  const timeLimitDigits = [
-    { id: 'first', label: '시', min: 0, max: 24 },
-    { id: 'second', label: '분', min: 0, max: 59 },
-  ];
+    i.value === '' ? null : i.inputLabel ? (label = i.inputLabel) : (label = '');
 
+    displayValue = displayValue + value + label;
+  }
+
+  return (
+    <Pressable
+      onPress={() => {
+        onPress(true);
+      }}
+    >
+      <Box
+        w="100%"
+        h="56px"
+        pl="15px"
+        borderRadius="2px"
+        borderColor="#D4D4D4"
+        borderWidth="1px"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        _text={{
+          color: '#111111',
+          fontSize: 21,
+          fontWeight: 500,
+          lineHeight: 25,
+        }}
+      >
+        {displayValue}
+      </Box>
+    </Pressable>
+  );
+};
+
+const NumberInputPicker = ({
+  values,
+  setValue,
+  digits,
+}: {
+  values: Array<digitValue>;
+  setValue: any;
+  digits: Array<digit>;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [curValue, setCurValue] = useState();
-  // useEffect(() => {
-  //   if (runMode) {
-  //     if (runMode.time) {
-  //       setPlaceHolder(InitPlaceHolder.time);
-  //       digitsRef.current = timeDigits;
-  //     } else if (runMode.distance) {
-  //       setPlaceHolder(InitPlaceHolder.distance);
-  //       digitsRef.current = distanceDigits;
-  //     } else if (runMode.free) {
-  //       setPlaceHolder(InitPlaceHolder.free);
-  //       digitsRef.current = initDigits;
-  //     } else null;
-  //   }
-  // }, [runMode]);
 
   return (
     <>
-      <NumberInputForm
-        onPress={setIsOpen}
-        // value={curValue}
-        // placeHolder={placeHolder}
-      ></NumberInputForm>
-
+      {/* 화면에 보이는 인풋 창 관련 컴포넌트 */}
+      <NumberInputForm values={values} onPress={setIsOpen}></NumberInputForm>
+      {/* 인풋 창 클릭시 나타나는 모달 창 컴포넌트 */}
       <Modal
         isOpen={isOpen}
         flex={1}
@@ -174,13 +115,9 @@ const NumberInputPicker = ({ runMode, value }: any) => {
               </TextButton>
             </HStack>
             <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
-              {
-                <>
-                  <Box m="0">
-                    {<CustomPicker digits={initDigits} increProps={10} setValue={setCurValue} />}
-                  </Box>
-                </>
-              }
+              {digits.map((digit) => (
+                <CustomPicker digit={digit} setValue={setValue} values={values} />
+              ))}
             </Box>
           </Box>
         </Modal.Content>
