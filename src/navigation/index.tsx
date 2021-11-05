@@ -11,7 +11,14 @@ import { ColorSchemeName } from 'react-native';
 import colors from '../lib/styles/colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-import { FriendIcon, HomeIcon, MissionIcon, RecordIcon, RunningIcon } from '../assets/svg';
+import {
+  FocusedMissionIcon,
+  FriendIcon,
+  HomeIcon,
+  MissionIcon,
+  RecordIcon,
+  RunningIcon,
+} from '../assets/svg';
 import LinkingConfiguration from './LinkingConfiguration';
 import RecordTabContainer from '../containers/RecordTabContainer';
 import HomeTabContainer from '../containers/HomeTabContainer';
@@ -31,6 +38,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import { getAccessToken, kakaoOauth } from '../modules/auth';
 import MoyeoRunRoom from '../components/MoyeoRunRoom/MoyeoRunRoom';
+import { checkPermission } from 'react-native-location';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -133,7 +141,12 @@ function BottomTabNavigator() {
         component={HomeTabContainer}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: '홈',
-          tabBarIcon: ({ color }) => <HomeIcon color={color} />,
+          tabBarIcon: ({ color, focused }) =>
+            focused ? (
+              <HomeIcon stroke={'white'} fill={color} size={25} strokeWidth={1} />
+            ) : (
+              <HomeIcon stroke={color} />
+            ),
         })}
       />
       <BottomTab.Screen
@@ -141,7 +154,12 @@ function BottomTabNavigator() {
         component={RecordTabContainer}
         options={{
           title: '기록',
-          tabBarIcon: ({ color }) => <RecordIcon color={color} />,
+          tabBarIcon: ({ color, focused }) =>
+            focused ? (
+              <RecordIcon stroke={color} fill={color} strokeWidth={1} />
+            ) : (
+              <RecordIcon stroke={color} />
+            ),
         }}
       />
       <BottomTab.Screen
@@ -149,7 +167,12 @@ function BottomTabNavigator() {
         component={RunningTabContainer}
         options={{
           title: '러닝',
-          tabBarIcon: ({ color }) => <RunningIcon color={color} />,
+          tabBarIcon: ({ color, focused }) =>
+            focused ? (
+              <RunningIcon stroke={color} fill={color} strokeWidth={1} />
+            ) : (
+              <RunningIcon stroke={color} />
+            ),
         }}
       />
       <BottomTab.Screen
@@ -157,7 +180,8 @@ function BottomTabNavigator() {
         component={MissionTabContainer}
         options={{
           title: '미션',
-          tabBarIcon: ({ color }) => <MissionIcon color={color} />,
+          tabBarIcon: ({ color, focused }) =>
+            focused ? <FocusedMissionIcon /> : <MissionIcon stroke={color} />,
         }}
       />
       <BottomTab.Screen
@@ -165,7 +189,12 @@ function BottomTabNavigator() {
         component={FriendTabContainer}
         options={{
           title: '친구',
-          tabBarIcon: ({ color }) => <FriendIcon color={color} />,
+          tabBarIcon: ({ color, focused }) =>
+            focused ? (
+              <FriendIcon stroke={color} fill={color} strokeWidth={1} />
+            ) : (
+              <FriendIcon stroke={color} />
+            ),
         }}
       />
     </BottomTab.Navigator>
