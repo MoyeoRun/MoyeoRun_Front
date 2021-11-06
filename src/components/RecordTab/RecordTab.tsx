@@ -1,41 +1,51 @@
 import { Box, ITextProps, ScrollView, Stack } from 'native-base';
 import React from 'react';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import DetailRecordCard, { detailRecordCard } from './DetailedRecordCard';
 import DetailedRecord from './DetailedRecordCard';
 import Filtering from './Filtering';
 import Graph from './Graph';
-import Summary, { summaryDataType } from './Summary';
+import Summary, { RecordType } from './Summary';
 
 type RecordProps = {
-  summaryData: summaryDataType;
+  summaryRecord: RecordType;
+  detailRecord: Array<detailRecordCard>;
+  graphData: any;
 };
 
 const onPressDummy = () => {
   console.log(123123);
 };
-const graphDataDummy: any = [];
 
-const RecordTab = ({ summaryData }: RecordProps) => {
+const RecordTab = ({ summaryRecord, detailRecord, graphData }: RecordProps) => {
   return (
     <Stack flex={1} alignItems="center" bg="#ffffff" pt={getStatusBarHeight()}>
-      <ScrollView w="100%" mt="20px" px="20px">
+      <ScrollView w="100%" mt="20px">
         {/*상태 */}
-        <Box>
+        <Box px="20px">
           <Box _text={RecordTitleStyle}>기록</Box>
           <Filtering onPress={onPressDummy} />
-          <Summary summaryData={summaryData} />
-
-          <Graph graphData={graphDataDummy} />
+          <Summary summaryRecord={summaryRecord} />
+          <Graph graphData={graphData} />
         </Box>
 
         {/* 상세기록 */}
-        {/* <DetailedRecord /> */}
-        {/* {details.map(detail => <Detail />)} */}
-        {/* <Box>
-          <RecordBlock value={record.distance.toString()} type="거리" />
-          <RecordBlock value={record.pace.toString()} type="평균 페이스" />
-          <RecordBlock value={record.time.toString()} type="시간" />
-        </Box> */}
+        <Box bg="#F4F4F4" height="100%" pt="26px" px="12px">
+          <Box mb="2px" _text={DetailTitleStyle}>
+            상세기록
+          </Box>
+          <>
+            {detailRecord.map((record, index) => (
+              <DetailRecordCard
+                key={index}
+                recordData={record.recordData}
+                imageUri={record.imageUri}
+                date={record.date}
+                title={record.title}
+              />
+            ))}
+          </>
+        </Box>
       </ScrollView>
     </Stack>
   );
@@ -47,4 +57,10 @@ const RecordTitleStyle: ITextProps = {
   fontSize: 24,
   fontWeight: 600,
   lineHeight: 28.8,
+};
+
+const DetailTitleStyle: ITextProps = {
+  fontSize: 18,
+  fontWeight: 500,
+  lineHeight: 21.6,
 };

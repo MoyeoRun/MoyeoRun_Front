@@ -10,7 +10,7 @@ type FilteringProps = {
 const FilteringButton = ({ onPress }: { onPress: any }) => {
   const [year, month, date] = [2021, 8, [8, 14]];
   return (
-    <Box mt="10px">
+    <Box mt="11px">
       <Pressable onPress={onPress}>
         <HStack display="flex" flex-direction="row" alignItems="flex-start">
           <CalendarIcon />
@@ -24,10 +24,11 @@ const FilteringButton = ({ onPress }: { onPress: any }) => {
 };
 
 const Filtering = ({ onPress }: FilteringProps) => {
-  //   console.log(onPress);
   return (
     <>
       <FilteringButton onPress={onPress} />
+      {/*날짜 필터링을 위한 달력 뜨는 모달창 */}
+      {/* <Modal> </Modal> */}
     </>
   );
 };
