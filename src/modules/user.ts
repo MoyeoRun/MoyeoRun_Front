@@ -22,18 +22,18 @@ const initialState: UserState = {
   user: null,
 };
 
-export default handleActions(
+export default handleActions<UserState, any>(
   {
     ...pender({
       type: GET_USER_DATA,
-      onSuccess: (state: UserState, { payload }) => ({
+      onSuccess: (state, { payload }) => ({
         ...state,
         user: payload,
       }),
     }),
     ...pender({
       type: UPLOAD_BODYINFO,
-      onSuccess: (state: UserState, { payload }) => ({
+      onSuccess: (state, { payload }) => ({
         ...state,
         user: payload.data,
       }),

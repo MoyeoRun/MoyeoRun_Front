@@ -13,11 +13,11 @@ export type RootStackParamList = {
   Login: undefined;
   MyPage: undefined;
   BodyInfo: undefined;
+  ReadySingleRun: undefined;
+  SingleRun: undefined;
   Welcome: undefined;
   Running: undefined;
   NotFound: undefined;
-  SingleFreeRun: undefined;
-  OnSingleRunning: undefined;
   MoyeoRunRoom: undefined;
 };
 

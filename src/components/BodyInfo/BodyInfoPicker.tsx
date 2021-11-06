@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, Flex, HStack, Modal, Stack, Text } from 'native-base';
+import { Box, HStack, Modal } from 'native-base';
 import NumberPlease from 'react-native-number-please';
 import { Pressable } from 'react-native';
 
@@ -26,10 +26,6 @@ const digits = [
 
 const BodyInfoPicker = ({ isOpen, value, setValue, setShowPicker }: any) => {
   const [curValue, setCurValue] = React.useState(value);
-
-  React.useEffect(() => {
-    console.log(curValue);
-  }, [curValue]);
 
   return (
     <Modal

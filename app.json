@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MoyeoRun_Font",
-    "slug": "MoyeoRun_Font",
+    "name": "MoyeoRun",
+    "slug": "MoyeoRun",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./public/icon.png",
@@ -17,10 +17,17 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier": "com.moyeoRun",
+      "buildNumber": "1.0.0",
       "supportsTablet": true,
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "infoPlist": {
+        "UIBackgroundModes": ["location", "fetch"]
+      }
     },
     "android": {
+      "package": "com.moyeoRun",
+      "versionCode": 1,
       "userInterfaceStyle": "automatic",
       "adaptiveIcon": {
         "foregroundImage": "./public/adaptive-icon.png",

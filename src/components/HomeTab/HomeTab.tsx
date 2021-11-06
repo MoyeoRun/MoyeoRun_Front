@@ -5,6 +5,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import LogoMini from '../../assets/svg/LogoMini';
 import NewMission from './NewMission';
 import LastRecord from './LastRecord';
+import { useNavigation } from '@react-navigation/core';
 
 export type HomeTabProps = {
   runList: Array<object>;
@@ -14,6 +15,7 @@ export type HomeTabProps = {
 };
 
 const HomeTab = ({ runList, missionList, lastRecordList, user }: HomeTabProps) => {
+  const navigation = useNavigation();
   return (
     <ScrollView flex={1} pt={getStatusBarHeight()} pl="20px" bg="#FFF">
       <HStack justifyContent="space-between" alignItems="center" mt="40px" pr="20px">

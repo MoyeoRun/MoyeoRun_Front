@@ -39,13 +39,19 @@ const RunCard = ({
   h = '196px',
   w = '100%',
   context,
+  ...props
 }: any) => {
   return (
-    <VStack mb="28px" w={w} h={h} bg="#999">
+    <VStack mb="28px" w={w} h={h} bg="#999" {...props}>
       <ImageBackground flex={1} justifyContent="space-between" source={{ uri: image }}>
         <LinearGradient
           colors={['transparent', 'rgba(0,0,0,0.2)']}
-          style={{ flex: 1, justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 15 }}
+          style={{
+            flex: 1,
+            justifyContent: 'space-between',
+            paddingHorizontal: 10,
+            paddingVertical: 15,
+          }}
         >
           {startDate && <BlueBadge>{startDate}</BlueBadge>}
           <Box position="absolute" bottom="15px" left="12px" overflow="visible">

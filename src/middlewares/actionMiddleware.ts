@@ -6,24 +6,24 @@ const actionMiddleware = async (
   accessToken: any,
   refreshToken: any,
   action: any,
-  payload: any,
+  ...payload: any
 ): Promise<any> => {
   try {
-    console.log('미들웨어 시작', payload);
-    await dispatch(action(payload));
+    console.log('미들웨어 시작', ...payload);
+    await dispatch(action(...payload));
   } catch (e) {
     try {
       if (refreshToken) {
-        console.log('리프레시 시도', refreshToken, payload);
+        console.log('리프레시 시도', refreshToken, ...payload);
         await dispatch(getAccessToken(refreshToken.token));
         setAuthorizeToken(accessToken.token);
-        dispatch(action(payload));
+        dispatch(action(...payload));
       } else {
-        console.log('리프레시 실패', payload);
+        console.log('리프레시 실패', ...payload);
         dispatch(initToken()); //토큰을 비워줘서 1번에서 감지, 로그인화면으로이동
       }
     } catch {
-      console.log('리프레시 실패', payload);
+      console.log('리프레시 실패', ...payload);
       dispatch(initToken()); //토큰을 비워줘서 1번에서 감지, 로그인화면으로이동
     }
   }
