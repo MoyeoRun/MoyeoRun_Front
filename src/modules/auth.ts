@@ -16,7 +16,10 @@ export const getAccessToken = createAction(GET_ACCESS_TOKEN, authAPI.getAccessTo
 export const setToken = createAction(SET_TOKEN, (token: object) => token);
 export const initToken = createAction(INIT_TOKEN);
 
-type AuthAction = ReturnType<typeof kakaoOauth> | ReturnType<typeof googleOauth> | ReturnType<typeof naverOauth>;
+type AuthAction =
+  | ReturnType<typeof kakaoOauth>
+  | ReturnType<typeof googleOauth>
+  | ReturnType<typeof naverOauth>;
 
 type AuthState = {
   auth: null | object;
@@ -30,21 +33,21 @@ const initialState: AuthState = {
   refreshToken: null,
 };
 
-export default handleActions(
+export default handleActions<AuthState, any>(
   {
-    [SET_TOKEN]: (state: AuthState, { payload }: any) => ({
+    [SET_TOKEN]: (state, { payload }) => ({
       ...state,
       accessToken: payload.accessToken,
       refreshToken: payload.refreshToken,
     }),
-    [INIT_TOKEN]: (state: AuthState) => ({
+    [INIT_TOKEN]: (state) => ({
       ...state,
       accessToken: null,
       refreshToken: null,
     }),
     ...pender({
       type: KAKAO_OAUTH,
-      onSuccess: (state: AuthState, { payload }) => ({
+      onSuccess: (state, { payload }) => ({
         ...state,
         accessToken: payload.token.accessToken,
         refreshToken: payload.token.refreshToken,
@@ -52,7 +55,7 @@ export default handleActions(
     }),
     ...pender({
       type: GET_ACCESS_TOKEN,
-      onSuccess: (state: AuthState, { payload }) => ({
+      onSuccess: (state, { payload }) => ({
         ...state,
         accessToken: payload.accessToken,
         refreshToken: payload.refreshToken,

@@ -34,20 +34,27 @@ const SingleRunningGuide = (props: any) => {
     <>
       <Box mt="6px">
         <VStack>
-          <Text fontFamily="text" fontSize="22px" fontWeight="600" lineHeight="26.4px" letterSpacing="-1.5">
+          <Text
+            fontFamily="text"
+            fontSize="22px"
+            fontWeight="600"
+            lineHeight="26.4px"
+            letterSpacing="-1.5"
+          >
             러닝 가이드
           </Text>
           <Box>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} mt="18px">
-              {runningGuideData.map((data) => {
-                let { title, context, image } = data;
-                return (
-                  <>
-                    <RunCard w="292px" title={title} context={context} image={image} />
-                    <Box mr="11px" />
-                  </>
-                );
-              })}
+              {runningGuideData.map((data, index) => (
+                <RunCard
+                  key={index}
+                  w="292px"
+                  mr="11px"
+                  title={data.title}
+                  context={data.context}
+                  image={data.image}
+                />
+              ))}
             </ScrollView>
           </Box>
         </VStack>

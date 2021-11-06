@@ -4,6 +4,13 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 // import Pagination from '../common/Pagination';
 import OperationButton from './OperationButton';
 
+type SinglePaceProps = {
+  isRunning: boolean;
+  runStatus: { time: string | null; distance: number; pace: number };
+  onStartRunning: () => void;
+  onStopRunning: () => void;
+};
+
 const Keyword = ({ children, ...props }: any) => {
   const textStyle = {
     fontFamily: 'text',
@@ -51,31 +58,40 @@ const KMValue = ({ children, ...props }: { children?: any }) => {
   );
 };
 
-const SingleRunWithPace = (props: any) => {
+const SingleRunPace = ({
+  isRunning,
+  runStatus,
+  onStartRunning,
+  onStopRunning,
+}: SinglePaceProps) => {
   return (
     <VStack alignItems="center" flex={1} px="30px" pt={getStatusBarHeight()}>
       <HStack mt="96px" w="100%" alignItems="center" justifyContent="space-around">
         <HStack alignItems="center">
-          <Keyword>시간</Keyword>
+          <Keyword>{runStatus.time}</Keyword>
           <TimeValue ml="9px">0:00</TimeValue>
         </HStack>
         <Box borderWidth="0.5px" borderColor="#828282" height="100%" />
 
         <HStack alignItems="center">
-          <Keyword>페이스</Keyword>
+          <Keyword>{runStatus.pace}</Keyword>
           <TimeValue ml="9px">0'00"</TimeValue>
         </HStack>
       </HStack>
 
       <VStack alignItems="center" mt="46px">
-        <KMValue>1.50</KMValue>
+        <KMValue>{runStatus.distance}</KMValue>
         <Keyword>킬로미터</Keyword>
       </VStack>
 
       <Box mt="130px">
-        <OperationButton type="pause" />
+        {isRunning ? (
+          <OperationButton type="pause" size={88} onLongPress={onStopRunning} />
+        ) : (
+          <OperationButton type="start" size={88} onLongPress={onStartRunning} />
+        )}
       </Box>
     </VStack>
   );
 };
-export default SingleRunWithPace;
+export default SingleRunPace;

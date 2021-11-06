@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import SingleRun from './OnSingleRunning';
+import SingleRun from './SingleRunning';
 import { Box, HStack, ScrollView, VStack, Text, View, Modal } from 'native-base';
 import { useWindowDimensions, Animated, Pressable } from 'react-native';
 import OperationButton from './OperationButton';
@@ -11,7 +11,7 @@ import NumberPicker from './ValuePicker';
 import ModeSelect from './ModeSelect';
 import ValuePicker from './ValuePicker';
 
-const SingleFreeRun = () => {
+const ReadySingleRun = () => {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const navigation = useNavigation();
 
@@ -61,7 +61,7 @@ const SingleFreeRun = () => {
 
       <VStack flex={1} px="30px" pt="175px">
         <Box backgroundColor="white" opacity="0.5" position="absolute">
-          <Map width={windowWidth} height={windowHeight} />
+          <Map points={[]} />
           <Gradient />
         </Box>
         <VStack alignItems="center">
@@ -77,7 +77,7 @@ const SingleFreeRun = () => {
             <OperationButton
               type="none"
               onPress={() => {
-                navigation.dispatch(StackActions.push('OnSingleRunning'));
+                navigation.navigate('SingleRun');
               }}
             />
           </Box>
@@ -86,4 +86,4 @@ const SingleFreeRun = () => {
     </ScreenBox>
   );
 };
-export default SingleFreeRun;
+export default ReadySingleRun;

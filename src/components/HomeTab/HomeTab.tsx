@@ -1,4 +1,4 @@
-import { Button, HStack, Image, ScrollView, Text, VStack } from 'native-base';
+import { HStack, Image, ScrollView, Text, VStack } from 'native-base';
 import React from 'react';
 import FavoritRunning from './FavoritRunning';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -33,13 +33,6 @@ const HomeTab = ({ runList, missionList, lastRecordList, user }: HomeTabProps) =
       <Text fontFamily="text" fontSize="24px" fontWeight="700" color="#333333" mt="24px">
         {user.name}님, 즐거운 러닝 되세요.
       </Text>
-      <Button
-        onPress={() => {
-          navigation.navigate('SingleRun');
-        }}
-      >
-        러닝 테스트
-      </Button>
       <VStack mt="22px" mb="100px">
         <FavoritRunning runList={runList} />
         <NewMission missionList={missionList} />

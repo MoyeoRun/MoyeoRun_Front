@@ -1,1 +1,1 @@
-export { default as SingleRun } from './SingleRun';
+export { default as SingleFreeRun } from './ReadySingleRun';

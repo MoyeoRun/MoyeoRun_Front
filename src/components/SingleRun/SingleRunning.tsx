@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
-import SingleRunWithPace from './WithPace';
-import SingleRunWithMap from './WithMap';
+import SingleRunWithPace from './SingleRunPace';
+import SingleRunWithMap from './SingleRunMap';
 import { Box, ScrollView } from 'native-base';
 import { useWindowDimensions, Animated } from 'react-native';
-import SingleRunPagination from './Pagination';
+import SingleRunPaceContainer from '../../containers/SingleRunPaceContainer';
+import SingleRunMapContainer from '../../containers/SingleRunMapContainer';
 
-const OnSinglRunning = (props: any) => {
+const SingleRunning = () => {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
 
   const ScreenBox = ({ children, ...props }: any) => {
@@ -16,7 +17,7 @@ const OnSinglRunning = (props: any) => {
     );
   };
 
-  const scrollX = useRef(new Animated.Value(0)).current;
+  const scrollX = useRef(new Animated.Value(1)).current;
   const arr = [0, 1];
 
   return (
@@ -25,26 +26,29 @@ const OnSinglRunning = (props: any) => {
         horizontal={true}
         bounces={false}
         pagingEnabled
+        contentOffset={{ x: windowWidth, y: 0 }}
         showsHorizontalScrollIndicator={false}
-        onScroll={Animated.event([
-          {
-            nativeEvent: {
-              contentOffset: { x: scrollX },
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: { x: scrollX },
+              },
             },
-          },
-        ])}
+          ],
+          { useNativeDriver: false },
+        )}
         scrollEventThrottle={12}
       >
         <ScreenBox>
-          <SingleRunWithPace />
+          <SingleRunPaceContainer />
         </ScreenBox>
         <ScreenBox>
-          <SingleRunWithMap />
+          <SingleRunMapContainer />
         </ScreenBox>
       </ScrollView>
-      <SingleRunPagination arr={arr} scrollW={windowWidth} scrollX={scrollX} />
     </ScreenBox>
   );
 };
 
-export default OnSinglRunning;
+export default SingleRunning;

@@ -18,7 +18,7 @@ const SingleFreeRunningCard = (props: any) => {
     <>
       <Pressable
         onPress={() => {
-          navigation.dispatch(StackActions.push('SingleFreeRun'));
+          navigation.navigate('ReadySingleRun');
         }}
       >
         <RunCard

@@ -5,6 +5,16 @@ import StopIcon from '../../assets/svg/StopIcon';
 import PlayIcon from '../../assets/svg/PlayIcon';
 import { Animated } from 'react-native';
 
+type OperationButtonProps = {
+  type: string;
+  color?: string;
+  size?: number;
+  ml?: string;
+  onLongPress?: any;
+  onPress?: any;
+  pressEffect?: boolean;
+};
+
 const IconGenerator = ({ type, color }: { type: string; color?: string }) => {
   switch (type) {
     case 'stop': {
@@ -33,15 +43,7 @@ const OperationButton = ({
   onPress,
   onLongPress,
   pressEffect = true,
-}: {
-  type: string;
-  color?: string;
-  size?: number;
-  ml?: string;
-  onLongPress?: any;
-  onPress?: any;
-  pressEffect?: boolean;
-}) => {
+}: OperationButtonProps) => {
   const buttonValue = useRef(new Animated.Value(1)).current;
   const onPressInEffect = () => {
     Animated.timing(buttonValue, {

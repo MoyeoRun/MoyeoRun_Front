@@ -30,15 +30,13 @@ import MyPageContainer from '../containers/MyPageContainer';
 import LoginContainer from '../containers/LoginContainer';
 import NotFound from '../components/NotFound';
 import Welcome from '../components/Welcome';
-import { SingleFreeRun } from '../components/SingleFreeRun';
-import OnSingleRunning from '../components/SingleFreeRun/OnSingleRunning';
 import * as SecureStore from 'expo-secure-store';
 import { setAuthorizeToken } from '../lib/api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
-import { SingleRun } from '../components/SingleRun';
 import { getAccessToken, kakaoOauth } from '../modules/auth';
-import { checkPermission } from 'react-native-location';
+import SingleRunning from '../components/SingleRun/SingleRunning';
+import ReadySingleRun from '../components/SingleRun/ReadySingleRun';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -89,7 +87,6 @@ function RootNavigator() {
     <Stack.Navigator initialRouteName="Root">
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
-      <Stack.Screen name="SingleRun" component={SingleRun} options={{ headerShown: false }} />
       <Stack.Screen name="MyPage" component={MyPageContainer} options={{ title: '내정보' }} />
       <Stack.Screen
         name="BodyInfo"
@@ -99,14 +96,14 @@ function RootNavigator() {
       <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
       <Stack.Screen
-        name="SingleFreeRun"
-        component={SingleFreeRun}
+        name="SingleRun"
+        component={SingleRunning}
         options={{ title: '개인런', headerShown: false }}
       />
       <Stack.Screen
-        name="OnSingleRunning"
-        component={OnSingleRunning}
-        options={{ title: '개인러닝중', headerShown: false }}
+        name="ReadySingleRun"
+        component={ReadySingleRun}
+        options={{ title: '개인런준비', headerShown: false }}
       />
     </Stack.Navigator>
   );
