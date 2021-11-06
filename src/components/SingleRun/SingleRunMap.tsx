@@ -4,11 +4,12 @@ import OperationButton from './OperationButton';
 import Map from './Map';
 import MapView from 'react-native-maps';
 import { Dimensions } from 'react-native';
+import { secondToTimeString } from '../../lib/util/strFormat';
 
 type SingleMapProps = {
   isRunning: boolean;
   buffer: Array<{ latitude: number; longitude: number; time: string }>;
-  runStatus: { time: string | null; distance: number; pace: number };
+  runStatus: { time: number; distance: number; pace: number };
   runData: Array<{ latitude: number; longitude: number }>;
   onStartRunning: () => void;
   onStopRunning: () => void;
@@ -57,7 +58,7 @@ const SingleRunMap = ({
 }: SingleMapProps) => {
   return (
     <Box display="flex" flex={1} justifyContent="center" alignItems="center">
-      <Map points={buffer} />
+      <Map points={runData} />
       <Box w="100%" h="315px" px="35px">
         <HStack mt="20px" w="100%" alignItems="center" justifyContent="space-around">
           <VStack alignItems="center">
@@ -66,7 +67,7 @@ const SingleRunMap = ({
           </VStack>
           <Box borderWidth="0.5px" borderColor="#828282" height="100%" />
           <VStack alignItems="center">
-            <Value ml="9px">0</Value>
+            <Value ml="9px">{secondToTimeString(runStatus.time / 1000)}</Value>
             <Keyword>시간</Keyword>
           </VStack>
           <Box borderWidth="0.5px" borderColor="#828282" height="100%" />

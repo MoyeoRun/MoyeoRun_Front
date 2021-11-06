@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native';
 import MapView, { Polyline } from 'react-native-maps';
 
 type MapProps = {
-  points: Array<{ latitude: number; longitude: number; time: string }>;
+  points: Array<{ latitude: number; longitude: number }>;
 };
 
 const width = Dimensions.get('window').width;

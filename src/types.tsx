@@ -16,7 +16,6 @@ export type RootStackParamList = {
   ReadySingleRun: undefined;
   SingleRun: undefined;
   Welcome: undefined;
-  Running: undefined;
   NotFound: undefined;
   MoyeoRunRoom: undefined;
 };

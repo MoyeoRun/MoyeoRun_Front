@@ -8,15 +8,25 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SingleRunMap from '../components/SingleRun/SingleRunMap';
 import { RootState } from '../modules';
-import { changeSingleRunState, concatLocationBuffer } from '../modules/singleRun';
+import {
+  changeSingleRunState,
+  concatLocationBuffer,
+  sendSingleRunData,
+} from '../modules/singleRun';
+import { Stopwatch } from 'ts-stopwatch';
+import useInterval from '../lib/util/useInterval';
 
 let location: { remove: () => void };
+let stopWatch = new Stopwatch();
 
 const SingleRunMapContainer = () => {
   const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
-  const { isRunning, buffer, runStatus, runData } = useSelector(
-    (state: RootState) => state.singleRun,
-  );
+  const {
+    isRunning,
+    runData: buffer,
+    runStatus,
+    runData,
+  } = useSelector((state: RootState) => state.singleRun);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -30,7 +40,10 @@ const SingleRunMapContainer = () => {
 
   const onFinishRunning = () => {
     dispatch(changeSingleRunState('isRunning', false));
-    navigation.reset({ index: 0, routes: [{ name: 'Running' }] });
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Root', state: { routes: [{ name: 'Record' }] } }],
+    });
   };
 
   const startWatchLocation = async () => {
@@ -64,8 +77,21 @@ const SingleRunMapContainer = () => {
     }
   };
 
+  useInterval(
+    () => {
+      dispatch(changeSingleRunState('runStatus', { ...runStatus, time: stopWatch.getTime() }));
+    },
+    isRunning ? 500 : null,
+  );
+
   useEffect(() => {
-    isRunning ? startWatchLocation() : stopWatchLocation();
+    if (isRunning) {
+      stopWatch.start();
+      startWatchLocation();
+    } else {
+      stopWatch.stop();
+      stopWatchLocation();
+    }
   }, [isRunning]);
 
   return (

@@ -1,12 +1,12 @@
 import { HStack, Box, Center, VStack } from 'native-base';
 import React from 'react';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-// import Pagination from '../common/Pagination';
+import { secondToTimeString } from '../../lib/util/strFormat';
 import OperationButton from './OperationButton';
 
 type SinglePaceProps = {
   isRunning: boolean;
-  runStatus: { time: string | null; distance: number; pace: number };
+  runStatus: { time: number; distance: number; pace: number };
   onStartRunning: () => void;
   onStopRunning: () => void;
 };
@@ -68,7 +68,7 @@ const SingleRunPace = ({
     <VStack alignItems="center" flex={1} px="30px" pt={getStatusBarHeight()}>
       <HStack mt="96px" w="100%" alignItems="center" justifyContent="space-around">
         <HStack alignItems="center">
-          <Keyword>{runStatus.time}</Keyword>
+          <Keyword>{secondToTimeString(runStatus.time)}</Keyword>
           <TimeValue ml="9px">0:00</TimeValue>
         </HStack>
         <Box borderWidth="0.5px" borderColor="#828282" height="100%" />

@@ -28,7 +28,7 @@ const linking: LinkingOptions<RootStackParamList> = {
               },
               SingleRun: {
                 screens: {
-                  SingleFreeRunScreen: 'ReadySingleRun',
+                  ReadySingleRunScreen: 'ReadySingleRun',
                 },
               },
             },
