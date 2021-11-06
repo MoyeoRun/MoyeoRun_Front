@@ -18,6 +18,7 @@ export type RootStackParamList = {
   Welcome: undefined;
   Running: undefined;
   NotFound: undefined;
+  MoyeoRunRoom: undefined;
 };
 
 export type RootTabParamList = {

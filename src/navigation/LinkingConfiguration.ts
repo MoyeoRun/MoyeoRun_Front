@@ -23,7 +23,7 @@ const linking: LinkingOptions<RootStackParamList> = {
             screens: {
               MoyeoRun: {
                 screens: {
-                  MoyeoRunScreen: 'MoyeoRun',
+                  MoyeoRunRoomScreen: 'MoyeoRunRoom',
                 },
               },
               SingleRun: {
