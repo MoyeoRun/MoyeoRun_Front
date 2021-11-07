@@ -1,11 +1,11 @@
 import { Box, HStack, VStack, Image } from 'native-base';
 import React from 'react';
 import ImageBackground from '../common/ImageBackground';
-import { RecordType } from './Summary';
+import { recordType } from './Summary';
 
-export type detailRecordCard = {
+export type detailRecordCardType = {
   imageUri: string;
-  recordData: RecordType;
+  recordData: recordType;
   date: string;
   title: string;
 };
@@ -81,7 +81,7 @@ const RecordItem = ({ value, keyword, ...props }: any) => {
   );
 };
 
-const DetailRecordCard = ({ imageUri, recordData, title, date }: detailRecordCard) => (
+const DetailRecordCard = ({ imageUri, recordData, title, date }: detailRecordCardType) => (
   <Box mt="12px" py="12px" px="12px" bg="#ffffff">
     <HStack>
       <ThumbNailImage imageUri={imageUri} />

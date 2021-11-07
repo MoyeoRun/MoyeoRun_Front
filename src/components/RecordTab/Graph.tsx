@@ -2,38 +2,28 @@ import { Box } from 'native-base';
 import React from 'react';
 import { Dimensions } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
-export type GraphProps = {
-  graphData: {
-    labels: Array<string>;
-    datasets: [
-      {
-        data: Array<string>;
-        colors: [(opacity: number) => string];
-      },
-    ];
-  };
+
+export type graphDataType = {
+  labels: Array<string>;
+  data: Array<number>;
+  colors: Array<(opacity: number) => string>;
 };
 
-const Graph = ({ graphData }: GraphProps) => {
+export type graphProps = {
+  graphData: graphDataType;
+};
+
+const Graph = ({ graphData }: graphProps) => {
   return (
     <Box mt="37px">
-      <Box borderTopWidth={1} borderColor="#DDDDDD" />
+      <Box borderTopWidth={1} borderColor="#DDDDDD" pb="30px" />
       <BarChart
         data={{
-          // color: '#1162FF',
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+          labels: graphData.labels,
           datasets: [
             {
-              data: [20, 45, 28, 80, 99, 43],
-              //색깔 설정을 각각 해줄수 ㅣㅇㅆ음
-              colors: [
-                (opacity = 1) => '#1162FF',
-                (opacity = 1) => '#1162FF',
-                (opacity = 1) => '#1162FF',
-                (opacity = 1) => '#1162FF',
-                (opacity = 1) => '#1162FF',
-                (opacity = 1) => '#1162FF',
-              ],
+              data: graphData.data,
+              colors: graphData.colors,
             },
           ],
         }}
@@ -47,8 +37,9 @@ const Graph = ({ graphData }: GraphProps) => {
         fromZero={true}
         //막대기 위쪽에 border ture || false
         showBarTops={false}
+        //y축 라벨(접두사), 접미사
         yAxisLabel={''}
-        yAxisSuffix={''}
+        yAxisSuffix={'km'}
         //단색,커스텀 칼라로 막대기 칠해주려면 아래 두개 true
         flatColor={true}
         withCustomBarColorFromData={true}

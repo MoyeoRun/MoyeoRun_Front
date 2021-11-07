@@ -1,14 +1,14 @@
 import { Box, HStack, VStack } from 'native-base';
 import React from 'react';
 
-export type RecordType = {
+export type recordType = {
   pace: number;
   distance: number;
   time: number;
 };
 
-export type SummaryProps = {
-  summaryRecord: RecordType;
+export type summaryProps = {
+  summaryRecord: recordType;
 };
 
 const SummaryRecordItem = ({ value, keyword, ...props }: any) => {
@@ -40,7 +40,7 @@ const SummaryRecordItem = ({ value, keyword, ...props }: any) => {
   );
 };
 
-const Summary = ({ summaryRecord }: SummaryProps) => {
+const Summary = ({ summaryRecord }: summaryProps) => {
   return (
     <>
       <HStack mt="45" px="22" justifyContent="center">
