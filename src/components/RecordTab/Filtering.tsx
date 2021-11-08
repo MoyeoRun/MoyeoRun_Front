@@ -1,10 +1,12 @@
-import React from 'react';
-import { Box, HStack, ITextProps } from 'native-base';
+import React, { useState } from 'react';
+import { Box, HStack, ITextProps, Modal } from 'native-base';
 import { Pressable } from 'react-native';
 import { CalendarIcon } from '../../assets/svg';
+import { Calendar } from 'react-native-calendars';
+import CustomCalendar, { markedDatesType } from './CustomCalendar';
 
 type FilteringProps = {
-  onPress: any;
+  filterDates: markedDatesType;
 };
 
 const FilteringButton = ({ onPress }: { onPress: any }) => {
@@ -14,7 +16,14 @@ const FilteringButton = ({ onPress }: { onPress: any }) => {
       <Pressable onPress={onPress}>
         <HStack display="flex" flex-direction="row" alignItems="flex-start">
           <CalendarIcon />
-          <Box _text={FilteringTextStyle} ml="10px">
+          <Box
+            _text={{
+              fontSize: 20,
+              fontWeight: 500,
+              lineHeight: 24,
+            }}
+            ml="10px"
+          >
             {`${year}년 ${month}월 ${date[0]} - ${date[1]}일`}
           </Box>
         </HStack>
@@ -23,20 +32,29 @@ const FilteringButton = ({ onPress }: { onPress: any }) => {
   );
 };
 
-const Filtering = ({ onPress }: FilteringProps) => {
+const Filtering = ({ filterDates }: FilteringProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>();
+
   return (
     <>
-      <FilteringButton onPress={onPress} />
+      <FilteringButton onPress={setIsOpen} />
       {/*날짜 필터링을 위한 달력 뜨는 모달창 */}
-      {/* <Modal> </Modal> */}
+      <Modal
+        isOpen={isOpen}
+        flex={1}
+        justifyContent="center"
+        alignItems="center"
+        bg="rgba(0, 0, 0, 0.4)"
+        onClose={() => setIsOpen(false)}
+      >
+        <Modal.Content w="100%" m="24px" mb="0px" p="24px" bg="#ffffff" borderRadius="12">
+          <Box>
+            <CustomCalendar filterDates={filterDates} />
+          </Box>
+        </Modal.Content>
+      </Modal>
     </>
   );
 };
 
 export default Filtering;
-
-const FilteringTextStyle: ITextProps = {
-  fontSize: 20,
-  fontWeight: 500,
-  lineHeight: 24,
-};

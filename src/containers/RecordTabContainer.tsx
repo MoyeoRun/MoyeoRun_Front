@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking';
 import { RecordTab } from '../components/RecordTab';
+import { markedDatesType } from '../components/RecordTab/CustomCalendar';
 import { detailRecordCardType } from '../components/RecordTab/DetailedRecordCard';
 import { graphDataType } from '../components/RecordTab/Graph';
 import { recordType } from '../components/RecordTab/Summary';
@@ -43,9 +45,26 @@ const graphData: graphDataType = {
   ],
 };
 
+const filterDates: markedDatesType = {
+  '2021-11-21': {
+    startingDay: true,
+    color: '#1162FF',
+    textColor: 'white',
+  },
+  '2021-11-22': { color: '#e8effe', textColor: '#1162FF' },
+  '2021-11-23': { color: '#e8effe', textColor: '#1162FF' },
+  '2021-11-24': { color: '#e8effe', textColor: '#1162FF' },
+  '2021-11-25': { endingDay: true, color: '#1162FF', textColor: 'white' },
+};
+
 const RecordTabContainer = () => {
   return (
-    <RecordTab summaryRecord={summaryRecord} detailRecord={detailRecord} graphData={graphData} />
+    <RecordTab
+      summaryRecord={summaryRecord}
+      detailRecord={detailRecord}
+      graphData={graphData}
+      filterDates={filterDates}
+    />
   );
 };
 

@@ -16,7 +16,7 @@ export type graphProps = {
 const Graph = ({ graphData }: graphProps) => {
   return (
     <Box mt="37px">
-      <Box borderTopWidth={1} borderColor="#DDDDDD" pb="30px" />
+      <Box borderTopWidth={1} borderColor="#DDDDDD" />
       <BarChart
         data={{
           labels: graphData.labels,

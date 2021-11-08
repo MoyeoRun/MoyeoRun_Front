@@ -1,29 +1,27 @@
 import { Box, ITextProps, ScrollView, Stack } from 'native-base';
 import React from 'react';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { markedDatesType } from './CustomCalendar';
 import DetailRecordCard, { detailRecordCardType } from './DetailedRecordCard';
 import Filtering from './Filtering';
-import Graph from './Graph';
+import Graph, { graphDataType } from './Graph';
 import Summary, { recordType } from './Summary';
 
 type recordProps = {
   summaryRecord: recordType;
   detailRecord: Array<detailRecordCardType>;
-  graphData: any;
+  graphData: graphDataType;
+  filterDates: markedDatesType;
 };
 
-const onPressDummy = () => {
-  console.log(123123);
-};
-
-const RecordTab = ({ summaryRecord, detailRecord, graphData }: recordProps) => {
+const RecordTab = ({ summaryRecord, detailRecord, graphData, filterDates }: recordProps) => {
   return (
     <Stack flex={1} alignItems="center" bg="#ffffff" pt={getStatusBarHeight()}>
       <ScrollView w="100%" mt="20px">
         {/*상태 */}
         <Box px="20px">
           <Box _text={RecordTitleStyle}>기록</Box>
-          <Filtering onPress={onPressDummy} />
+          <Filtering filterDates={filterDates} />
           <Summary summaryRecord={summaryRecord} />
           <Graph graphData={graphData} />
         </Box>
