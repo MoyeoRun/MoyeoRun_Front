@@ -5,8 +5,10 @@ import * as SecureStore from 'expo-secure-store';
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
-  const [accessToken, setAccessToken] = React.useState<null | { token: string; expiresIn: Date }>(null);
-  const [refreshToken, setRefreshToken] = React.useState<null | { token: string; expiresIn: Date }>(null);
+  const [accessToken, setAccessToken] =
+    React.useState<null | { token: string; expiresIn: Date }>(null);
+  const [refreshToken, setRefreshToken] =
+    React.useState<null | { token: string; expiresIn: Date }>(null);
 
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {

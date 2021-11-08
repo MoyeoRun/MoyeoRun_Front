@@ -1,19 +1,48 @@
 import { Box } from 'native-base';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions } from 'react-native';
 import MapView, { Polyline } from 'react-native-maps';
 
 type MapProps = {
-  points: Array<{ latitude: number; longitude: number }>;
+  section: number;
+  runData: Array<
+    Array<{
+      latitude: number;
+      longitude: number;
+      currentTime: number;
+      currentDistance: number;
+      currentPace: number;
+    }>
+  >;
 };
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height - 315;
 
-const Map = ({ points }: MapProps) => {
+const Map = ({ section, runData }: MapProps) => {
+  const [fuck, setFuck] = useState<any>([0]);
+  const mapRef = useRef<MapView | null>(null);
+
+  useEffect(() => {
+    if (mapRef) {
+      if (runData[section].length > 1) setFuck(null);
+      if (runData[section].length !== 0) {
+        const currentPoint = runData[section][runData[section].length - 1];
+        mapRef.current?.animateCamera({
+          center: { latitude: currentPoint.latitude, longitude: currentPoint.longitude },
+          pitch: 2,
+          heading: 20,
+          altitude: 500,
+          zoom: 18,
+        });
+      }
+    }
+  }, [runData]);
+
   return (
     <Box display="flex" width={width} height={height} flex={1} bg="#000000">
       <MapView
+        ref={mapRef}
         style={{
           width: '100%',
           height: '100%',
@@ -25,16 +54,15 @@ const Map = ({ points }: MapProps) => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        showsUserLocation={points.length % 4 === 0 && true}
-        followsUserLocation={points.length % 4 === 0 && true}
       >
-        <Polyline
-          coordinates={points}
-          strokeWidth={10}
-          strokeColor="#3035F0"
-          lineCap="round"
-          lineJoin="bevel"
-        />
+        {runData.map((runSection) => (
+          <Polyline
+            lineDashPattern={runSection.length === 0 ? [0] : null}
+            coordinates={runSection}
+            strokeWidth={10}
+            strokeColor="#3035F0"
+          />
+        ))}
       </MapView>
     </Box>
   );

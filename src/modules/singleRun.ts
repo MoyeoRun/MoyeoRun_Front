@@ -2,19 +2,30 @@ import { createAction, handleActions } from 'redux-actions';
 import { pender } from 'redux-pender/lib/utils';
 import * as runAPI from '../lib/api/run';
 
-const SEND_SINGLE_RUN_DATA = 'singleRun/SEND_SINGLE_RUN_DATA' as const;
-const CONCAT_LOCATION_BUFFER = 'singleRun/CONCAT_LOCATION_BUFFER' as const;
+const UPDATE_RUN_DATA = 'singleRun/UPDATE_RUN_DATA' as const;
+const ADD_NEW_SECTION = 'singleRun/ADD_NEW_SECTION' as const;
 const CHANGE_SINGLE_RUN_STATE = 'singleRun/CHANGE_SINGLE_RUN_STATE' as const;
+const FINISH_SINGLE_RUN = 'singleRun/FINISH_SINGLE_RUN' as const;
+const INIT_RUN_DATA = 'init/INIT_RUN_DATA' as const;
 
-export const uploadProfile = createAction(SEND_SINGLE_RUN_DATA, runAPI.sendSigleRunData);
-export const concatLocationBuffer = createAction(
-  CONCAT_LOCATION_BUFFER,
-  ({ latitude, longitude, time }: { latitude: number; longitude: number; time: string }) => ({
+export const finishSingleRun = createAction(FINISH_SINGLE_RUN, runAPI.finishSingleRun);
+export const updateRunData = createAction(
+  UPDATE_RUN_DATA,
+  ({
     latitude,
     longitude,
-    time,
-  }),
+    currentTime,
+    currentDistance,
+    currentPace,
+  }: {
+    latitude: number;
+    longitude: number;
+    currentTime: number;
+    currentDistance: number;
+    currentPace: number;
+  }) => ({ latitude, longitude, currentTime, currentDistance, currentPace }),
 );
+export const addNewSection = createAction(ADD_NEW_SECTION);
 export const changeSingleRunState = createAction(
   CHANGE_SINGLE_RUN_STATE,
   (type: string, value: any) => ({
@@ -22,19 +33,28 @@ export const changeSingleRunState = createAction(
     value,
   }),
 );
+export const initRunData = createAction(INIT_RUN_DATA);
 
 type SingleRunState = {
   isRunning: boolean;
-  buffer: Array<{ latitude: number; longitude: number; time: string }>;
-  runStatus: { time: string | null; distance: number; pace: number };
-  runData: Array<{ latitude: number; longitude: number }>;
+  section: number;
+  runStatus: { time: number; distance: number; pace: number };
+  runData: Array<
+    Array<{
+      latitude: number;
+      longitude: number;
+      currentTime: number;
+      currentDistance: number;
+      currentPace: number;
+    }>
+  >;
 };
 
 const initialState: SingleRunState = {
   isRunning: false,
-  buffer: [],
-  runStatus: { time: null, distance: 0, pace: 0 },
-  runData: [],
+  section: 0,
+  runStatus: { time: 0, distance: 0, pace: 0 },
+  runData: [[]],
 };
 
 export default handleActions<SingleRunState, any>(
@@ -43,20 +63,19 @@ export default handleActions<SingleRunState, any>(
       ...state,
       [payload.type]: payload.value,
     }),
-    [CONCAT_LOCATION_BUFFER]: (state, { payload }) => ({
+    [ADD_NEW_SECTION]: (state) => ({
       ...state,
-      buffer: state.buffer.concat(payload),
+      section: state.section + 1,
+      runData: [...state.runData, []],
     }),
-    ...pender({
-      type: SEND_SINGLE_RUN_DATA,
-      onSuccess: (state, { payload }) => ({
-        ...state,
-        runPace: payload.runPace,
-        runTime: payload.runTime,
-        runDistance: payload.runDistance,
-        runData: payload.runDatad,
-      }),
+    [UPDATE_RUN_DATA]: (state, { payload }) => ({
+      ...state,
+      runData: [
+        ...state.runData.filter((x, i) => i != state.section),
+        state.runData[state.section].concat(payload),
+      ],
     }),
+    [INIT_RUN_DATA]: (state) => initialState,
   },
   initialState,
 );

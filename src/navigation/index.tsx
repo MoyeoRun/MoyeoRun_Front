@@ -34,7 +34,7 @@ import * as SecureStore from 'expo-secure-store';
 import { setAuthorizeToken } from '../lib/api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
-import { getAccessToken, kakaoOauth } from '../modules/auth';
+import { getAccessToken, initToken, kakaoOauth } from '../modules/auth';
 import SingleRunning from '../components/SingleRun/SingleRunning';
 import ReadySingleRun from '../components/SingleRun/ReadySingleRun';
 import MoyeoRunRoom from '../components/MoyeoRunRoom/MoyeoRunRoom';
@@ -61,6 +61,13 @@ function RootNavigator() {
   const manageToken = async () => {
     if (refreshToken) {
       if (accessToken) {
+        if (accessToken.expiresIn < new Date() && refreshToken.expiresIn > new Date()) {
+          await dispatch(getAccessToken(refreshToken.token));
+        }
+        if (refreshToken.expiresIn < new Date()) {
+          dispatch(initToken());
+          return;
+        }
         console.log('@@@@@@ token exists, set Authorization');
         console.log(accessToken, refreshToken);
         setAuthorizeToken(accessToken.token);

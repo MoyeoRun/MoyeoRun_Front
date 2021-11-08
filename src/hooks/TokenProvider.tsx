@@ -1,5 +1,5 @@
 import React from 'react';
-import { setToken } from '../modules/auth';
+import { getAccessToken, setToken } from '../modules/auth';
 import { useDispatch } from 'react-redux';
 import Navigation from '../navigation';
 import useColorScheme from './useColorScheme';
@@ -17,8 +17,12 @@ const TokenProvider = ({ accessToken, refreshToken }: TokenProviderProps) => {
 
   useEffect(() => {
     if (accessToken && refreshToken) {
-      setAuthorizeToken(accessToken.token);
-      dispatch(setToken({ accessToken, refreshToken }));
+      if (accessToken.expiresIn < new Date() && refreshToken.expiresIn > new Date()) {
+        dispatch(getAccessToken(refreshToken.token));
+      } else {
+        setAuthorizeToken(accessToken.token);
+        dispatch(setToken({ accessToken, refreshToken }));
+      }
     }
   }, []);
 
