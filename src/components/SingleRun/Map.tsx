@@ -20,12 +20,12 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height - 315;
 
 const Map = ({ section, runData }: MapProps) => {
-  const [fuck, setFuck] = useState<any>([0]);
+  const [dash, setDash] = useState<any>([0]);
   const mapRef = useRef<MapView | null>(null);
 
   useEffect(() => {
     if (mapRef) {
-      if (runData[section].length > 1) setFuck(null);
+      if (runData[section].length > 1) setDash(null);
       if (runData[section].length !== 0) {
         const currentPoint = runData[section][runData[section].length - 1];
         mapRef.current?.animateCamera({

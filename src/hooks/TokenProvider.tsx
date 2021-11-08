@@ -16,14 +16,7 @@ const TokenProvider = ({ accessToken, refreshToken }: TokenProviderProps) => {
   const colorScheme = useColorScheme();
 
   useEffect(() => {
-    if (accessToken && refreshToken) {
-      if (accessToken.expiresIn < new Date() && refreshToken.expiresIn > new Date()) {
-        dispatch(getAccessToken(refreshToken.token));
-      } else {
-        setAuthorizeToken(accessToken.token);
-        dispatch(setToken({ accessToken, refreshToken }));
-      }
-    }
+    dispatch(setToken({ accessToken, refreshToken }));
   }, []);
 
   return <Navigation colorScheme={colorScheme} />;

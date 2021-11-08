@@ -61,10 +61,13 @@ function RootNavigator() {
   const manageToken = async () => {
     if (refreshToken) {
       if (accessToken) {
-        if (accessToken.expiresIn < new Date() && refreshToken.expiresIn > new Date()) {
+        if (
+          new Date(accessToken.expiresIn) < new Date() &&
+          new Date(refreshToken.expiresIn) > new Date()
+        ) {
           await dispatch(getAccessToken(refreshToken.token));
         }
-        if (refreshToken.expiresIn < new Date()) {
+        if (new Date(refreshToken.expiresIn) < new Date()) {
           dispatch(initToken());
           return;
         }

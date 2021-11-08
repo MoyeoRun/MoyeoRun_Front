@@ -6,7 +6,7 @@ export const getDistanceString = (distanceNumber: number) => {
 export const getPaceString = (pace: number) => {
   const first = Math.floor(pace);
   const second = Math.floor((pace - first) * 100);
-  return first + "' " + second + '"';
+  return Math.floor(first + second / 60) + "' " + (second % 60) + '"';
 };
 
 export const secondToTimeString = (secondNumber: number) => {

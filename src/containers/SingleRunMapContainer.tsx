@@ -64,7 +64,7 @@ const SingleRunMapContainer = () => {
   };
 
   const onUpdateRunData = () => {
-    if (!currentPoint) return;
+    if (!currentPoint || !isRunning) return;
 
     const currentRunData = runData[section];
     const lastPoint =
@@ -128,7 +128,6 @@ const SingleRunMapContainer = () => {
           distanceInterval: 0,
         },
         ({ coords: { latitude, longitude, altitude } }) => {
-          console.log('@@@Location Data: ', latitude, longitude, altitude);
           setCurrentPoint({ latitude, longitude, currentTime: stopWatch.getTime() });
         },
       );
@@ -151,7 +150,7 @@ const SingleRunMapContainer = () => {
     () => {
       dispatch(changeSingleRunState('runStatus', { ...runStatus, time: stopWatch.getTime() }));
     },
-    isRunning ? 500 : null,
+    isRunning ? 300 : null,
   );
 
   useEffect(() => {
@@ -161,16 +160,16 @@ const SingleRunMapContainer = () => {
   useEffect(() => {
     if (isRunning) {
       stopWatch.start();
-      startWatchLocation();
     } else {
       stopWatch.stop();
-      stopWatchLocation();
     }
   }, [isRunning]);
 
   useEffect(() => {
+    startWatchLocation();
     return () => {
       dispatch(initRunData());
+      stopWatchLocation();
       stopWatch.reset();
     };
   }, []);
