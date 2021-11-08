@@ -45,6 +45,7 @@ const OperationButton = ({
   pressEffect = true,
 }: OperationButtonProps) => {
   const buttonValue = useRef(new Animated.Value(1)).current;
+
   const onPressInEffect = () => {
     Animated.timing(buttonValue, {
       useNativeDriver: true,
@@ -52,6 +53,7 @@ const OperationButton = ({
       duration: 500,
     }).start();
   };
+
   const onPressOutEffect = () => {
     Animated.spring(buttonValue, {
       useNativeDriver: true,

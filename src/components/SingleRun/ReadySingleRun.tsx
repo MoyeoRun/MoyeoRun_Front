@@ -60,7 +60,7 @@ const ReadySingleRun = () => {
 
       <VStack flex={1} px="30px" pt="175px">
         <Box backgroundColor="white" opacity="0.5" position="absolute">
-          <Map points={[]} />
+          <Map section={0} runData={[[]]} />
           <Gradient />
         </Box>
         <VStack alignItems="center">

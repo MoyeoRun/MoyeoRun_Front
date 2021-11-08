@@ -5,8 +5,10 @@ import * as SecureStore from 'expo-secure-store';
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
-  const [accessToken, setAccessToken] = React.useState<null | { token: string; expiresIn: Date }>(null);
-  const [refreshToken, setRefreshToken] = React.useState<null | { token: string; expiresIn: Date }>(null);
+  const [accessToken, setAccessToken] =
+    React.useState<null | { token: string; expiresIn: Date }>(null);
+  const [refreshToken, setRefreshToken] =
+    React.useState<null | { token: string; expiresIn: Date }>(null);
 
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
@@ -14,8 +16,16 @@ export default function useCachedResources() {
         SplashScreen.preventAutoHideAsync();
         const cachedAccessToken = await SecureStore.getItemAsync('accessToken');
         const cachedRefreshToken = await SecureStore.getItemAsync('refreshToken');
-        setAccessToken(JSON.parse(cachedAccessToken || ''));
-        setRefreshToken(JSON.parse(cachedRefreshToken || ''));
+        if (cachedAccessToken) {
+          const token: { token: string; expiresIn: Date } = JSON.parse(cachedAccessToken);
+          if (new Date(token.expiresIn) > new Date()) await setAccessToken(token);
+          else await SecureStore.setItemAsync('accessToken', '');
+        }
+        if (cachedRefreshToken) {
+          const token: { token: string; expiresIn: Date } = JSON.parse(cachedRefreshToken);
+          if (new Date(token.expiresIn) > new Date()) await setRefreshToken(token);
+          else await SecureStore.setItemAsync('refreshToken', '');
+        }
         await Font.loadAsync({
           'apple-sd-gothic-neo-medium': require('../assets/fonts/AppleSDGothicNeoM.ttf'),
           'apple-sd-gothic-neo-light': require('../assets/fonts/AppleSDGothicNeoL.ttf'),

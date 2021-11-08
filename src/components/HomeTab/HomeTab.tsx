@@ -1,4 +1,4 @@
-import { HStack, Image, ScrollView, Text, VStack } from 'native-base';
+import { Button, HStack, Image, ScrollView, Text, VStack } from 'native-base';
 import React from 'react';
 import FavoritRunning from './FavoritRunning';
 import { getStatusBarHeight } from 'react-native-status-bar-height';

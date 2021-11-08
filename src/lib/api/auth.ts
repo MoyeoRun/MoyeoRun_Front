@@ -32,5 +32,6 @@ export const logout = async () => {
 };
 
 export const setAuthorizeToken = (token: string) => {
+  console.log('@@@헤더 업데이트 : ', token);
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 };

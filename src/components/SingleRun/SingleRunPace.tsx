@@ -1,12 +1,12 @@
 import { HStack, Box, Center, VStack } from 'native-base';
 import React from 'react';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-// import Pagination from '../common/Pagination';
+import { getDistanceString, getPaceString, secondToTimeString } from '../../lib/util/strFormat';
 import OperationButton from './OperationButton';
 
 type SinglePaceProps = {
   isRunning: boolean;
-  runStatus: { time: string | null; distance: number; pace: number };
+  runStatus: { time: number; distance: number; pace: number };
   onStartRunning: () => void;
   onStopRunning: () => void;
 };
@@ -67,20 +67,20 @@ const SingleRunPace = ({
   return (
     <VStack alignItems="center" flex={1} px="30px" pt={getStatusBarHeight()}>
       <HStack mt="96px" w="100%" alignItems="center" justifyContent="space-around">
-        <HStack alignItems="center">
-          <Keyword>{runStatus.time}</Keyword>
-          <TimeValue ml="9px">0:00</TimeValue>
-        </HStack>
+        <VStack alignItems="center">
+          <TimeValue ml="9px">{secondToTimeString(runStatus.time / 1000)}</TimeValue>
+          <Keyword>시간</Keyword>
+        </VStack>
         <Box borderWidth="0.5px" borderColor="#828282" height="100%" />
 
-        <HStack alignItems="center">
-          <Keyword>{runStatus.pace}</Keyword>
-          <TimeValue ml="9px">0'00"</TimeValue>
-        </HStack>
+        <VStack alignItems="center">
+          <TimeValue ml="9px">{getPaceString(runStatus.pace)}</TimeValue>
+          <Keyword>평균 페이스</Keyword>
+        </VStack>
       </HStack>
 
       <VStack alignItems="center" mt="46px">
-        <KMValue>{runStatus.distance}</KMValue>
+        <KMValue>{getDistanceString(runStatus.distance)}</KMValue>
         <Keyword>킬로미터</Keyword>
       </VStack>
 
