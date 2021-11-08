@@ -1,6 +1,4 @@
 import React, { useRef } from 'react';
-import SingleRunWithPace from './SingleRunPace';
-import SingleRunWithMap from './SingleRunMap';
 import { Box, ScrollView } from 'native-base';
 import { useWindowDimensions, Animated } from 'react-native';
 import SingleRunPaceContainer from '../../containers/SingleRunPaceContainer';

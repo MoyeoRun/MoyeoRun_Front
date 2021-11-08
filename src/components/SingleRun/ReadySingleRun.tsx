@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import SingleRun from './SingleRunning';
 import { Box, HStack, ScrollView, VStack, Text, View, Modal } from 'native-base';
 import { useWindowDimensions, Animated, Pressable } from 'react-native';
 import OperationButton from './OperationButton';
