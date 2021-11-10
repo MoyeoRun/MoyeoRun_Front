@@ -1,9 +1,10 @@
+import { setItemAsync } from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { HomeTab } from '../components/HomeTab';
 import actionMiddleware from '../middlewares/actionMiddleware';
 import { RootState } from '../modules';
-import { getAccessToken, initToken } from '../modules/auth';
+import { getAccessToken, initToken, logout } from '../modules/auth';
 import { getUserData } from '../modules/user';
 
 const HomeTabContainer = () => {
@@ -89,12 +90,26 @@ const HomeTabContainer = () => {
 
   const dispatch = useDispatch();
 
+  const onLogout = async () => {
+    dispatch(logout());
+    setItemAsync('accessToken', '');
+    setItemAsync('refreshToken', '');
+  };
+
   useEffect(() => {
     actionMiddleware(dispatch, accessToken, refreshToken, getUserData, null);
   }, [dispatch]);
 
   if (!user) return null;
-  return <HomeTab runList={runList} missionList={missionList} lastRecordList={lastRecordList} user={user} />;
+  return (
+    <HomeTab
+      onLogout={onLogout}
+      runList={runList}
+      missionList={missionList}
+      lastRecordList={lastRecordList}
+      user={user}
+    />
+  );
 };
 
 export default HomeTabContainer;

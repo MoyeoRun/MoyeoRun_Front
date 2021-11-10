@@ -1,25 +1,41 @@
 import { Button, HStack, Image, ScrollView, Text, VStack } from 'native-base';
-import React from 'react';
+import React, { useRef } from 'react';
 import FavoritRunning from './FavoritRunning';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import LogoMini from '../../assets/svg/LogoMini';
 import NewMission from './NewMission';
 import LastRecord from './LastRecord';
-import { useNavigation } from '@react-navigation/core';
 
 export type HomeTabProps = {
   runList: Array<object>;
   missionList: Array<object>;
   lastRecordList: Array<object>;
   user: any;
+  onLogout: () => void;
 };
 
-const HomeTab = ({ runList, missionList, lastRecordList, user }: HomeTabProps) => {
-  const navigation = useNavigation();
+const HomeTab = ({ onLogout, runList, missionList, lastRecordList, user }: HomeTabProps) => {
+  const scrollRef = useRef<any>();
+
   return (
-    <ScrollView flex={1} pt={getStatusBarHeight()} pl="20px" bg="#FFF">
-      <HStack justifyContent="space-between" alignItems="center" mt="40px" pr="20px">
-        <LogoMini />
+    <>
+      <HStack
+        justifyContent="space-between"
+        bg="#FFF"
+        px="20px"
+        alignItems="center"
+        pr="20px"
+        h="46px"
+      >
+        <Button
+          variant="ghost"
+          _pressed={{ bg: 'transparent' }}
+          onPress={() => {
+            scrollRef.current.scrollTo({ x: 0, y: 0, animated: true });
+          }}
+        >
+          <LogoMini />
+        </Button>
         <Image
           alt="avatar"
           w="32px"
@@ -30,15 +46,25 @@ const HomeTab = ({ runList, missionList, lastRecordList, user }: HomeTabProps) =
           }}
         />
       </HStack>
-      <Text fontFamily="text" fontSize="24px" fontWeight="700" color="#333333" mt="24px">
-        {user.name}님, 즐거운 러닝 되세요.
-      </Text>
-      <VStack mt="22px" mb="100px">
-        <FavoritRunning runList={runList} />
-        <NewMission missionList={missionList} />
-        <LastRecord lastRecordList={lastRecordList} />
-      </VStack>
-    </ScrollView>
+      <ScrollView flex={1} pl="20px" bg="#FFF" ref={scrollRef}>
+        <Text
+          pt="46px"
+          fontFamily="text"
+          fontSize="24px"
+          fontWeight="700"
+          color="#333333"
+          mt="24px"
+        >
+          {user.name}님, 즐거운 러닝 되세요.
+        </Text>
+        <Button onPress={onLogout}>로그아웃</Button>
+        <VStack mt="22px" mb="100px">
+          <FavoritRunning runList={runList} />
+          <NewMission missionList={missionList} />
+          <LastRecord lastRecordList={lastRecordList} />
+        </VStack>
+      </ScrollView>
+    </>
   );
 };
 

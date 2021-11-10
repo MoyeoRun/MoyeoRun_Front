@@ -25,7 +25,7 @@ const RunningTab = ({
   const navigation = useNavigation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
-    <Box flex={1} pt={getStatusBarHeight()} px="20px" bg="#FFF">
+    <Box flex={1} px="20px" bg="#FFF">
       <ScrollView showsVerticalScrollIndicator={false}>
         <HStack justifyContent="space-between" mt="24px">
           <Text

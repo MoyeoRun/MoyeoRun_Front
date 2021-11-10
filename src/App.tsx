@@ -4,7 +4,7 @@ import { NativeBaseProvider } from 'native-base';
 import React from 'react';
 import customTheme from './hooks/customTheme';
 import Onboarding from './components/Onboarding';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -20,7 +20,9 @@ const App = () => {
           {!isLoadingComplete ? (
             <Onboarding />
           ) : (
-            <TokenProvider accessToken={accessToken} refreshToken={refreshToken} />
+            <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
+              <TokenProvider accessToken={accessToken} refreshToken={refreshToken} />
+            </SafeAreaView>
           )}
           <StatusBar />
         </NativeBaseProvider>
