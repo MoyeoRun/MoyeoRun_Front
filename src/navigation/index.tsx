@@ -135,10 +135,12 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       backBehavior="history"
+      safeAreaInsets={{ bottom: 0 }}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors[colorScheme].tint,
         tabBarStyle: {
+          position: 'absolute',
           shadowColor: 'rgba(0,0,0,0.9)',
           shadowOffset: { width: 3, height: 20 },
           shadowOpacity: 0.8,
