@@ -1,8 +1,10 @@
-import { Box } from 'native-base';
-import React from 'react';
+import { Box, Button, Input } from 'native-base';
+import React, { useRef } from 'react';
+import WebView from 'react-native-webview';
+import NotFound from '../NotFound';
 
 const FriendTab = () => {
-  return <Box>기록 스크린</Box>;
+  return <NotFound />;
 };
 
 export default FriendTab;

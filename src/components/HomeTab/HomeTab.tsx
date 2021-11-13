@@ -47,14 +47,7 @@ const HomeTab = ({ onLogout, runList, missionList, lastRecordList, user }: HomeT
         />
       </HStack>
       <ScrollView flex={1} pl="20px" bg="#FFF" ref={scrollRef}>
-        <Text
-          pt="46px"
-          fontFamily="text"
-          fontSize="24px"
-          fontWeight="700"
-          color="#333333"
-          mt="24px"
-        >
+        <Text pt="46px" fontFamily="text" fontSize="24px" fontWeight="700" color="#333333">
           {user.name}님, 즐거운 러닝 되세요.
         </Text>
         <Button onPress={onLogout}>로그아웃</Button>
