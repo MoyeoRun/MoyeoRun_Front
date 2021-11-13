@@ -34,11 +34,10 @@ import * as SecureStore from 'expo-secure-store';
 import { setAuthorizeToken } from '../lib/api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
-import { getAccessToken, initToken, kakaoOauth } from '../modules/auth';
+import { getAccessToken, initToken } from '../modules/auth';
 import SingleRunning from '../components/SingleRun/SingleRunning';
 import ReadySingleRun from '../components/SingleRun/ReadySingleRun';
 import MoyeoRunRoom from '../components/MoyeoRunRoom/MoyeoRunRoom';
-import { checkPermission } from 'react-native-location';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
