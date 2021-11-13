@@ -38,8 +38,9 @@ export const changeSingleRunState = createAction(
 export const initRunData = createAction(INIT_RUN_DATA);
 
 type SingleRunState = {
-  isRunning: boolean;
   section: number;
+  isRunning: boolean;
+  startDate: string | null;
   runStatus: { time: number; distance: number; pace: number };
   runData: Array<
     Array<{
@@ -58,6 +59,7 @@ const initialState: SingleRunState = {
   section: 0,
   runStatus: { time: 0, distance: 0, pace: 0 },
   runData: [[]],
+  startDate: null,
 };
 
 export default handleActions<SingleRunState, any>(

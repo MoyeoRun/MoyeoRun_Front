@@ -18,9 +18,12 @@ import {
 import { Stopwatch } from 'ts-stopwatch';
 import useInterval from '../lib/util/useInterval';
 import { getDistance } from '../lib/util/calcRunData';
+import { speak } from 'expo-speech';
+import { getDistanceString, getPaceString } from '../lib/util/strFormat';
 
 let watchLocation: { remove: () => void };
 let stopWatch = new Stopwatch();
+let distanceInterval: number = 0.5;
 
 const SingleRunMapContainer = () => {
   const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
@@ -30,7 +33,7 @@ const SingleRunMapContainer = () => {
     currentAltitude: number;
     currentTime: number;
   } | null>(null);
-  const { isRunning, section, runStatus, runData } = useSelector(
+  const { isRunning, section, runStatus, runData, startDate } = useSelector(
     (state: RootState) => state.singleRun,
   );
   const navigation = useNavigation();
@@ -38,6 +41,11 @@ const SingleRunMapContainer = () => {
 
   const onStartRunning = () => {
     dispatch(changeSingleRunState('isRunning', true));
+    console.log(!startDate);
+    if (!startDate) {
+      speak('안녕하세요, 오늘도 즐거운 러닝 하세요');
+      dispatch(changeSingleRunState('startDate', new Date().toISOString()));
+    }
   };
 
   const onStopRunning = () => {
@@ -56,6 +64,7 @@ const SingleRunMapContainer = () => {
           runTime: runStatus.time,
           runDistance: runStatus.distance,
           runData: runData.filter((item) => item.length !== 0),
+          createdAt: startDate,
         }),
       );
     } catch (e) {
@@ -100,6 +109,15 @@ const SingleRunMapContainer = () => {
       currentPace,
       currentTime: currentPoint.currentTime,
     });
+
+    if (runStatus.distance + currentDistance > distanceInterval) {
+      distanceInterval += distanceInterval;
+      speak(
+        `현재 페이스는 ${getPaceString(runStatus.pace)}, 달린 거리는 ${getDistanceString(
+          runStatus.distance + currentDistance,
+        )}입니다.`,
+      );
+    }
 
     dispatch(
       updateRunData({

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { HStack, Box, Text, VStack } from 'native-base';
 import OperationButton from './OperationButton';
-import Map from './Map';
-import MapView from 'react-native-maps';
-import { Dimensions } from 'react-native';
 import { secondToTimeString, getDistanceString, getPaceString } from '../../lib/util/strFormat';
+import { WebViewMessageEvent } from 'react-native-webview';
+import CustomWebview from '../common/CustomWebview';
 
-type SingleMapProps = {
+type SingleRunMapProps = {
   isRunning: boolean;
   section: number;
   runStatus: { time: number; distance: number; pace: number };
@@ -63,23 +62,75 @@ const SingleRunMap = ({
   onStartRunning,
   onStopRunning,
   onFinishRunning,
-}: SingleMapProps) => {
+}: SingleRunMapProps) => {
+  const webview = useRef<any>();
+
+  const sendProps = () => {
+    webview.current.postMessage(
+      JSON.stringify({
+        type: 'singleRunOnlyMap',
+        value: { section, runData },
+      }),
+    );
+  };
+
+  useEffect(() => {
+    sendProps();
+  }, [section, runData]);
+
+  const handleEvent = (event: WebViewMessageEvent) => {
+    const data = JSON.parse(event.nativeEvent.data);
+    switch (data.type) {
+      case 'start': {
+        onStartRunning();
+        return;
+      }
+      case 'stop': {
+        onStopRunning();
+        return;
+      }
+      case 'finish': {
+        onFinishRunning();
+        return;
+      }
+    }
+  };
+
   return (
-    <Box display="flex" flex={1} justifyContent="center" alignItems="center">
-      <Map section={section} runData={runData} />
+    <VStack flex={1} bgColor="white">
+      <Box flex={1} bgColor="gray">
+        <CustomWebview
+          scrollEnabled={false}
+          parentRef={webview}
+          path="singleRunOnlyMap"
+          onMessage={handleEvent}
+          onLoadEnd={sendProps}
+          nestedScrollEnabled={true}
+        />
+      </Box>
       <Box w="100%" h="315px" px="35px">
-        <HStack mt="20px" w="100%" alignItems="center" justifyContent="space-around">
-          <VStack alignItems="center">
+        <HStack mt="20px" w="100%" alignItems="center">
+          <VStack
+            height="47px"
+            alignItems="center"
+            borderRightWidth="0.5px"
+            borderColor="#828282"
+            flex={1}
+          >
             <Value>{getDistanceString(runStatus.distance)}</Value>
             <Keyword>킬로미터</Keyword>
           </VStack>
-          <Box borderWidth="0.5px" borderColor="#828282" height="100%" />
-          <VStack alignItems="center">
+          <VStack
+            height="47px"
+            alignItems="center"
+            borderRightWidth="0.5px"
+            borderColor="#828282"
+            flex={1}
+          >
             <Value ml="9px">{secondToTimeString(runStatus.time / 1000)}</Value>
             <Keyword>시간</Keyword>
           </VStack>
-          <Box borderWidth="0.5px" borderColor="#828282" height="100%" />
-          <VStack alignItems="center">
+          <VStack height="47px" alignItems="center" flex={1}>
             <Value ml="9px">{getPaceString(runStatus.pace)}</Value>
             <Keyword>페이스</Keyword>
           </VStack>
@@ -95,7 +146,7 @@ const SingleRunMap = ({
           )}
         </HStack>
       </Box>
-    </Box>
+    </VStack>
   );
 };
 export default SingleRunMap;

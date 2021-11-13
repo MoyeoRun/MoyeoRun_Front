@@ -19,5 +19,6 @@ export const secondToTimeString = (secondNumber: number) => {
   const second = parseInt((secondNumber % 60) + '', 10)
     .toString()
     .padStart(2, '0');
-  return hour + ':' + minute + ':' + second;
+  if (secondNumber > 60 * 60) return hour + ':' + minute;
+  else return minute + ':' + second;
 };

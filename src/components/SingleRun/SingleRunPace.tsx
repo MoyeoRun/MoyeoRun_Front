@@ -65,7 +65,7 @@ const SingleRunPace = ({
   onStopRunning,
 }: SinglePaceProps) => {
   return (
-    <VStack alignItems="center" flex={1} px="30px" pt={getStatusBarHeight()}>
+    <VStack alignItems="center" flex={1} px="30px" pt={getStatusBarHeight()} bgColor="white">
       <HStack mt="96px" w="100%" alignItems="center" justifyContent="space-around">
         <VStack alignItems="center">
           <TimeValue ml="9px">{secondToTimeString(runStatus.time / 1000)}</TimeValue>

@@ -15,7 +15,7 @@
 			"",
 			"const sendProps = () => {",
 			"webview.current.postMessage(",
-			"JSON.stringify({ type: '${}', value: { runList, missionList, lastRecordList, user } }),",
+			"JSON.stringify({ type: '${1}', value: { runList, missionList, lastRecordList, user } }),",
 			");",
 			"};",
 			"",

@@ -8,6 +8,7 @@ export const finishSingleRun = async ({
   runTime,
   runDistance,
   runData,
+  createdAt,
 }: {
   type: string;
   targetDistance: number | null;
@@ -25,6 +26,7 @@ export const finishSingleRun = async ({
       currentPace: number; //순간 페이스
     }>
   >;
+  createdAt: string | null;
 }) => {
   const response = await axios.post('http://45.248.73.50:30007/running/single', {
     type,
@@ -34,6 +36,7 @@ export const finishSingleRun = async ({
     runTime,
     runDistance,
     runData,
+    createdAt,
   });
   return response.data;
 };

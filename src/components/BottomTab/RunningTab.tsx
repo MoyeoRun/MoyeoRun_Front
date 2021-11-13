@@ -24,7 +24,7 @@ const RunningTab = ({ user, moyeoRunList, singleRunGuideList }: RunningTabProps)
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
       case 'goReadySingleRun': {
-        navigation.reset({ index: 0, routes: [{ name: 'ReadySingleRun' }] });
+        navigation.navigate('ReadySingleRun');
         return;
       }
     }
