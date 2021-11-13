@@ -17,11 +17,12 @@ export const finishSingleRun = async ({
   runDistance: number;
   runData: Array<
     Array<{
-      latitude: number;
-      longitude: number;
-      currentDistance: number;
-      currentPace: number;
-      currentTime: number;
+      latitude: number; //현재 위치의 위도
+      longitude: number; //현재 위치의 경도
+      currentAltitude: number; //현재 위치의 고도
+      currentTime: number; //누적 시간
+      currentDistance: number; //누적 거리
+      currentPace: number; //순간 페이스
     }>
   >;
 }) => {

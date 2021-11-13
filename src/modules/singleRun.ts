@@ -14,16 +14,18 @@ export const updateRunData = createAction(
   ({
     latitude,
     longitude,
+    currentAltitude,
     currentTime,
     currentDistance,
     currentPace,
   }: {
     latitude: number;
     longitude: number;
+    currentAltitude: number;
     currentTime: number;
     currentDistance: number;
     currentPace: number;
-  }) => ({ latitude, longitude, currentTime, currentDistance, currentPace }),
+  }) => ({ latitude, longitude, currentAltitude, currentTime, currentDistance, currentPace }),
 );
 export const addNewSection = createAction(ADD_NEW_SECTION);
 export const changeSingleRunState = createAction(
@@ -41,11 +43,12 @@ type SingleRunState = {
   runStatus: { time: number; distance: number; pace: number };
   runData: Array<
     Array<{
-      latitude: number;
-      longitude: number;
-      currentTime: number;
-      currentDistance: number;
-      currentPace: number;
+      latitude: number; //현재 위치의 위도
+      longitude: number; //현재 위치의 경도
+      currentAltitude: number; //현재 위치의 고도
+      currentTime: number; //누적 시간
+      currentDistance: number; //누적 거리
+      currentPace: number; //순간 페이스
     }>
   >;
 };

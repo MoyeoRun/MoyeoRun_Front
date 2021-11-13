@@ -24,8 +24,12 @@ let stopWatch = new Stopwatch();
 
 const SingleRunMapContainer = () => {
   const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
-  const [currentPoint, setCurrentPoint] =
-    useState<{ latitude: number; longitude: number; currentTime: number } | null>(null);
+  const [currentPoint, setCurrentPoint] = useState<{
+    latitude: number;
+    longitude: number;
+    currentAltitude: number;
+    currentTime: number;
+  } | null>(null);
   const { isRunning, section, runStatus, runData } = useSelector(
     (state: RootState) => state.singleRun,
   );
@@ -69,8 +73,9 @@ const SingleRunMapContainer = () => {
     const currentRunData = runData[section];
     const lastPoint =
       currentRunData.length === 0 ? null : currentRunData[currentRunData.length - 1];
-    let currentDistance = 0;
-    let currentPace = 0;
+    let currentDistance = runStatus.distance;
+    let currentPace =
+      section > 0 ? runData[section - 1][runData[section - 1].length - 1].currentPace : 0;
 
     if (lastPoint) {
       if (currentPoint.currentTime - lastPoint.currentTime < 1000) return;
@@ -100,8 +105,9 @@ const SingleRunMapContainer = () => {
       updateRunData({
         latitude: currentPoint.latitude,
         longitude: currentPoint.longitude,
+        currentAltitude: currentPoint.currentAltitude,
         currentTime: currentPoint.currentTime,
-        currentDistance,
+        currentDistance: runStatus.distance + currentDistance,
         currentPace,
       }),
     );
@@ -128,7 +134,13 @@ const SingleRunMapContainer = () => {
           distanceInterval: 0,
         },
         ({ coords: { latitude, longitude, altitude } }) => {
-          setCurrentPoint({ latitude, longitude, currentTime: stopWatch.getTime() });
+          if (altitude)
+            setCurrentPoint({
+              latitude,
+              longitude,
+              currentAltitude: altitude,
+              currentTime: stopWatch.getTime(),
+            });
         },
       );
     } catch (e) {
