@@ -3,9 +3,8 @@ import React from 'react';
 
 const NotFound = () => {
   return (
-    <Box>
-      <Text>이 스크린은 존재하지 않습니다.</Text>
-      <Button>Home 스크린</Button>
+    <Box flex={1}>
+      <Text>준비중입니다!</Text>
     </Box>
   );
 };

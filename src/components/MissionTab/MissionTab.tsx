@@ -1,8 +1,9 @@
 import { Box } from 'native-base';
 import React from 'react';
+import NotFound from '../NotFound';
 
 const MissionTab = () => {
-  return <Box>기록 스크린</Box>;
+  return <NotFound />;
 };
 
 export default MissionTab;

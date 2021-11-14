@@ -1,7 +1,7 @@
 import { setItemAsync } from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { HomeTab } from '../components/HomeTab';
+import HomeTab from '../components/BottomTab/HomeTab';
 import actionMiddleware from '../middlewares/actionMiddleware';
 import { RootState } from '../modules';
 import { getAccessToken, initToken, logout } from '../modules/auth';
@@ -14,7 +14,7 @@ const HomeTabContainer = () => {
   const [runList] = useState([
     {
       id: 1,
-      title: '바람 부는 날 5Km 함께 뛰어요',
+      title: '바람 부는 날 10Km 함께 뛰어요',
       waiting: 25,
       startDate: null,
       image:
