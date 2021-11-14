@@ -24,7 +24,7 @@ const App = () => {
               <TokenProvider accessToken={accessToken} refreshToken={refreshToken} />
             </SafeAreaView>
           )}
-          <StatusBar />
+          <StatusBar style="dark" />
         </NativeBaseProvider>
       </SafeAreaProvider>
     </Provider>

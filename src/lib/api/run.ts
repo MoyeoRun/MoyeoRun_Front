@@ -28,6 +28,16 @@ export const finishSingleRun = async ({
   >;
   createdAt: string | null;
 }) => {
+  console.log({
+    type,
+    targetDistance,
+    targetTime,
+    runPace,
+    runTime,
+    runDistance,
+    runData,
+    createdAt,
+  });
   const response = await axios.post('http://45.248.73.50:30007/running/single', {
     type,
     targetDistance,

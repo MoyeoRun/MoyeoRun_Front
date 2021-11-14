@@ -41,35 +41,30 @@ const SingleRunMapContainer = () => {
 
   const onStartRunning = () => {
     dispatch(changeSingleRunState('isRunning', true));
-    console.log(!startDate);
     if (!startDate) {
-      speak('안녕하세요, 오늘도 즐거운 러닝 하세요');
       dispatch(changeSingleRunState('startDate', new Date().toISOString()));
+      speak('안녕하세요, 오늘도 즐거운 러닝 하세요');
     }
   };
 
   const onStopRunning = () => {
     dispatch(changeSingleRunState('isRunning', false));
-    dispatch(addNewSection());
+    if (runData[section].length !== 0) dispatch(addNewSection());
   };
 
   const onFinishRunning = async () => {
-    try {
-      await dispatch(
-        finishSingleRun({
-          type: 'free',
-          targetDistance: null,
-          targetTime: null,
-          runPace: runStatus.pace,
-          runTime: runStatus.time,
-          runDistance: runStatus.distance,
-          runData: runData.filter((item) => item.length !== 0),
-          createdAt: startDate,
-        }),
-      );
-    } catch (e) {
-      console.log(e);
-    }
+    const filterRunData = runData.filter((item) => item.length !== 0);
+    console.log(filterRunData);
+    await finishSingleRun({
+      type: 'free',
+      targetDistance: null,
+      targetTime: null,
+      runPace: runStatus.pace,
+      runTime: runStatus.time,
+      runDistance: runStatus.distance,
+      runData: filterRunData.length === 0 ? [[]] : filterRunData,
+      createdAt: startDate,
+    });
     navigation.reset({
       index: 0,
       routes: [{ name: 'Root', state: { routes: [{ name: 'Record' }] } }],

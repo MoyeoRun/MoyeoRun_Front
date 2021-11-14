@@ -50,7 +50,7 @@ const OperationButton = ({
     Animated.timing(buttonValue, {
       useNativeDriver: true,
       toValue: 1.1,
-      duration: 500,
+      duration: 300,
     }).start();
   };
 
@@ -78,6 +78,7 @@ const OperationButton = ({
         borderRadius="100px"
         ml={ml}
         onLongPress={onLongPress}
+        delayLongPress={0}
         onPress={onPress}
         onPressIn={onPressInEffect}
         onPressOut={onPressOutEffect}
