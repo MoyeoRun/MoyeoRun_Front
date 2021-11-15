@@ -1,7 +1,7 @@
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider } from 'native-base';
-import React from 'react';
+import React, { useEffect } from 'react';
 import customTheme from './hooks/customTheme';
 import Onboarding from './components/Onboarding';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -9,6 +9,7 @@ import useCachedResources from './hooks/useCachedResources';
 import { Provider } from 'react-redux';
 import store from './store';
 import TokenProvider from './hooks/TokenProvider';
+import Notification from './Notification';
 
 const App = () => {
   const { isLoadingComplete, accessToken, refreshToken } = useCachedResources();
@@ -21,6 +22,7 @@ const App = () => {
             <Onboarding />
           ) : (
             <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
+              <Notification />
               <TokenProvider accessToken={accessToken} refreshToken={refreshToken} />
             </SafeAreaView>
           )}
