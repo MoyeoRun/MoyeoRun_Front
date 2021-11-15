@@ -1,8 +1,8 @@
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import { Text } from 'native-base';
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
+import store from '../../store';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -12,14 +12,13 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function Notification() {
+export default function useNotification() {
   const [expoPushToken, setExpoPushToken] = useState<any>('');
   const [notification, setNotification] = useState<any>(false);
   const notificationListener = useRef<any>();
   const responseListener = useRef<any>();
 
   useEffect(() => {
-    //푸시 알림 토큰 발급
     registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
 
     // This listener is fired whenever a notification is received while the app is foregrounded
@@ -31,15 +30,12 @@ export default function Notification() {
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
       console.log(response);
     });
-    console.log(expoPushToken);
 
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
-
-  return null;
 }
 
 //현재 기기에 푸시알림 발송

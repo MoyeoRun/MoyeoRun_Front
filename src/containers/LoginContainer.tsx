@@ -27,7 +27,7 @@ const LoginContainer = () => {
 
   useEffect(() => {
     if (user) {
-      if (user.weight) navigation.reset({ index: 0, routes: [{ name: 'Root' }] });
+      if (user.weight) navigation.reset({ index: 0, routes: [{ name: 'BottomTab' }] });
       else navigation.reset({ index: 0, routes: [{ name: 'BodyInfo' }] });
     }
   }, [user]);

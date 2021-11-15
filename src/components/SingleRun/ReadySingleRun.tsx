@@ -18,7 +18,7 @@ const ReadySingleRun = () => {
       case 'goBack': {
         navigation.reset({
           index: 0,
-          routes: [{ name: 'Root', state: { routes: [{ name: 'Running' }] } }],
+          routes: [{ name: 'BottomTab', state: { routes: [{ name: 'Running' }] } }],
         });
         return;
       }

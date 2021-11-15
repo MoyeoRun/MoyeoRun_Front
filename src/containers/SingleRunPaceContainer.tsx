@@ -1,13 +1,10 @@
-import { useNavigation } from '@react-navigation/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import SingleRunPace from '../components/SingleRun/SingleRunPace';
-import actionMiddleware from '../middlewares/actionMiddleware';
+import SingleRunPace from '../components/singleRun/SingleRunPace';
 import { RootState } from '../modules';
 import { changeSingleRunState } from '../modules/singleRun';
 
 const SingleRunPaceContainer = () => {
-  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
   const { isRunning, runStatus } = useSelector((state: RootState) => state.singleRun);
   const dispatch = useDispatch();
 
