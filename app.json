@@ -5,7 +5,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./public/icon.png",
-    "entryPoint": "./src/App.tsx",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./public/splash.png",

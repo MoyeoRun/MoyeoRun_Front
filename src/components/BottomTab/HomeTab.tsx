@@ -2,7 +2,6 @@ import { Box, Button } from 'native-base';
 import React, { useRef } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from './../common/CustomWebview';
-import * as Speech from 'expo-speech';
 
 type HomeTabProps = {
   runList: Array<object>;

@@ -2,14 +2,14 @@ import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider } from 'native-base';
 import React, { useEffect } from 'react';
-import customTheme from './hooks/customTheme';
-import Onboarding from './components/Onboarding';
+import customTheme from './src/hooks/customTheme';
+import Onboarding from './src/components/Onboarding';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import useCachedResources from './hooks/useCachedResources';
+import useCachedResources from './src/hooks/useCachedResources';
 import { Provider } from 'react-redux';
-import store from './store';
-import TokenProvider from './hooks/TokenProvider';
-import Notification from './Notification';
+import store from './src/store';
+import TokenProvider from './src/hooks/TokenProvider';
+import Notification from './src/Notification';
 
 const App = () => {
   const { isLoadingComplete, accessToken, refreshToken } = useCachedResources();
@@ -33,4 +33,4 @@ const App = () => {
   );
 };
 
-export default registerRootComponent(App);
+export default App;
