@@ -55,16 +55,19 @@ const SingleRunMapContainer = () => {
   const onFinishRunning = async () => {
     const filterRunData = runData.filter((item) => item.length !== 0);
     console.log(filterRunData);
-    await finishSingleRun({
-      type: 'free',
-      targetDistance: null,
-      targetTime: null,
-      runPace: runStatus.pace,
-      runTime: runStatus.time,
-      runDistance: runStatus.distance,
-      runData: filterRunData.length === 0 ? [[]] : filterRunData,
-      createdAt: startDate,
-    });
+    if (!startDate) console.log('@@@시작 시간 오류 ' + startDate);
+    await dispatch(
+      finishSingleRun({
+        type: 'free',
+        targetDistance: null,
+        targetTime: null,
+        runPace: runStatus.pace,
+        runTime: runStatus.time,
+        runDistance: runStatus.distance,
+        runData: filterRunData.length === 0 ? [[]] : filterRunData,
+        createdAt: startDate || new Date().toISOString(),
+      }),
+    );
     navigation.reset({
       index: 0,
       routes: [{ name: 'Root', state: { routes: [{ name: 'Record' }] } }],

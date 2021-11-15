@@ -20,8 +20,8 @@ export const initToken = createAction(INIT_TOKEN);
 
 type AuthState = {
   auth: null | User;
-  accessToken: null | { token: string; expiresIn: Date };
-  refreshToken: null | { token: string; expiresIn: Date };
+  accessToken: null | Token;
+  refreshToken: null | Token;
 };
 
 const initialState: AuthState = {

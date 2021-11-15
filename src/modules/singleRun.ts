@@ -41,17 +41,8 @@ type SingleRunState = {
   section: number;
   isRunning: boolean;
   startDate: string | null;
-  runStatus: { time: number; distance: number; pace: number };
-  runData: Array<
-    Array<{
-      latitude: number; //현재 위치의 위도
-      longitude: number; //현재 위치의 경도
-      currentAltitude: number; //현재 위치의 고도
-      currentTime: number; //누적 시간
-      currentDistance: number; //누적 거리
-      currentPace: number; //순간 페이스
-    }>
-  >;
+  runStatus: RunStatus;
+  runData: Array<RunData>;
 };
 
 const initialState: SingleRunState = {
@@ -83,9 +74,6 @@ export default handleActions<SingleRunState, any>(
     [INIT_RUN_DATA]: (state) => initialState,
     ...pender({
       type: FINISH_SINGLE_RUN,
-      onSuccess: (state, { payload }) => ({
-        ...state,
-      }),
     }),
   },
   initialState,
