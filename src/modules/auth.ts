@@ -18,13 +18,8 @@ export const setToken = createAction(SET_TOKEN, (token: object) => token);
 export const logout = createAction(LOGOUT, authAPI.logout);
 export const initToken = createAction(INIT_TOKEN);
 
-type AuthAction =
-  | ReturnType<typeof kakaoOauth>
-  | ReturnType<typeof googleOauth>
-  | ReturnType<typeof naverOauth>;
-
 type AuthState = {
-  auth: null | object;
+  auth: null | User;
   accessToken: null | { token: string; expiresIn: Date };
   refreshToken: null | { token: string; expiresIn: Date };
 };

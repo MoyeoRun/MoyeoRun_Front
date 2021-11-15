@@ -10,7 +10,7 @@ import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 import colors from '../lib/styles/colors';
 import useColorScheme from '../hooks/useColorScheme';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../navigationTypes';
 import {
   FocusedMissionIcon,
   FriendIcon,

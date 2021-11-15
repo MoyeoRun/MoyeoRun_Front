@@ -81,6 +81,12 @@ export default handleActions<SingleRunState, any>(
       ],
     }),
     [INIT_RUN_DATA]: (state) => initialState,
+    ...pender({
+      type: FINISH_SINGLE_RUN,
+      onSuccess: (state, { payload }) => ({
+        ...state,
+      }),
+    }),
   },
   initialState,
 );
