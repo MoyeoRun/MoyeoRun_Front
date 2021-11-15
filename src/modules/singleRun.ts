@@ -9,28 +9,11 @@ const FINISH_SINGLE_RUN = 'singleRun/FINISH_SINGLE_RUN' as const;
 const INIT_RUN_DATA = 'init/INIT_RUN_DATA' as const;
 
 export const finishSingleRun = createAction(FINISH_SINGLE_RUN, runAPI.finishSingleRun);
-export const updateRunData = createAction(
-  UPDATE_RUN_DATA,
-  ({
-    latitude,
-    longitude,
-    currentAltitude,
-    currentTime,
-    currentDistance,
-    currentPace,
-  }: {
-    latitude: number;
-    longitude: number;
-    currentAltitude: number;
-    currentTime: number;
-    currentDistance: number;
-    currentPace: number;
-  }) => ({ latitude, longitude, currentAltitude, currentTime, currentDistance, currentPace }),
-);
+export const updateRunData = createAction(UPDATE_RUN_DATA, (runData: Point) => runData);
 export const addNewSection = createAction(ADD_NEW_SECTION);
 export const changeSingleRunState = createAction(
   CHANGE_SINGLE_RUN_STATE,
-  (type: string, value: any) => ({
+  (type: keyof SingleRunState, value: any) => ({
     type,
     value,
   }),

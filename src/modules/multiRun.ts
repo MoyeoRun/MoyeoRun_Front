@@ -11,7 +11,7 @@ type MultiRun = {
   roomList: Array<Room> | null;
   roomStatus: RoomStatus | null;
   participantRoom: Room | null;
-  myRunData: UserRunData | null;
+  myRunData: RunData | null;
   othersRunData: OthersRunData | null;
 };
 

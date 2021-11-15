@@ -63,14 +63,16 @@ const roomStatus: RoomStatus = {
 };
 
 //moyeoRun
-type RunData = Array<{
+type Point = {
   latitude: number; //현재 위치의 위도
   longitude: number; //현재 위치의 경도
   currentAltitude: number; //현재 위치의 고도
   currentTime: number; //누적 시간
   currentDistance: number; //누적 거리
   currentPace: number; //순간 페이스
-}>;
+};
+
+type RunData = Array<Point>;
 const runData: RunData = [
   {
     latitude: 37.659187827620975,
@@ -87,8 +89,9 @@ type RunStatus = {
   distance: number; //총 러닝 거리
   pace: number; //평균 러닝 페이스
 };
+const runStatus: RunStatus = { time: 0, distance: 0, pace: 0 };
 
-type OthersRunData = Array<UserRunData>;
+type OthersRunData = Array<{ userId: User['id'] } & { runData: RunData }>;
 const othersRunDataP: OthersRunData = [
   {
     userId: 1,
@@ -117,21 +120,6 @@ const othersRunDataP: OthersRunData = [
     ],
   },
 ];
-
-type UserRunData = { userId: User['id'] } & { runData: RunData };
-const userRunData: UserRunData = {
-  userId: 1,
-  runData: [
-    {
-      latitude: 37.659187827620975,
-      longitude: 127.0514252126567,
-      currentAltitude: 30,
-      currentTime: 1234567,
-      currentDistance: 3.23,
-      currentPace: 6.12,
-    },
-  ],
-};
 
 type RunRecord = {
   id: string;
