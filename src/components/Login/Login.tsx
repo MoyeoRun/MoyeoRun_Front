@@ -42,7 +42,6 @@ const Login = ({ onKakaoOauth }: LoginProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [source, setSource] = useState<string>();
   const [mode, setMode] = useState<string>();
-  const navigation = useNavigation();
 
   const handleOauth = (source: any) => {
     setOpen(true);
@@ -88,14 +87,7 @@ const Login = ({ onKakaoOauth }: LoginProps) => {
               네이버 계정으로 로그인
             </OauthItem>
             <AppleIcon position="absolute" left="20px" top="148px" zIndex="1" />
-            <OauthItem
-              bg="#111111"
-              handleOauth={() => {
-                navigation.navigate('BodyInfo');
-              }}
-            >
-              애플 계정으로 로그인
-            </OauthItem>
+            <OauthItem bg="#111111">애플 계정으로 로그인</OauthItem>
             <GoogleIcon position="absolute" left="20px" top="216px" zIndex="1" />
             <OauthItem
               fontColor="#686868"

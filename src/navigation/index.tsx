@@ -12,7 +12,6 @@ import colors from '../lib/styles/colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../navigationTypes';
 import {
-  FocusedMissionIcon,
   FriendIcon,
   HomeIcon,
   HomeFillIcon,
@@ -30,7 +29,6 @@ import HomeTabContainer from '../containers/HomeTabContainer';
 import RunningTabContainer from '../containers/RunningTabContainer';
 import MissionTabContainer from '../containers/MissionTabContainer';
 import FriendTabContainer from '../containers/FriendTabContainer';
-import BodyInfoContainer from '../containers/BodyInfoContainer';
 import MyPageContainer from '../containers/MyPageContainer';
 import LoginContainer from '../containers/LoginContainer';
 import NotFound from '../components/NotFound';
@@ -43,6 +41,7 @@ import { getAccessToken, initToken } from '../modules/auth';
 import SingleRunning from '../components/SingleRun/SingleRunning';
 import ReadySingleRun from '../components/SingleRun/ReadySingleRun';
 import MoyeoRunRoom from '../components/MoyeoRunRoom/MoyeoRunRoom';
+import UploadProfileContainer from '../containers/UploadProfileContainer';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -106,8 +105,8 @@ function RootNavigator() {
       <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
       <Stack.Screen name="MyPage" component={MyPageContainer} options={{ title: '내정보' }} />
       <Stack.Screen
-        name="BodyInfo"
-        component={BodyInfoContainer}
+        name="UploadProfile"
+        component={UploadProfileContainer}
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />

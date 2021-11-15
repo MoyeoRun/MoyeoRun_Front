@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MoyeoRun_Font",
-    "slug": "MoyeoRun_Font",
+    "name": "MoyeoRun",
+    "slug": "MoyeoRun",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./public/icon.png",

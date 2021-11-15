@@ -12,7 +12,7 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Login: undefined;
   MyPage: undefined;
-  BodyInfo: undefined;
+  UploadProfile: undefined;
   ReadySingleRun: undefined;
   SingleRun: undefined;
   Welcome: undefined;
