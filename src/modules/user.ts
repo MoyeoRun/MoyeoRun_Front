@@ -9,13 +9,7 @@ export const uploadBodyInfo = createAction(UPLOAD_BODYINFO, userAPI.uploadBodyIn
 export const getUserData = createAction(GET_USER_DATA, userAPI.getUserData);
 
 type UserState = {
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    weight: number;
-    height: number;
-  } | null;
+  user: User | null;
 };
 
 const initialState: UserState = {

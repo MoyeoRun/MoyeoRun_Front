@@ -62,15 +62,25 @@ const Login = ({ onKakaoOauth }: LoginProps) => {
   return (
     <>
       {open ? (
-        <GetCodeView mode={mode} source={source} onCodeSuccess={onCodeSuccess} onTokenSuccess={onTokenSuccess} />
+        <GetCodeView
+          mode={mode}
+          source={source}
+          onCodeSuccess={onCodeSuccess}
+          onTokenSuccess={onTokenSuccess}
+        />
       ) : (
-        <Stack flex={1} alignItems="center" justifyContent="center">
+        <Stack flex={1} alignItems="center" justifyContent="center" bg="#ffffff">
           <Box my="82.5px">
             <LogoBlue />
           </Box>
           <Box>
             <KakaoIcon position="absolute" left="20px" top="20px" zIndex="1" />
-            <OauthItem fontColor="#3C1E1E" bg="#FEE600" url={apiUrl['kakao'].code} handleOauth={handleOauth}>
+            <OauthItem
+              fontColor="#3C1E1E"
+              bg="#FEE600"
+              url={apiUrl['kakao'].code}
+              handleOauth={handleOauth}
+            >
               카카오톡 계정으로 로그인
             </OauthItem>
             <NaverIcon position="absolute" left="20px" top="87px" zIndex="1" />
@@ -87,7 +97,12 @@ const Login = ({ onKakaoOauth }: LoginProps) => {
               애플 계정으로 로그인
             </OauthItem>
             <GoogleIcon position="absolute" left="20px" top="216px" zIndex="1" />
-            <OauthItem fontColor="#686868" borderColor="#D1D1D1" borderWidth="1px" handleOauth={handleOauth}>
+            <OauthItem
+              fontColor="#686868"
+              borderColor="#D1D1D1"
+              borderWidth="1px"
+              handleOauth={handleOauth}
+            >
               구글 계정으로 로그인
             </OauthItem>
           </Box>

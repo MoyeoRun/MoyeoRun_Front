@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "MoyeoRun_Font",
+    "slug": "MoyeoRun_Font",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./public/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./public/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./public/icon.png",
+          "color": "#ffffff",
+          "mode": "production"
+        }
+      ]
+    ],
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic"
+    },
+    "android": {
+      "userInterfaceStyle": "automatic",
+      "adaptiveIcon": {
+        "foregroundImage": "./public/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.moyeorun.moyeorun",
+      "googleServicesFile": "./google-services.json"
+    },
+    "web": {
+      "favicon": "./public/favicon.png"
+    },
+    "scheme": "demo"
+  }
+}
