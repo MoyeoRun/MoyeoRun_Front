@@ -1,7 +1,6 @@
-import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider } from 'native-base';
-import React, { useEffect } from 'react';
+import React from 'react';
 import customTheme from './src/hooks/customTheme';
 import Onboarding from './src/components/Onboarding';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';

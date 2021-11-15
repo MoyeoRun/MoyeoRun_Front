@@ -1,13 +1,13 @@
 import { Box, Button, Stack } from 'native-base';
 import React, { useState } from 'react';
-import KakaoIcon from '../../assets/svg/KakaoIcon';
-import NaverIcon from '../../assets/svg/NaverIcon';
-import GoogleIcon from '../../assets/svg/GoogleIcon';
-import AppleIcon from '../../assets/svg/AppleIcon';
-import LogoBlue from '../../assets/svg/LogoBlue';
-import config from '../../config';
+import KakaoIcon from '../assets/svg/KakaoIcon';
+import NaverIcon from '../assets/svg/NaverIcon';
+import GoogleIcon from '../assets/svg/GoogleIcon';
+import AppleIcon from '../assets/svg/AppleIcon';
+import LogoBlue from '../assets/svg/LogoBlue';
+import config from '../config';
 import { useNavigation } from '@react-navigation/core';
-import GetCodeView from './GetCodeView';
+import GetCodeView from './common/GetCodeView';
 
 const OauthItem = ({ fontColor = '#FFFFFF', url, handleOauth, ...props }: any) => {
   return (

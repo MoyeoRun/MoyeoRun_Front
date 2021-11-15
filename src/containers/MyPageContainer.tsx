@@ -6,7 +6,6 @@ import { RootState } from '../modules';
 import { getUserData } from '../modules/user';
 
 const MyPageContainer = () => {
-  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.user);
   const navigation = useNavigation();
   const dispatch = useDispatch();

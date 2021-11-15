@@ -1,11 +1,11 @@
 import { setItemAsync } from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import HomeTab from '../components/BottomTab/HomeTab';
-import actionMiddleware from '../middlewares/actionMiddleware';
-import { RootState } from '../modules';
-import { getAccessToken, initToken, logout } from '../modules/auth';
-import { getUserData } from '../modules/user';
+import HomeTab from '../../components/bottomTab/HomeTab';
+import actionMiddleware from '../../middlewares/actionMiddleware';
+import { RootState } from '../../modules';
+import { logout } from '../../modules/auth';
+import { getUserData } from '../../modules/user';
 
 const HomeTabContainer = () => {
   const { user } = useSelector((state: RootState) => state.user);

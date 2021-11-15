@@ -1,5 +1,5 @@
 import React from 'react';
-import FriendTab from '../components/BottomTab/FriendTab';
+import FriendTab from '../../components/bottomTab/FriendTab';
 
 const FriendTabContainer = () => {
   return <FriendTab />;

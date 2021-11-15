@@ -1,10 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-  useNavigation,
-} from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
@@ -24,11 +19,6 @@ import {
   FriendFillIcon,
 } from '../assets/svg';
 import LinkingConfiguration from './LinkingConfiguration';
-import RecordTabContainer from '../containers/RecordTabContainer';
-import HomeTabContainer from '../containers/HomeTabContainer';
-import RunningTabContainer from '../containers/RunningTabContainer';
-import MissionTabContainer from '../containers/MissionTabContainer';
-import FriendTabContainer from '../containers/FriendTabContainer';
 import MyPageContainer from '../containers/MyPageContainer';
 import LoginContainer from '../containers/LoginContainer';
 import NotFound from '../components/NotFound';
@@ -38,18 +28,21 @@ import { setAuthorizeToken } from '../lib/api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import { getAccessToken, initToken } from '../modules/auth';
-import SingleRunning from '../components/SingleRun/SingleRunning';
-import ReadySingleRun from '../components/SingleRun/ReadySingleRun';
-import MoyeoRunRoom from '../components/MoyeoRunRoom/MoyeoRunRoom';
+import SingleRunning from '../components/singleRun/SingleRunning';
+import ReadySingleRun from '../components/singleRun/ReadySingleRun';
 import UploadProfileContainer from '../containers/UploadProfileContainer';
+import CreateMultiRoomContainer from '../containers/multiRun/CreateMultiRoomContainer';
+import {
+  FriendTabContainer,
+  HomeTabContainer,
+  MissionTabContainer,
+  RecordTabContainer,
+  RunningTabContainer,
+} from '../containers/bottomTab';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={{ ...DefaultTheme, dark: false }}
-      // theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-    >
+    <NavigationContainer linking={LinkingConfiguration} theme={{ ...DefaultTheme, dark: false }}>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -122,8 +115,8 @@ function RootNavigator() {
         options={{ title: '개인런준비', headerShown: false }}
       />
       <Stack.Screen
-        name="MoyeoRunRoom"
-        component={MoyeoRunRoom}
+        name="CreateMultiRoom"
+        component={CreateMultiRoomContainer}
         options={{ headerShown: false, title: '방만들기' }}
       />
     </Stack.Navigator>

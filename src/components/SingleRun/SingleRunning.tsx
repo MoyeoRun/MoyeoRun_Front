@@ -1,25 +1,16 @@
 import React, { useRef } from 'react';
 import { Box, ScrollView } from 'native-base';
 import { useWindowDimensions, Animated } from 'react-native';
-import SingleRunPaceContainer from '../../containers/SingleRunPaceContainer';
+import SingleRunPaceContainer from '../../containers/singleRun/SingleRunPaceContainer';
 import SingleRunMapContainer from '../../containers/SingleRunMapContainer';
 
 const SingleRunning = () => {
-  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
-
-  const ScreenBox = ({ children, ...props }: any) => {
-    return (
-      <Box w={windowWidth} h={windowHeight} {...props}>
-        {children}
-      </Box>
-    );
-  };
+  const { width: windowWidth } = useWindowDimensions();
 
   const scrollX = useRef(new Animated.Value(1)).current;
-  const arr = [0, 1];
 
   return (
-    <ScreenBox>
+    <Box flex={1}>
       <ScrollView
         horizontal={true}
         bounces={false}
@@ -38,14 +29,14 @@ const SingleRunning = () => {
         )}
         scrollEventThrottle={12}
       >
-        <ScreenBox>
+        <Box flex={1}>
           <SingleRunPaceContainer />
-        </ScreenBox>
-        <ScreenBox>
+        </Box>
+        <Box flex={1}>
           <SingleRunMapContainer />
-        </ScreenBox>
+        </Box>
       </ScrollView>
-    </ScreenBox>
+    </Box>
   );
 };
 

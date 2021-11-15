@@ -2,13 +2,11 @@ import { useNavigation } from '@react-navigation/core';
 import { Box } from 'native-base';
 import React, { useRef } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
-import CustomWebview from './common/CustomWebview';
+import CustomWebview from '../common/CustomWebview';
 
-type RecordDetailProps = {
-  user: User | null;
-};
+type RecordDetailProps = {};
 
-const RecordDetail = ({ user }: RecordDetailProps) => {
+const RecordDetail = ({}: RecordDetailProps) => {
   const webview = useRef<any>();
   const navigation = useNavigation();
 

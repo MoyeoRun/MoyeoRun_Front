@@ -8,7 +8,7 @@
 			"",
 			"}",
 			"",
-			"const ${1} = ({}: SingleRunProps) => {",
+			"const ${1} = ({}: ${1}Props) => {",
 			"return ()",
 			"}",
 			"",
