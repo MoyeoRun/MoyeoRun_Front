@@ -5,7 +5,7 @@ import WebView from 'react-native-webview';
 import config from '../../config';
 
 const INJECTED_JAVASCRIPT =
-  '(function() window.document.getElementsByTagName("pre")[0].style.color="white"; {if(window.document.getElementsByTagName("pre").length>0){window.ReactNativeWebView.postMessage((window.document.getElementsByTagName("pre")[0].innerHTML));}})();';
+  '(function() {window.document.getElementsByTagName("pre")[0].style.color="white"; if(window.document.getElementsByTagName("pre").length>0){window.ReactNativeWebView.postMessage((window.document.getElementsByTagName("pre")[0].innerHTML));}})();';
 
 const GetCodeView = ({ mode, source, onCodeSuccess, onTokenSuccess, ...props }: any) => {
   const navigation = useNavigation();
