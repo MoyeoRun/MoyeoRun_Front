@@ -22,6 +22,7 @@ const LoginContainer = () => {
     if (accessToken && refreshToken) {
       setAuthorizeToken(accessToken.token);
       await dispatch(getUserData());
+      clearInterval(refreshRef.current);
       const refreshInterval = setInterval(() => {
         dispatch(refreshAccessToken(refreshToken.token));
       }, 20 * 60 * 1000);

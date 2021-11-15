@@ -16,16 +16,6 @@ const TokenManager = ({ children, navigationRef }: TokenManagerProps): JSX.Eleme
   const manageToken = async () => {
     if (refreshToken) {
       if (accessToken) {
-        if (
-          new Date(accessToken.expiresIn) < new Date() &&
-          new Date(refreshToken.expiresIn) > new Date()
-        ) {
-          await store.dispatch(refreshAccessToken(refreshToken.token));
-        }
-        if (new Date(refreshToken.expiresIn) < new Date()) {
-          store.dispatch(initToken());
-          return;
-        }
         console.log('@@@@@@ token exists, set Authorization');
         console.log(accessToken, refreshToken);
         setAuthorizeToken(accessToken.token);
@@ -49,6 +39,7 @@ const TokenManager = ({ children, navigationRef }: TokenManagerProps): JSX.Eleme
   React.useEffect(() => {
     manageToken();
   }, [accessToken, refreshToken]);
+
   return <>{children}</>;
 };
 
