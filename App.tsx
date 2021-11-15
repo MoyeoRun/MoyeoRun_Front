@@ -11,7 +11,7 @@ import { setToken } from './src/modules/auth';
 import Navigation from './src/navigation';
 import { useNavigationContainerRef } from '@react-navigation/core';
 import useNotification from './src/lib/hooks/useNotification';
-import TokenProvider from './src/TokenProvider';
+import TokenManager from './src/TokenManager';
 
 const App = () => {
   const { isLoadingComplete, accessToken, refreshToken } = useCachedResources();
@@ -21,7 +21,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <TokenProvider navigationRef={navigationRef}>
+      <TokenManager navigationRef={navigationRef}>
         <SafeAreaProvider>
           <NativeBaseProvider theme={customTheme}>
             {!isLoadingComplete ? (
@@ -34,7 +34,7 @@ const App = () => {
             <StatusBar style="dark" />
           </NativeBaseProvider>
         </SafeAreaProvider>
-      </TokenProvider>
+      </TokenManager>
     </Provider>
   );
 };

@@ -13,7 +13,7 @@ const INIT_TOKEN = 'auth/INIT_TOKEN' as const;
 export const kakaoOauth = createAction(KAKAO_OAUTH, authAPI.kakaoOauth);
 export const googleOauth = createAction(GOOGLE_OAUTH, authAPI.googleOauth);
 export const naverOauth = createAction(NAVER_OAUTH, authAPI.naverOauth);
-export const getAccessToken = createAction(GET_ACCESS_TOKEN, authAPI.getAccessToken);
+export const refreshAccessToken = createAction(GET_ACCESS_TOKEN, authAPI.refreshAccessToken);
 export const setToken = createAction(SET_TOKEN, (token: object) => token);
 export const logout = createAction(LOGOUT, authAPI.logout);
 export const initToken = createAction(INIT_TOKEN);

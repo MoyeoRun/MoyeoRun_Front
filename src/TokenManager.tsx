@@ -1,16 +1,16 @@
 import React, { createElement } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import store from './store';
-import { getAccessToken, initToken } from './modules/auth';
+import { refreshAccessToken, initToken } from './modules/auth';
 import { setAuthorizeToken } from './lib/api/auth';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/core';
 
-type TokenProviderProps = {
+type TokenManagerProps = {
   children: React.ReactNode;
   navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
 };
 
-const TokenProvider = ({ children, navigationRef }: TokenProviderProps): JSX.Element => {
+const TokenManager = ({ children, navigationRef }: TokenManagerProps): JSX.Element => {
   const { accessToken, refreshToken } = store.getState().auth;
 
   const manageToken = async () => {
@@ -20,7 +20,7 @@ const TokenProvider = ({ children, navigationRef }: TokenProviderProps): JSX.Ele
           new Date(accessToken.expiresIn) < new Date() &&
           new Date(refreshToken.expiresIn) > new Date()
         ) {
-          await store.dispatch(getAccessToken(refreshToken.token));
+          await store.dispatch(refreshAccessToken(refreshToken.token));
         }
         if (new Date(refreshToken.expiresIn) < new Date()) {
           store.dispatch(initToken());
@@ -34,7 +34,7 @@ const TokenProvider = ({ children, navigationRef }: TokenProviderProps): JSX.Ele
       } else {
         try {
           console.log('@@@@@@ Access token remove perceive, try refresh');
-          await store.dispatch(getAccessToken(refreshToken.token));
+          await store.dispatch(refreshAccessToken(refreshToken.token));
         } catch {
           console.log('@@@@@@ Access token refresh failed');
           navigationRef.reset({ index: 0, routes: [{ name: 'Login' }] });
@@ -52,4 +52,4 @@ const TokenProvider = ({ children, navigationRef }: TokenProviderProps): JSX.Ele
   return <>{children}</>;
 };
 
-export default TokenProvider;
+export default TokenManager;

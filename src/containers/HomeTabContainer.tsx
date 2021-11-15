@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import HomeTab from '../components/bottomTab/HomeTab';
 import { RootState } from '../modules';
-import { getAccessToken, initToken, logout } from '../modules/auth';
+import { logout } from '../modules/auth';
 import { getUserData } from '../modules/user';
 
 const HomeTabContainer = () => {

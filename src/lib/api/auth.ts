@@ -21,7 +21,7 @@ export const googleOauth = async (accessToken: string) => {
   return response.data;
 };
 
-export const getAccessToken = async (refreshToken: string) => {
+export const refreshAccessToken = async (refreshToken: string) => {
   const response = await axios({
     url: 'http://45.248.73.50:30007/auth/refresh',
     method: 'post',
