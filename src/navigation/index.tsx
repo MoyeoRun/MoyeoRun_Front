@@ -2,15 +2,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   NavigationContainer,
   DefaultTheme,
-  DarkTheme,
-  useNavigation,
+  NavigationContainerRefWithCurrent,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
 import colors from '../lib/styles/colors';
-import useColorScheme from '../hooks/useColorScheme';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../navigationTypes';
+import { RootStackParamList, BottomTabParamList, RootTabScreenProps } from '../navigationTypes';
 import {
   FriendIcon,
   HomeIcon,
@@ -27,81 +24,46 @@ import LinkingConfiguration from './LinkingConfiguration';
 import RecordTabContainer from '../containers/RecordTabContainer';
 import HomeTabContainer from '../containers/HomeTabContainer';
 import RunningTabContainer from '../containers/RunningTabContainer';
-import MissionTabContainer from '../containers/MissionTabContainer';
 import FriendTabContainer from '../containers/FriendTabContainer';
 import MyPageContainer from '../containers/MyPageContainer';
 import LoginContainer from '../containers/LoginContainer';
 import NotFound from '../components/NotFound';
 import Welcome from '../components/Welcome';
-import * as SecureStore from 'expo-secure-store';
-import { setAuthorizeToken } from '../lib/api/auth';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../modules';
-import { getAccessToken, initToken } from '../modules/auth';
-import SingleRunning from '../components/SingleRun/SingleRunning';
-import ReadySingleRun from '../components/SingleRun/ReadySingleRun';
+import ReadySingleRun from '../components/singleRun/ReadySingleRun';
 import MoyeoRunRoom from '../components/MoyeoRunRoom/MoyeoRunRoom';
+import SingleRunning from '../components/singleRun/SingleRunning';
+import useColorScheme from '../lib/hooks/useColorScheme';
+import MissionTabContainer from '../containers/MissionTabContainer';
 import UploadProfileContainer from '../containers/UploadProfileContainer';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation({
+  navigationRef,
+}: {
+  navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
+}) {
   return (
     <NavigationContainer
+      ref={navigationRef}
       linking={LinkingConfiguration}
       theme={{ ...DefaultTheme, dark: false }}
-      // theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
       <RootNavigator />
     </NavigationContainer>
   );
 }
 
+//Root Stack Navigator 정의
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
-
-  const manageToken = async () => {
-    if (refreshToken) {
-      if (accessToken) {
-        if (
-          new Date(accessToken.expiresIn) < new Date() &&
-          new Date(refreshToken.expiresIn) > new Date()
-        ) {
-          await dispatch(getAccessToken(refreshToken.token));
-        }
-        if (new Date(refreshToken.expiresIn) < new Date()) {
-          dispatch(initToken());
-          return;
-        }
-        console.log('@@@@@@ token exists, set Authorization');
-        console.log(accessToken, refreshToken);
-        setAuthorizeToken(accessToken.token);
-        SecureStore.setItemAsync('accessToken', JSON.stringify(accessToken));
-        SecureStore.setItemAsync('refreshToken', JSON.stringify(refreshToken));
-      } else {
-        try {
-          console.log('@@@@@@ Access token remove perceive, try refresh');
-          await dispatch(getAccessToken(refreshToken.token));
-        } catch {
-          console.log('@@@@@@ Access token refresh failed');
-          navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
-        }
-      }
-    } else {
-      console.log('@@@@@@ refresh token not found');
-      navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
-    }
-  };
-
-  React.useEffect(() => {
-    manageToken();
-  }, [accessToken, refreshToken]);
-
   return (
-    <Stack.Navigator initialRouteName="Root">
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+    // 기본 탭을 Login으로 함으로써 토큰의 존재 여부를 먼저 검사합니다.
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen
+        name="BottomTab"
+        component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
       <Stack.Screen name="MyPage" component={MyPageContainer} options={{ title: '내정보' }} />
       <Stack.Screen
@@ -130,7 +92,8 @@ function RootNavigator() {
   );
 }
 
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
+//Bottom Tab 정의
+const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();

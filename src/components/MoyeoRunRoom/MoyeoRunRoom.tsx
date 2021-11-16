@@ -139,7 +139,7 @@ const MoyeoRunRoom = ({}: MoyeoRunRoomProps) => {
   }, [roomName, discription, startTime, distance, timeLimit]);
 
   const onSubmit = () => {
-    navigation.dispatch(StackActions.replace('Root'));
+    navigation.dispatch(StackActions.replace('BottomTab'));
   };
 
   return (

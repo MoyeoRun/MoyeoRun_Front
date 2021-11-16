@@ -6,7 +6,6 @@ import {
 } from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import SingleRunMap from '../components/SingleRun/SingleRunMap';
 import { RootState } from '../modules';
 import {
   addNewSection,
@@ -16,10 +15,11 @@ import {
   updateRunData,
 } from '../modules/singleRun';
 import { Stopwatch } from 'ts-stopwatch';
-import useInterval from '../lib/util/useInterval';
+import useInterval from '../lib/hooks/useInterval';
 import { getDistance } from '../lib/util/calcRunData';
 import { speak } from 'expo-speech';
 import { getDistanceString, getPaceString } from '../lib/util/strFormat';
+import SingleRunMap from '../components/singleRun/SingleRunMap';
 
 let watchLocation: { remove: () => void };
 let stopWatch = new Stopwatch();
@@ -70,7 +70,7 @@ const SingleRunMapContainer = () => {
     );
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Root', state: { routes: [{ name: 'Record' }] } }],
+      routes: [{ name: 'BottomTab', state: { routes: [{ name: 'Record' }] } }],
     });
   };
 
