@@ -16,7 +16,7 @@ import {
   updateRunData,
 } from '../../modules/singleRun';
 import { Stopwatch } from 'ts-stopwatch';
-import useInterval from '../../lib/util/useInterval';
+import useInterval from '../../lib/hooks/useInterval';
 import { getDistance } from '../../lib/util/calcRunData';
 import { speak } from 'expo-speech';
 import { getDistanceString, getPaceString } from '../../lib/util/strFormat';
@@ -64,7 +64,7 @@ const SingleRunMapContainer = () => {
     );
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Root', state: { routes: [{ name: 'Record' }] } }],
+      routes: [{ name: 'BottomTab', state: { routes: [{ name: 'Record' }] } }],
     });
   };
 

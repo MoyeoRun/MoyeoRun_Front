@@ -18,7 +18,7 @@ const user: User = {
   image: '',
 };
 
-type Token = { token: string; expiresIn: Date };
+type Token = { token: string; expiresIn: string };
 
 //room
 type Room = {

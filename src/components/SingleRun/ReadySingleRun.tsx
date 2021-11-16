@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core';
 import { Box } from 'native-base';
 import React, { useRef } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
@@ -7,6 +8,7 @@ type ReadySingleRunProps = {};
 
 const ReadySingleRun = ({}: ReadySingleRunProps) => {
   const webview = useRef<any>();
+  const navigation = useNavigation();
 
   const sendProps = () => {
     webview.current.postMessage(JSON.stringify({ type: 'ReadySingleRun', value: {} }));
@@ -15,7 +17,15 @@ const ReadySingleRun = ({}: ReadySingleRunProps) => {
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
-      case 'logout': {
+      case 'startFreeRun': {
+        navigation.reset({ index: 0, routes: [{ name: 'SingleRun' }] });
+        return;
+      }
+      case 'goBack': {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'BottomTab', state: { routes: [{ name: 'Running' }] } }],
+        });
         return;
       }
     }

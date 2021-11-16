@@ -20,7 +20,7 @@ const Welcome = () => {
         h="60px"
         bg="#111111"
         onPress={() => {
-          navigation.navigate('Root');
+          navigation.navigate('BottomTab');
         }}
       >
         시작하기

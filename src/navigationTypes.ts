@@ -9,7 +9,7 @@ declare global {
 }
 
 export type RootStackParamList = {
-  Root: NavigatorScreenParams<RootTabParamList> | undefined;
+  BottomTab: NavigatorScreenParams<BottomTabParamList> | undefined;
   Login: undefined;
   MyPage: undefined;
   UploadProfile: undefined;
@@ -20,7 +20,7 @@ export type RootStackParamList = {
   CreateMultiRoom: undefined;
 };
 
-export type RootTabParamList = {
+export type BottomTabParamList = {
   Home: undefined;
   Record: undefined;
   Running: undefined;
@@ -28,7 +28,7 @@ export type RootTabParamList = {
   Friend: undefined;
 };
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<RootTabParamList, Screen>,
+export type RootTabScreenProps<Screen extends keyof BottomTabParamList> = CompositeScreenProps<
+  BottomTabScreenProps<BottomTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;

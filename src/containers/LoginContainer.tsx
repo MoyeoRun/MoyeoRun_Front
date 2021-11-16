@@ -1,33 +1,42 @@
 import { useNavigation } from '@react-navigation/core';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Login from '../components/Login';
 import { setAuthorizeToken } from '../lib/api/auth';
 import { RootState } from '../modules';
-import { kakaoOauth } from '../modules/auth';
+import { kakaoOauth, refreshAccessToken } from '../modules/auth';
 import { getUserData } from '../modules/user';
 
 const LoginContainer = () => {
-  const { accessToken } = useSelector((state: RootState) => state.auth);
+  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const refreshRef = useRef<any>();
 
   const onKakaoOauth = (accessToken: string) => {
     dispatch(kakaoOauth(accessToken));
   };
 
-  useEffect(() => {
-    if (accessToken) {
+  const setAuthentication = async () => {
+    if (accessToken && refreshToken) {
       setAuthorizeToken(accessToken.token);
-
-      dispatch(getUserData());
+      await dispatch(getUserData());
+      clearInterval(refreshRef.current);
+      const refreshInterval = setInterval(() => {
+        dispatch(refreshAccessToken(refreshToken.token));
+      }, 20 * 60 * 1000);
+      refreshRef.current = refreshInterval;
     }
-  }, [accessToken]);
+  };
+
+  useEffect(() => {
+    setAuthentication();
+  }, [accessToken, refreshToken]);
 
   useEffect(() => {
     if (user) {
-      if (user.weight) navigation.reset({ index: 0, routes: [{ name: 'Root' }] });
+      if (user.weight) navigation.reset({ index: 0, routes: [{ name: 'BottomTab' }] });
       else navigation.reset({ index: 0, routes: [{ name: 'UploadProfile' }] });
     }
   }, [user]);
