@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import SingleRunPace from '../components/singleRun/SingleRunPace';
-import { RootState } from '../modules';
-import { changeSingleRunState } from '../modules/singleRun';
+import SingleRunPace from '../../components/singleRun/SingleRunPace';
+import { RootState } from '../../modules';
+import { changeSingleRunState } from '../../modules/singleRun';
 
 const SingleRunPaceContainer = () => {
   const { isRunning, runStatus } = useSelector((state: RootState) => state.singleRun);

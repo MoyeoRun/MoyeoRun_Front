@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Login } from '../components/Login';
+import Login from '../components/Login';
 import { setAuthorizeToken } from '../lib/api/auth';
 import { RootState } from '../modules';
 import { kakaoOauth, refreshAccessToken } from '../modules/auth';

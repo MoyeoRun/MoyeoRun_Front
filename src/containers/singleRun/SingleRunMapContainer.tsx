@@ -6,33 +6,27 @@ import {
 } from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../modules';
+import SingleRunMap from '../../components/singleRun/SingleRunMap';
+import { RootState } from '../../modules';
 import {
   addNewSection,
   changeSingleRunState,
   finishSingleRun,
   initRunData,
   updateRunData,
-} from '../modules/singleRun';
+} from '../../modules/singleRun';
 import { Stopwatch } from 'ts-stopwatch';
-import useInterval from '../lib/hooks/useInterval';
-import { getDistance } from '../lib/util/calcRunData';
+import useInterval from '../../lib/hooks/useInterval';
+import { getDistance } from '../../lib/util/calcRunData';
 import { speak } from 'expo-speech';
-import { getDistanceString, getPaceString } from '../lib/util/strFormat';
-import SingleRunMap from '../components/singleRun/SingleRunMap';
+import { getDistanceString, getPaceString } from '../../lib/util/strFormat';
 
 let watchLocation: { remove: () => void };
 let stopWatch = new Stopwatch();
 let distanceInterval: number = 0.5;
 
 const SingleRunMapContainer = () => {
-  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
-  const [currentPoint, setCurrentPoint] = useState<{
-    latitude: number;
-    longitude: number;
-    currentAltitude: number;
-    currentTime: number;
-  } | null>(null);
+  const [currentPoint, setCurrentPoint] = useState<Point | null>(null);
   const { isRunning, section, runStatus, runData, startDate } = useSelector(
     (state: RootState) => state.singleRun,
   );
@@ -156,6 +150,8 @@ const SingleRunMapContainer = () => {
               longitude,
               currentAltitude: altitude,
               currentTime: stopWatch.getTime(),
+              currentDistance: 0,
+              currentPace: 0,
             });
         },
       );

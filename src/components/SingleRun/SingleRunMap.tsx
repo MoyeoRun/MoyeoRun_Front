@@ -8,16 +8,8 @@ import CustomWebview from '../common/CustomWebview';
 type SingleRunMapProps = {
   isRunning: boolean;
   section: number;
-  runStatus: { time: number; distance: number; pace: number };
-  runData: Array<
-    Array<{
-      latitude: number;
-      longitude: number;
-      currentTime: number;
-      currentDistance: number;
-      currentPace: number;
-    }>
-  >;
+  runStatus: RunStatus;
+  runData: Array<RunData>;
   onStartRunning: () => void;
   onStopRunning: () => void;
   onFinishRunning: () => void;

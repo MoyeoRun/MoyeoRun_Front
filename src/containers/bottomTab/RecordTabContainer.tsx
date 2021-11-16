@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import RecordTab from '../components/BottomTab/RecordTab';
-import { RootState } from '../modules';
-import { getRunHistoryByWeek } from '../modules/record';
+import RecordTab from '../../components/bottomTab/RecordTab';
+import { RootState } from '../../modules';
+import { getRunHistoryByWeek } from '../../modules/record';
 
 const today = new Date();
 today.setDate(today.getDate() - (today.getDate() % 7));

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import RunningTab from '../components/bottomTab/RunningTab';
-import { RootState } from '../modules';
+import RunningTab from '../../components/bottomTab/RunningTab';
+import { RootState } from '../../modules';
 
 const RunningTabContainer = () => {
   const [runList, setRunList] = useState<object>();

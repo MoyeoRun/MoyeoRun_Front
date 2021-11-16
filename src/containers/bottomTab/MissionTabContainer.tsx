@@ -1,5 +1,5 @@
 import React from 'react';
-import MissionTab from '../components/BottomTab/MissionTab';
+import MissionTab from '../../components/bottomTab/MissionTab';
 
 const MissionTabContainer = () => {
   return <MissionTab />;
