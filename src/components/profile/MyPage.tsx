@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/core';
 import { Box } from 'native-base';
 import React, { useRef } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
-import CustomWebview from './common/CustomWebview';
+import CustomWebview from '../common/CustomWebview';
 
 type MyPageProps = {
   user: User | null;

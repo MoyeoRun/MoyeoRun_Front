@@ -10,16 +10,17 @@ import colors from '../lib/styles/colors';
 import { RootStackParamList, BottomTabParamList, RootTabScreenProps } from '../navigationTypes';
 import * as Icon from '../assets/svg';
 import LinkingConfiguration from './LinkingConfiguration';
-import MyPageContainer from '../containers/MyPageContainer';
-import LoginContainer from '../containers/LoginContainer';
 import NotFound from '../components/NotFound';
 import Welcome from '../components/Welcome';
 import SingleRunning from '../components/singleRun/SingleRunning';
 import ReadySingleRun from '../components/singleRun/ReadySingleRun';
 import useColorScheme from '../lib/hooks/useColorScheme';
-import UploadProfileContainer from '../containers/UploadProfileContainer';
-import CreateMultiRoomContainer from '../containers/multiRun/CreateMultiRoomContainer';
+
 import * as BottomTabContainer from '../containers/bottomTab';
+import UploadProfileContainer from '../containers/profile/UploadProfileContainer';
+import CreateMultiRoomContainer from '../containers/multiRun/CreateMultiRoomContainer';
+import MyPageContainer from '../containers/profile/MyPageContainer';
+import LoginContainer from '../containers/auth/LoginContainer';
 
 export default function Navigation({
   navigationRef,

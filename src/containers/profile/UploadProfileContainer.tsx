@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import UploadProfile from '../components/UploadProfile';
-import { RootState } from '../modules';
-import { getUserData, uploadProfile } from '../modules/user';
+import UploadProfile from '../../components/profile/UploadProfile';
+import { RootState } from '../../modules';
+import { getUserData, uploadProfile } from '../../modules/user';
 
 const UploadProfileContainer = () => {
   const { user } = useSelector((state: RootState) => state.user);
