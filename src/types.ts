@@ -3,6 +3,7 @@ type User = {
   id: number;
   name: string; //유저 실명
   email: string; //유저 이메일
+  token: string | null; //유저의 푸시알림 토큰
   nickName: string | null; //유저 닉네임
   weight: number | null; //유저 몸무게
   height: number | null; //유저 키
@@ -13,6 +14,7 @@ const user: User = {
   name: '황인서',
   nickName: 'sjsjsj1246',
   email: 'test@gmail.com',
+  token: null,
   weight: 50,
   height: 190,
   image: '',
@@ -252,4 +254,11 @@ const recordList: RunHistory = {
       ],
     },
   ],
+};
+
+type NotificationContent = {
+  title: string | null;
+  body: string | null;
+  data: object | null;
+  token: string;
 };

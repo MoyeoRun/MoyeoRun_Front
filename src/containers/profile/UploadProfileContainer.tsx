@@ -11,7 +11,7 @@ const UploadProfileContainer = () => {
   const dispatch = useDispatch();
 
   const onUploadProfile = async ({ nickName, weight, height }: Partial<User>) => {
-    dispatch(uploadProfile({ nickName, weight, height }));
+    // dispatch(uploadProfile({ nickName, weight, height }));
     navigation.reset({ index: 0, routes: [{ name: 'Welcome' }] });
   };
 
