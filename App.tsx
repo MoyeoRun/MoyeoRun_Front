@@ -9,6 +9,14 @@ import { Provider } from 'react-redux';
 import store from './src/store';
 import TokenProvider from './src/hooks/TokenProvider';
 import Notification from './src/Notification';
+import * as Sentry from 'sentry-expo';
+import config from './src/config';
+
+Sentry.init({
+  dsn: config.sentry_dsn,
+  enableInExpoDevelopment: true,
+  debug: __DEV__ ? false : true,
+});
 
 const App = () => {
   const { isLoadingComplete, accessToken, refreshToken } = useCachedResources();
