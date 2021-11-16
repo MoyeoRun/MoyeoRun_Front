@@ -1,29 +1,14 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-<<<<<<< HEAD
-import { NavigationContainer, DefaultTheme, useNavigation, NavigationContainerRefWithCurrent } from '@react-navigation/native';
-=======
 import {
   NavigationContainer,
   DefaultTheme,
   NavigationContainerRefWithCurrent,
 } from '@react-navigation/native';
->>>>>>> develop
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import colors from '../lib/styles/colors';
 import { RootStackParamList, BottomTabParamList, RootTabScreenProps } from '../navigationTypes';
-import {
-  FriendIcon,
-  HomeIcon,
-  HomeFillIcon,
-  MissionIcon,
-  RecordIcon,
-  RunningIcon,
-  RecordFillIcon,
-  RunningFillIcon,
-  MissionFillIcon,
-  FriendFillIcon,
-} from '../assets/svg';
+import * as Icon from '../assets/svg';
 import LinkingConfiguration from './LinkingConfiguration';
 import MyPageContainer from '../containers/MyPageContainer';
 import LoginContainer from '../containers/LoginContainer';
@@ -31,17 +16,10 @@ import NotFound from '../components/NotFound';
 import Welcome from '../components/Welcome';
 import SingleRunning from '../components/singleRun/SingleRunning';
 import ReadySingleRun from '../components/singleRun/ReadySingleRun';
-import MoyeoRunRoom from '../components/MoyeoRunRoom/MoyeoRunRoom';
 import useColorScheme from '../lib/hooks/useColorScheme';
 import UploadProfileContainer from '../containers/UploadProfileContainer';
 import CreateMultiRoomContainer from '../containers/multiRun/CreateMultiRoomContainer';
-import {
-  FriendTabContainer,
-  HomeTabContainer,
-  MissionTabContainer,
-  RecordTabContainer,
-  RunningTabContainer,
-} from '../containers/bottomTab';
+import * as BottomTabContainer from '../containers/bottomTab';
 
 export default function Navigation({
   navigationRef,
@@ -49,7 +27,11 @@ export default function Navigation({
   navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
 }) {
   return (
-    <NavigationContainer linking={LinkingConfiguration} theme={{ ...DefaultTheme, dark: false }}>
+    <NavigationContainer
+      ref={navigationRef}
+      linking={LinkingConfiguration}
+      theme={{ ...DefaultTheme, dark: false }}
+    >
       <RootNavigator />
     </NavigationContainer>
   );
@@ -120,47 +102,47 @@ function BottomTabNavigator() {
     >
       <BottomTab.Screen
         name="Home"
-        component={HomeTabContainer}
+        component={BottomTabContainer.HomeTabContainer}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: '홈',
           tabBarIcon: ({ color, focused }) =>
-            focused ? <HomeFillIcon color={color} /> : <HomeIcon color={color} />,
+            focused ? <Icon.HomeFillIcon color={color} /> : <Icon.HomeIcon color={color} />,
         })}
       />
       <BottomTab.Screen
         name="Record"
-        component={RecordTabContainer}
+        component={BottomTabContainer.RecordTabContainer}
         options={{
           title: '기록',
           tabBarIcon: ({ color, focused }) =>
-            focused ? <RecordFillIcon color={color} /> : <RecordIcon color={color} />,
+            focused ? <Icon.RecordFillIcon color={color} /> : <Icon.RecordIcon color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Running"
-        component={RunningTabContainer}
+        component={BottomTabContainer.RunningTabContainer}
         options={{
           title: '러닝',
           tabBarIcon: ({ color, focused }) =>
-            focused ? <RunningFillIcon color={color} /> : <RunningIcon color={color} />,
+            focused ? <Icon.RunningFillIcon color={color} /> : <Icon.RunningIcon color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Mission"
-        component={MissionTabContainer}
+        component={BottomTabContainer.MissionTabContainer}
         options={{
           title: '미션',
           tabBarIcon: ({ color, focused }) =>
-            focused ? <MissionFillIcon color={color} /> : <MissionIcon color={color} />,
+            focused ? <Icon.MissionFillIcon color={color} /> : <Icon.MissionIcon color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Friend"
-        component={FriendTabContainer}
+        component={BottomTabContainer.FriendTabContainer}
         options={{
           title: '친구',
           tabBarIcon: ({ color, focused }) =>
-            focused ? <FriendFillIcon color={color} /> : <FriendIcon color={color} />,
+            focused ? <Icon.FriendFillIcon color={color} /> : <Icon.FriendIcon color={color} />,
         }}
       />
     </BottomTab.Navigator>

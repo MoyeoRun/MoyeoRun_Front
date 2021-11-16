@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Box, ScrollView } from 'native-base';
 import { useWindowDimensions, Animated } from 'react-native';
 import SingleRunPaceContainer from '../../containers/singleRun/SingleRunPaceContainer';
-import SingleRunMapContainer from '../../containers/SingleRunMapContainer';
+import SingleRunMapContainer from '../../containers/singleRun/SingleRunMapContainer';
 
 const SingleRunning = () => {
   const { width: windowWidth } = useWindowDimensions();
