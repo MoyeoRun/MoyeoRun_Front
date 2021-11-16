@@ -2,6 +2,7 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { useState, useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
+import { setNotificationToken } from '../../modules/auth';
 import store from '../../store';
 
 Notifications.setNotificationHandler({
@@ -17,9 +18,13 @@ export default function useNotification() {
   const [notification, setNotification] = useState<any>(false);
   const notificationListener = useRef<any>();
   const responseListener = useRef<any>();
+  console.log('@@@@@@@@@@@@@@@@@@@@@@@@노티');
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
+    registerForPushNotificationsAsync().then((token) => {
+      setExpoPushToken(token);
+      if (token) store.dispatch(setNotificationToken(token));
+    });
 
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {

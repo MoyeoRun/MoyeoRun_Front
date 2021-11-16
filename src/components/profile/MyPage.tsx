@@ -27,7 +27,7 @@ const MyPage = ({ user }: MyPageProps) => {
 
   return (
     <Box>
-      <CustomWebview path="MyPage" parentRef={webview} onLoad={sendProps} onMessage={handleEvent} />
+      <CustomWebview path="myPage" parentRef={webview} onLoad={sendProps} onMessage={handleEvent} />
     </Box>
   );
 };

@@ -10,7 +10,7 @@ export const getUserData = async () => {
   return data;
 };
 
-export const checkNickname = async (nickName: string) => {
+export const checkNickName = async (nickName: string) => {
   const { data } = await axios.get<{ isUnique: boolean; nickName: string }>(
     `http://45.248.73.50:30007/user/${nickName}`,
   );

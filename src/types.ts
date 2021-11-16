@@ -262,3 +262,21 @@ type NotificationContent = {
   data: object | null;
   token: string;
 };
+
+type WebviewPath =
+  | 'homeTab'
+  | 'recordTab'
+  | 'runningTab'
+  | 'missionTab'
+  | 'friendTab'
+  | 'recordAnalysis'
+  | 'recordDetail'
+  | 'readySingleRun'
+  | 'singleRunOnlyMap'
+  | 'makeRoom'
+  | 'room'
+  | 'bodyInfo'
+  | 'uploadProfile'
+  | 'uploadBodyInfo'
+  | 'uploadNickName'
+  | 'myPage';

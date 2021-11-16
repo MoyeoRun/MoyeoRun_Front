@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MyPage from '../../components/profile/MyPage';
 import { RootState } from '../../modules';
+import { uploadImage } from '../../modules/image';
 import { getUserData } from '../../modules/user';
 
 const MyPageContainer = () => {
