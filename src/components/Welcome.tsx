@@ -1,8 +1,11 @@
+import { useNavigation } from '@react-navigation/core';
 import { Button, Center, Text } from 'native-base';
 import React from 'react';
 import WelcomeIcon from '../assets/svg/WelcomeIcon';
 
 const Welcome = () => {
+  const navigation = useNavigation();
+
   return (
     <Center flex={1} bg="#1162FF">
       <WelcomeIcon />
@@ -16,6 +19,9 @@ const Welcome = () => {
         mt="120px"
         h="60px"
         bg="#111111"
+        onPress={() => {
+          navigation.navigate('BottomTab');
+        }}
       >
         시작하기
       </Button>

@@ -12,7 +12,7 @@ export type RootStackParamList = {
   BottomTab: NavigatorScreenParams<BottomTabParamList> | undefined;
   Login: undefined;
   MyPage: undefined;
-  BodyInfo: undefined;
+  UploadProfile: undefined;
   ReadySingleRun: undefined;
   SingleRun: undefined;
   Welcome: undefined;

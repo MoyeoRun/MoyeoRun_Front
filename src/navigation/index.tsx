@@ -25,7 +25,6 @@ import RecordTabContainer from '../containers/RecordTabContainer';
 import HomeTabContainer from '../containers/HomeTabContainer';
 import RunningTabContainer from '../containers/RunningTabContainer';
 import FriendTabContainer from '../containers/FriendTabContainer';
-import BodyInfoContainer from '../containers/BodyInfoContainer';
 import MyPageContainer from '../containers/MyPageContainer';
 import LoginContainer from '../containers/LoginContainer';
 import NotFound from '../components/NotFound';
@@ -35,6 +34,7 @@ import MoyeoRunRoom from '../components/MoyeoRunRoom/MoyeoRunRoom';
 import SingleRunning from '../components/singleRun/SingleRunning';
 import useColorScheme from '../lib/hooks/useColorScheme';
 import MissionTabContainer from '../containers/MissionTabContainer';
+import UploadProfileContainer from '../containers/UploadProfileContainer';
 
 export default function Navigation({
   navigationRef,
@@ -67,8 +67,8 @@ function RootNavigator() {
       <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
       <Stack.Screen name="MyPage" component={MyPageContainer} options={{ title: '내정보' }} />
       <Stack.Screen
-        name="BodyInfo"
-        component={BodyInfoContainer}
+        name="UploadProfile"
+        component={UploadProfileContainer}
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />

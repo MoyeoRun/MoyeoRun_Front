@@ -72,9 +72,8 @@ const TextLengthCheck = ({ value }: { value: string }) => {
   );
 };
 
-type BodyInfoProps = {
-  onUploadBodyInfo: (weight: number, height: number) => void;
-};
+type MoyeoRunRoomProps = {};
+
 type InitState = {
   initValue: Array<digitValue>;
   digit: Array<digit>;
@@ -116,7 +115,7 @@ const InitTimeLimit = {
   ],
 };
 
-const MoyeoRunRoom = ({ onUploadBodyInfo }: BodyInfoProps) => {
+const MoyeoRunRoom = ({}: MoyeoRunRoomProps) => {
   const navigation = useNavigation();
   const [roomName, setRoomName] = useState<string>('');
   const [discription, setDiscription] = useState<string>('');

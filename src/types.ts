@@ -1,15 +1,17 @@
 //user
 type User = {
   id: number;
-  name: string;
-  email: string;
-  weight: number | null;
-  height: number | null;
-  image: string | null;
+  name: string; //유저 실명
+  email: string; //유저 이메일
+  nickName: string | null; //유저 닉네임
+  weight: number | null; //유저 몸무게
+  height: number | null; //유저 키
+  image: string | null; // 유저 프로필 사진
 };
 const user: User = {
   id: 1,
   name: '황인서',
+  nickName: 'sjsjsj1246',
   email: 'test@gmail.com',
   weight: 50,
   height: 190,
@@ -203,7 +205,7 @@ type RunStatistics = Array<{
   averagePaceOfTerm: number;
 }>;
 
-type RecordList = {
+type RunHistory = {
   totalTime: number;
   totalDistance: number;
   totalAveragePace: number;
@@ -211,7 +213,7 @@ type RecordList = {
   runningList: Array<RunRecord>;
 };
 
-const recordList: RecordList = {
+const recordList: RunHistory = {
   totalTime: 928616,
   totalDistance: 444.854192,
   totalAveragePace: 6.231213545312,

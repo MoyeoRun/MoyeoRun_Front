@@ -12,6 +12,14 @@ import Navigation from './src/navigation';
 import { useNavigationContainerRef } from '@react-navigation/core';
 import useNotification from './src/lib/hooks/useNotification';
 import TokenManager from './src/TokenManager';
+import * as Sentry from 'sentry-expo';
+import config from './src/config';
+
+Sentry.init({
+  dsn: config.sentry_dsn,
+  enableInExpoDevelopment: true,
+  debug: __DEV__ ? false : true,
+});
 
 const App = () => {
   const { isLoadingComplete, accessToken, refreshToken } = useCachedResources();
