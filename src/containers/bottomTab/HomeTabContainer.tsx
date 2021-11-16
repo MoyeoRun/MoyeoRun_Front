@@ -89,20 +89,13 @@ const HomeTabContainer = () => {
 
   const dispatch = useDispatch();
 
-  const onLogout = async () => {
-    dispatch(logout());
-    setItemAsync('accessToken', '');
-    setItemAsync('refreshToken', '');
-  };
-
   useEffect(() => {
-    dispatch(getUserData);
+    dispatch(getUserData());
   }, [dispatch]);
 
   if (!user) return null;
   return (
     <HomeTab
-      onLogout={onLogout}
       runList={runList}
       missionList={missionList}
       lastRecordList={lastRecordList}

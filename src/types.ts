@@ -73,7 +73,7 @@ type Point = {
   currentAltitude: number; //현재 위치의 고도
   currentTime: number; //누적 시간
   currentDistance: number; //누적 거리
-  currentPace: number; //순간 페이스
+  momentPace: number; //순간 페이스
 };
 
 type RunData = Array<Point>;
@@ -84,7 +84,7 @@ const runData: RunData = [
     currentAltitude: 30,
     currentTime: 1234567,
     currentDistance: 3.23,
-    currentPace: 6.12,
+    momentPace: 6.12,
   },
 ];
 
@@ -106,7 +106,7 @@ const othersRunDataP: OthersRunData = [
         currentAltitude: 30,
         currentTime: 1234567,
         currentDistance: 3.23,
-        currentPace: 6.12,
+        momentPace: 6.12,
       },
     ],
   },
@@ -119,7 +119,7 @@ const othersRunDataP: OthersRunData = [
         currentAltitude: 28,
         currentTime: 1234657,
         currentDistance: 3.12,
-        currentPace: 6.01,
+        momentPace: 6.01,
       },
     ],
   },
@@ -153,7 +153,7 @@ const singleRunRecord: RunRecord = {
         latitude: 37.52818511648284,
         longitude: 127.07127183483387,
         currentDistance: 0,
-        currentPace: 0,
+        momentPace: 0,
         currentTime: 0,
         currentAltitude: 0,
       },
@@ -163,7 +163,7 @@ const singleRunRecord: RunRecord = {
         latitude: 37.52818511648284,
         longitude: 127.07127183483387,
         currentDistance: 0,
-        currentPace: 0,
+        momentPace: 0,
         currentTime: 0,
         currentAltitude: 0,
       },
@@ -184,7 +184,7 @@ const multiRunRecord: RunRecord = {
       latitude: 37.52818511648284,
       longitude: 127.07127183483387,
       currentDistance: 0,
-      currentPace: 0,
+      momentPace: 0,
       currentTime: 0,
       currentAltitude: 0,
     },
@@ -192,7 +192,7 @@ const multiRunRecord: RunRecord = {
       latitude: 37.52818511648284,
       longitude: 127.07127183483387,
       currentDistance: 0,
-      currentPace: 0,
+      momentPace: 0,
       currentTime: 0,
       currentAltitude: 0,
     },
@@ -246,7 +246,7 @@ const recordList: RunHistory = {
             latitude: 37.52818511648284,
             longitude: 127.07127183483387,
             currentDistance: 0,
-            currentPace: 0,
+            momentPace: 0,
             currentTime: 0,
             currentAltitude: 0,
           },

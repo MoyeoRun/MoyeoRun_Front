@@ -9,14 +9,14 @@ import { checkNickName, getUserData, setState, uploadProfile } from '../../modul
 
 const UploadProfileContainer = () => {
   const { user, isUniqueNickName } = useSelector((state: RootState) => state.user);
-  const { image } = useSelector((state: RootState) => state.image);
-  const { notificationToken } = useSelector((state: RootState) => state.auth);
+  const { accessToken, notificationToken } = useSelector((state: RootState) => state.auth);
   const [weight, setWeight] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
   const [nickName, setNickName] = useState<string>('');
   const [step, setStep] = useState<'uploadProfile' | 'uploadBodyInfo' | 'uploadNickName'>(
     'uploadBodyInfo',
   );
+  const [image, setImage] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -43,18 +43,25 @@ const UploadProfileContainer = () => {
     await dispatch(checkNickName(nickName));
   };
 
-  const onUploadProfileImage = (image: FormData) => {
-    dispatch(uploadImage(image));
+  const onUploadProfileImage = (location: string) => {
+    dispatch(setImage(location));
   };
 
   useEffect(() => {
     dispatch(getUserData());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (!accessToken) {
+      alert('세션이 만료되었습니다.');
+      navigation.navigate('Login');
+    }
+  }, [accessToken]);
+
   return (
     <UploadProfile
       user={user}
-      image={image}
+      accessToken={accessToken}
       isUniqueNickName={isUniqueNickName}
       step={step}
       weight={weight}

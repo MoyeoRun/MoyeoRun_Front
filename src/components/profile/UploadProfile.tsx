@@ -5,7 +5,7 @@ import CustomWebview from '../common/CustomWebview';
 
 type UploadProfileProps = {
   user: User | null;
-  image: string | null;
+  accessToken: Token | null;
   isUniqueNickName: boolean;
   step: 'uploadProfile' | 'uploadBodyInfo' | 'uploadNickName';
   weight: number;
@@ -17,12 +17,12 @@ type UploadProfileProps = {
   onChangeNickName: (data: string) => void;
   onNickNameCheck: (data: string) => void;
   onUploadProfile: () => void;
-  onUploadProfileImage: (image: FormData) => void;
+  onUploadProfileImage: (location: string) => void;
 };
 
 const UploadProfile = ({
   step,
-  image,
+  accessToken,
   user,
   isUniqueNickName,
   weight,
@@ -44,8 +44,16 @@ const UploadProfile = ({
         webview.current.postMessage(
           JSON.stringify({
             type: 'uploadProfile',
-            value: { user, weight, height, nickName, image },
+            value: { user, weight, height, nickName, accessToken },
           }),
+          console.log(
+            JSON.parse(
+              JSON.stringify({
+                type: 'uploadProfile',
+                value: { user, weight, height, nickName, accessToken },
+              }),
+            ),
+          ),
         );
         break;
       case 'uploadBodyInfo':
@@ -64,6 +72,7 @@ const UploadProfile = ({
 
   const handleEvent = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
+    console.log(data);
     switch (data.type) {
       case 'uploadProfile':
         onUploadProfile();
@@ -96,7 +105,7 @@ const UploadProfile = ({
 
   useEffect(() => {
     sendProps();
-  }, [step, user, weight, height, nickName, isUniqueNickName, image]);
+  }, [step, user, weight, height, nickName, isUniqueNickName, accessToken]);
 
   return (
     <Box flex={1}>

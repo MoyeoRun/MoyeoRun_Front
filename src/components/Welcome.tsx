@@ -20,7 +20,10 @@ const Welcome = () => {
         h="60px"
         bg="#111111"
         onPress={() => {
-          navigation.navigate('BottomTab');
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'BottomTab', state: { routes: [{ name: 'Home' }] } }],
+          });
         }}
       >
         시작하기
