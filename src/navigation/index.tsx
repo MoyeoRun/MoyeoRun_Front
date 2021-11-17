@@ -88,6 +88,7 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       backBehavior="history"
+      detachInactiveScreens={true}
       safeAreaInsets={{ bottom: 0 }}
       screenOptions={{
         headerShown: false,
@@ -107,7 +108,7 @@ function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: '홈',
           tabBarIcon: ({ color, focused }) =>
-            focused ? <Icon.HomeFillIcon color={color} /> : <Icon.HomeIcon color={color} />,
+            focused ? <Icon.HomeFillIcon color={'#1162FF'} /> : <Icon.HomeIcon color={color} />,
         })}
       />
       <BottomTab.Screen
@@ -116,7 +117,7 @@ function BottomTabNavigator() {
         options={{
           title: '기록',
           tabBarIcon: ({ color, focused }) =>
-            focused ? <Icon.RecordFillIcon color={color} /> : <Icon.RecordIcon color={color} />,
+            focused ? <Icon.RecordFillIcon color={'#1162FF'} /> : <Icon.RecordIcon color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -125,7 +126,11 @@ function BottomTabNavigator() {
         options={{
           title: '러닝',
           tabBarIcon: ({ color, focused }) =>
-            focused ? <Icon.RunningFillIcon color={color} /> : <Icon.RunningIcon color={color} />,
+            focused ? (
+              <Icon.RunningFillIcon color={'#1162FF'} />
+            ) : (
+              <Icon.RunningIcon color={color} />
+            ),
         }}
       />
       <BottomTab.Screen
@@ -134,7 +139,11 @@ function BottomTabNavigator() {
         options={{
           title: '미션',
           tabBarIcon: ({ color, focused }) =>
-            focused ? <Icon.MissionFillIcon color={color} /> : <Icon.MissionIcon color={color} />,
+            focused ? (
+              <Icon.MissionFillIcon color={'#1162FF'} />
+            ) : (
+              <Icon.MissionIcon color={color} />
+            ),
         }}
       />
       <BottomTab.Screen
@@ -143,7 +152,7 @@ function BottomTabNavigator() {
         options={{
           title: '친구',
           tabBarIcon: ({ color, focused }) =>
-            focused ? <Icon.FriendFillIcon color={color} /> : <Icon.FriendIcon color={color} />,
+            focused ? <Icon.FriendFillIcon color={'#1162FF'} /> : <Icon.FriendIcon color={color} />,
         }}
       />
     </BottomTab.Navigator>

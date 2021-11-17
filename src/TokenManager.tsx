@@ -1,7 +1,7 @@
-import React, { createElement } from 'react';
+import React from 'react';
 import * as SecureStore from 'expo-secure-store';
 import store from './store';
-import { refreshAccessToken, initToken } from './modules/auth';
+import { refreshAccessToken } from './modules/auth';
 import { setAuthorizeToken } from './lib/api/auth';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/core';
 

@@ -75,8 +75,8 @@ const SingleRunMapContainer = () => {
     const lastPoint =
       currentRunData.length === 0 ? null : currentRunData[currentRunData.length - 1];
     let currentDistance = runStatus.distance;
-    let currentPace =
-      section > 0 ? runData[section - 1][runData[section - 1].length - 1].currentPace : 0;
+    let momentPace =
+      section > 0 ? runData[section - 1][runData[section - 1].length - 1].momentPace : 0;
 
     if (lastPoint) {
       if (currentPoint.currentTime - lastPoint.currentTime < 1000) return;
@@ -86,7 +86,7 @@ const SingleRunMapContainer = () => {
         currentPoint.latitude,
         currentPoint.longitude,
       );
-      currentPace =
+      momentPace =
         currentDistance === 0
           ? 0
           : (currentPoint.currentTime - lastPoint.currentTime) / 60000 / currentDistance;
@@ -98,7 +98,7 @@ const SingleRunMapContainer = () => {
       currentRunData,
       lastPoint,
       currentDistance,
-      currentPace,
+      momentPace,
       currentTime: currentPoint.currentTime,
     });
 
@@ -118,7 +118,7 @@ const SingleRunMapContainer = () => {
         currentAltitude: currentPoint.currentAltitude,
         currentTime: currentPoint.currentTime,
         currentDistance: runStatus.distance + currentDistance,
-        currentPace,
+        momentPace,
       }),
     );
     dispatch(
@@ -151,7 +151,7 @@ const SingleRunMapContainer = () => {
               currentAltitude: altitude,
               currentTime: stopWatch.getTime(),
               currentDistance: 0,
-              currentPace: 0,
+              momentPace: 0,
             });
         },
       );
@@ -174,7 +174,7 @@ const SingleRunMapContainer = () => {
     () => {
       dispatch(changeSingleRunState('runStatus', { ...runStatus, time: stopWatch.getTime() }));
     },
-    isRunning ? 300 : null,
+    isRunning ? 500 : null,
   );
 
   useEffect(() => {
