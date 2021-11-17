@@ -33,7 +33,12 @@ const ReadySingleRun = ({}: ReadySingleRunProps) => {
 
   return (
     <Box flex={1}>
-      <CustomWebview parentRef={webview} path="home" onLoad={sendProps} onMessage={handleEvent} />;
+      <CustomWebview
+        parentRef={webview}
+        path="readySingleRun"
+        onLoad={sendProps}
+        onMessage={handleEvent}
+      />
     </Box>
   );
 };

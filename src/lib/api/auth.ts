@@ -1,40 +1,40 @@
 import axios from 'axios';
 
 export const kakaoOauth = async (accessToken: string) => {
-  const response = await axios.post<Token>('http://45.248.73.50:30007/oauth/kakao', {
+  const { data } = await axios.post<Token>('http://45.248.73.50:30007/oauth/kakao', {
     accessToken,
   });
-  return response.data;
+  return data;
 };
 
 export const naverOauth = async (accessToken: string) => {
-  const response = await axios.post<Token>('http://45.248.73.50:30007/oauth/naver', {
+  const { data } = await axios.post<Token>('http://45.248.73.50:30007/oauth/naver', {
     accessToken,
   });
-  return response.data;
+  return data;
 };
 
 export const googleOauth = async (accessToken: string) => {
-  const response = await axios.post<Token>('http://45.248.73.50:30007/oauth/google', {
+  const { data } = await axios.post<Token>('http://45.248.73.50:30007/oauth/google', {
     accessToken,
   });
-  return response.data;
+  return data;
 };
 
 export const refreshAccessToken = async (refreshToken: string) => {
-  const response = await axios({
+  const { data } = await axios({
     url: 'http://45.248.73.50:30007/auth/refresh',
     method: 'post',
     headers: {
       Authorization: 'Bearer ' + refreshToken,
     },
   });
-  return response.data;
+  return data;
 };
 
 export const logout = async () => {
-  const response = await axios.post('http://45.248.73.50:30007/auth/logout');
-  return response.data;
+  const { data } = await axios.post('http://45.248.73.50:30007/auth/logout');
+  return data;
 };
 
 export const setAuthorizeToken = (token: string) => {

@@ -1,10 +1,10 @@
 import { createAction, handleActions } from 'redux-actions';
 import { pender } from 'redux-pender';
-import * as roomAPI from '../lib/api/room';
+import * as runAPI from '../lib/api/run';
 
-const GET_ROOM_LIST = 'room/GET_ROOM_LIST';
+const END_MULTI_RUN = 'multiRun/END_MULTI_RUN';
 
-export const getRoomList = createAction(GET_ROOM_LIST, roomAPI.getRoomList);
+export const endMultiRun = createAction(END_MULTI_RUN, runAPI.endMultiRun);
 
 type MultiRun = {
   isRunning: boolean;
@@ -27,12 +27,7 @@ const initialState: MultiRun = {
 export default handleActions<MultiRun, any>(
   {
     ...pender({
-      type: GET_ROOM_LIST,
-      onSuccess: (state, { payload }) => ({
-        ...state,
-        roomList: payload.roomList,
-        participantRoom: payload.participantRoom,
-      }),
+      type: END_MULTI_RUN,
     }),
   },
   initialState,

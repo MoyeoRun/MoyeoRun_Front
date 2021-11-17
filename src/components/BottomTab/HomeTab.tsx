@@ -8,10 +8,9 @@ type HomeTabProps = {
   missionList: Array<object>;
   lastRecordList: Array<object>;
   user: any;
-  onLogout: () => void;
 };
 
-const HomeTab = ({ onLogout, runList, missionList, lastRecordList, user }: HomeTabProps) => {
+const HomeTab = ({ runList, missionList, lastRecordList, user }: HomeTabProps) => {
   const webview = useRef<any>();
 
   const sendProps = () => {
@@ -23,10 +22,6 @@ const HomeTab = ({ onLogout, runList, missionList, lastRecordList, user }: HomeT
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
-      case 'logout': {
-        onLogout();
-        return;
-      }
     }
   };
 

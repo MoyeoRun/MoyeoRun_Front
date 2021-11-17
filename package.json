@@ -2,8 +2,8 @@
   "main": "node_modules/expo/AppEntry.js",
   "version": "0.1.0",
   "scripts": {
-    "start": ". ./env.sh && expo start",
-    "build-android": ". ./env.sh && expo build:android"
+    "start": "expo start",
+    "build-android": "expo build:android"
   },
   "rnpm": {
     "assets": [

@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/core';
+import { setItemAsync } from 'expo-secure-store';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Login from '../components/Login';
-import { setAuthorizeToken } from '../lib/api/auth';
-import { RootState } from '../modules';
-import { kakaoOauth, refreshAccessToken } from '../modules/auth';
-import { getUserData } from '../modules/user';
+import Login from '../../components/auth/Login';
+import { setAuthorizeToken } from '../../lib/api/auth';
+import { RootState } from '../../modules';
+import { kakaoOauth, refreshAccessToken, setToken } from '../../modules/auth';
+import { getUserData } from '../../modules/user';
 
 const LoginContainer = () => {
   const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
@@ -20,7 +21,11 @@ const LoginContainer = () => {
 
   const setAuthentication = async () => {
     if (accessToken && refreshToken) {
+      dispatch(setToken({ accessToken, refreshToken }));
       setAuthorizeToken(accessToken.token);
+      setItemAsync('accessToken', JSON.stringify(accessToken));
+      setItemAsync('refreshToken', JSON.stringify(refreshToken));
+
       await dispatch(getUserData());
       clearInterval(refreshRef.current);
       const refreshInterval = setInterval(() => {

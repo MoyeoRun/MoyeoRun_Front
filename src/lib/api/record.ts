@@ -6,6 +6,11 @@ export const getRunHistoryByWeek = async (startWeekDay: string) => {
   const end = new Date(startWeekDay);
   end.setDate(end.getDate() + 7);
   const query = qs.stringify({ start: start.toISOString(), end: end.toISOString() });
-  const response = await axios.get<RunHistory>(`http://45.248.73.50:30007/running/list?${query}`);
-  return response.data;
+  const { data } = await axios.get<RunHistory>(`http://45.248.73.50:30007/running/list?${query}`);
+  return data;
+};
+
+export const getRunRecordById = async (recordId: string) => {
+  const { data } = await axios.get<RunRecord>(`http://45.248.73.50:30007/running/${recordId}`);
+  return data;
 };

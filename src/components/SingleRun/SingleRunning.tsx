@@ -29,10 +29,10 @@ const SingleRunning = () => {
         )}
         scrollEventThrottle={12}
       >
-        <Box flex={1}>
+        <Box flex={1} w={windowWidth}>
           <SingleRunPaceContainer />
         </Box>
-        <Box flex={1}>
+        <Box flex={1} w={windowWidth}>
           <SingleRunMapContainer />
         </Box>
       </ScrollView>
