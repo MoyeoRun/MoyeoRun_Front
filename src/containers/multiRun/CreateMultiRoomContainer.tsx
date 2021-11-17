@@ -5,7 +5,6 @@ import CreateMultiRoom from '../../components/multiRun/CreateMultiRoom';
 import { RootState } from '../../modules';
 
 const CreateMultiRoomContainer = () => {
-  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
