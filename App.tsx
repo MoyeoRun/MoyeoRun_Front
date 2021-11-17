@@ -28,8 +28,8 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <Notification>
-        <TokenManager navigationRef={navigationRef}>
+      <TokenManager navigationRef={navigationRef}>
+        <Notification>
           <SafeAreaProvider>
             <NativeBaseProvider theme={customTheme}>
               {!isLoadingComplete ? (
@@ -42,8 +42,8 @@ const App = () => {
               <StatusBar style="dark" />
             </NativeBaseProvider>
           </SafeAreaProvider>
-        </TokenManager>
-      </Notification>
+        </Notification>
+      </TokenManager>
     </Provider>
   );
 };

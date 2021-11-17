@@ -5,6 +5,7 @@ import CustomWebview from '../common/CustomWebview';
 
 type UploadProfileProps = {
   user: User | null;
+  image: string | null;
   accessToken: Token | null;
   isUniqueNickName: boolean;
   step: 'uploadProfile' | 'uploadBodyInfo' | 'uploadNickName';
@@ -17,13 +18,14 @@ type UploadProfileProps = {
   onChangeNickName: (data: string) => void;
   onNickNameCheck: (data: string) => void;
   onUploadProfile: () => void;
-  onUploadProfileImage: (location: string) => void;
+  onGetProfileImage: () => void;
 };
 
 const UploadProfile = ({
   step,
   accessToken,
   user,
+  image,
   isUniqueNickName,
   weight,
   height,
@@ -34,7 +36,7 @@ const UploadProfile = ({
   onChangeNickName,
   onNickNameCheck,
   onUploadProfile,
-  onUploadProfileImage,
+  onGetProfileImage,
 }: UploadProfileProps) => {
   const webview = useRef<any>();
 
@@ -44,16 +46,8 @@ const UploadProfile = ({
         webview.current.postMessage(
           JSON.stringify({
             type: 'uploadProfile',
-            value: { user, weight, height, nickName, accessToken },
+            value: { user, weight, height, nickName, accessToken, image },
           }),
-          console.log(
-            JSON.parse(
-              JSON.stringify({
-                type: 'uploadProfile',
-                value: { user, weight, height, nickName, accessToken },
-              }),
-            ),
-          ),
         );
         break;
       case 'uploadBodyInfo':
@@ -77,8 +71,8 @@ const UploadProfile = ({
       case 'uploadProfile':
         onUploadProfile();
         break;
-      case 'uploadProfileImage':
-        onUploadProfileImage(data.value);
+      case 'getProfileImage':
+        onGetProfileImage();
         break;
       case 'changeWeight':
         setWeight(data.value);
@@ -105,7 +99,7 @@ const UploadProfile = ({
 
   useEffect(() => {
     sendProps();
-  }, [step, user, weight, height, nickName, isUniqueNickName, accessToken]);
+  }, [step, image, user, weight, height, nickName, isUniqueNickName, accessToken]);
 
   return (
     <Box flex={1}>

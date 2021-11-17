@@ -1,7 +1,10 @@
 import { useNavigation } from '@react-navigation/core';
 import {
   LocationAccuracy,
+  requestBackgroundPermissionsAsync,
   requestForegroundPermissionsAsync,
+  startLocationUpdatesAsync,
+  stopLocationUpdatesAsync,
   watchPositionAsync,
 } from 'expo-location';
 import React, { useEffect, useState } from 'react';
@@ -20,8 +23,8 @@ import useInterval from '../../lib/hooks/useInterval';
 import { getDistance } from '../../lib/util/calcRunData';
 import { speak } from 'expo-speech';
 import { getDistanceString, getPaceString } from '../../lib/util/strFormat';
+import * as TaskManager from 'expo-task-manager';
 
-let watchLocation: { remove: () => void };
 let stopWatch = new Stopwatch();
 let distanceInterval: number = 0.5;
 
@@ -133,38 +136,49 @@ const SingleRunMapContainer = () => {
     );
   };
 
+  TaskManager.defineTask(
+    'background-location-task',
+    ({ data, error }: { data: any; error: any }) => {
+      console.log(data);
+      if (error) {
+        console.log(error);
+        return;
+      }
+      if (data) {
+        const {
+          coords: { latitude, longitude, altitude },
+        } = data.locations[0];
+
+        if (altitude)
+          setCurrentPoint({
+            latitude,
+            longitude,
+            currentAltitude: altitude,
+            currentTime: stopWatch.getTime(),
+            currentDistance: 0,
+            momentPace: 0,
+          });
+      }
+    },
+  );
+
   const startWatchLocation = async () => {
-    console.log('시작');
-    try {
-      await requestForegroundPermissionsAsync();
-      watchLocation = await watchPositionAsync(
-        {
-          accuracy: LocationAccuracy.Highest,
-          timeInterval: 1000,
-          distanceInterval: 0,
-        },
-        ({ coords: { latitude, longitude, altitude } }) => {
-          if (altitude)
-            setCurrentPoint({
-              latitude,
-              longitude,
-              currentAltitude: altitude,
-              currentTime: stopWatch.getTime(),
-              currentDistance: 0,
-              momentPace: 0,
-            });
-        },
-      );
-    } catch (e) {
-      console.log(e);
-      console.log('위치정보를 가져올 수 없습니다.');
-    }
+    await startLocationUpdatesAsync('background-location-task', {
+      accuracy: LocationAccuracy.Balanced,
+      deferredUpdatesInterval: 1000,
+      deferredUpdatesDistance: 1,
+      foregroundService: {
+        notificationTitle: '개인런',
+        notificationBody: '지금 러닝중!',
+        notificationColor: '#1162FF',
+      },
+    });
   };
 
   const stopWatchLocation = () => {
     console.log('정지');
     try {
-      watchLocation.remove();
+      stopLocationUpdatesAsync('background-location-task');
     } catch (e) {
       console.log(e);
     }
@@ -174,7 +188,7 @@ const SingleRunMapContainer = () => {
     () => {
       dispatch(changeSingleRunState('runStatus', { ...runStatus, time: stopWatch.getTime() }));
     },
-    isRunning ? 500 : null,
+    isRunning ? 2000 : null,
   );
 
   useEffect(() => {
@@ -190,6 +204,21 @@ const SingleRunMapContainer = () => {
   }, [isRunning]);
 
   useEffect(() => {
+    (async () => {
+      try {
+        await requestForegroundPermissionsAsync();
+        console.log('포그라운드 권한성공');
+        try {
+          await requestBackgroundPermissionsAsync();
+          console.log('백그라운드 권한성공');
+        } catch (err) {
+          console.log(err);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+
     startWatchLocation();
     return () => {
       dispatch(initRunData());
