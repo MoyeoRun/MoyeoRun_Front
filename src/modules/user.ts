@@ -37,10 +37,6 @@ export default handleActions<UserState, any>(
     }),
     ...pender({
       type: UPLOAD_PROFILE,
-      onSuccess: (state, { payload }) => ({
-        ...state,
-        user: payload.data,
-      }),
     }),
     ...pender({
       type: CHECK_NICKNAME,

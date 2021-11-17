@@ -2,14 +2,12 @@ import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import UploadProfile from '../../components/profile/UploadProfile';
-import { isNickname } from '../../lib/util/validate';
 import { RootState } from '../../modules';
-import { uploadImage } from '../../modules/image';
 import { checkNickName, getUserData, setState, uploadProfile } from '../../modules/user';
 
 const UploadProfileContainer = () => {
   const { user, isUniqueNickName } = useSelector((state: RootState) => state.user);
-  const { accessToken, notificationToken } = useSelector((state: RootState) => state.auth);
+  const { accessToken } = useSelector((state: RootState) => state.auth);
   const [weight, setWeight] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
   const [nickName, setNickName] = useState<string>('');
@@ -30,7 +28,8 @@ const UploadProfileContainer = () => {
       navigation.navigate('Login');
       return;
     }
-    dispatch(uploadProfile({ ...user, nickName, weight, height, image, token: notificationToken }));
+    await dispatch(uploadProfile({ ...user, nickName, weight, height, image }));
+    dispatch(getUserData());
     navigation.reset({ index: 0, routes: [{ name: 'Welcome' }] });
   };
 
@@ -44,7 +43,7 @@ const UploadProfileContainer = () => {
   };
 
   const onUploadProfileImage = (location: string) => {
-    dispatch(setImage(location));
+    setImage(location);
   };
 
   useEffect(() => {

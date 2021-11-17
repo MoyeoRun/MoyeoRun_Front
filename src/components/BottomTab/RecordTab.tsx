@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/core';
 import { Box } from 'native-base';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
 type RecordTabProps = {
+  user: User;
   startWeekDay: string;
   runHistory: RunHistory | null;
   chaneWeek: (day: string) => void;
@@ -16,9 +17,13 @@ const RecordTab = ({ startWeekDay, runHistory, chaneWeek }: RecordTabProps) => {
 
   const sendProps = () => {
     webview.current.postMessage(
-      JSON.stringify({ type: 'runningTab', value: { startWeekDay, runHistory } }),
+      JSON.stringify({ type: 'recordTab', value: { startWeekDay, runHistory } }),
     );
   };
+
+  useEffect(() => {
+    sendProps();
+  }, [startWeekDay, runHistory]);
 
   const handleEvent = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);

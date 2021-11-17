@@ -16,7 +16,6 @@ type CustomWebviewProps = WebViewProps & {
  */
 const CustomWebview = ({ parentRef, path, ...props }: CustomWebviewProps) => {
   const INJECTEDJAVASCRIPT = `const meta = document.createElement('meta'); meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'); meta.setAttribute('name', 'viewport'); document.getElementsByTagName('head')[0].appendChild(meta); `;
-  console.log('webview 접속: ', config.webViewUrl + path);
   return (
     <WebView
       ref={parentRef}

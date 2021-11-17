@@ -78,6 +78,7 @@ const UploadProfile = ({
         onUploadProfile();
         break;
       case 'uploadProfileImage':
+        console.log(data.value);
         onUploadProfileImage(data.value);
         break;
       case 'changeWeight':

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const uploadProfile = async (userData: User) => {
+export const uploadProfile = async (userData: Partial<User>) => {
   const { data } = await axios.patch<Partial<User>>('http://45.248.73.50:30007/user', userData);
   return data;
 };

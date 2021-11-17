@@ -4,6 +4,7 @@ import * as Notifications from 'expo-notifications';
 import { useState, useEffect, useRef } from 'react';
 import { setNotificationToken } from './modules/auth';
 import store from './store';
+import { uploadProfile } from './modules/user';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -27,6 +28,7 @@ const Notification = ({ children }: NotificationProps): JSX.Element => {
     registerForPushNotificationsAsync().then((token) => {
       setExpoPushToken(token);
       if (token) store.dispatch(setNotificationToken(token));
+      if (token) store.dispatch(uploadProfile({ token }));
     });
 
     // This listener is fired whenever a notification is received while the app is foregrounded
