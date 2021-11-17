@@ -4,6 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import UploadProfile from '../../components/profile/UploadProfile';
 import { RootState } from '../../modules';
 import { checkNickName, getUserData, setState, uploadProfile } from '../../modules/user';
+import * as ImagePicker from 'expo-image-picker';
+import { uploadImage } from '../../lib/api/image';
+import { UIImagePickerControllerQualityType } from 'expo-image-picker/build/ImagePicker.types';
+import * as FileSystem from 'expo-file-system';
+import * as ImageManipulator from 'expo-image-manipulator';
+import { SaveFormat } from 'expo-image-manipulator';
+import { Box, Image } from 'native-base';
+import { Platform } from 'react-native';
 
 const UploadProfileContainer = () => {
   const { user, isUniqueNickName } = useSelector((state: RootState) => state.user);
@@ -42,11 +50,52 @@ const UploadProfileContainer = () => {
     await dispatch(checkNickName(nickName));
   };
 
-  const onUploadProfileImage = (location: string) => {
-    setImage(location);
+  const onGetProfileImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      videoQuality: UIImagePickerControllerQualityType.Medium,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.3,
+    });
+
+    if (result.cancelled) return;
+
+    const fileInfo = await FileSystem.getInfoAsync(result.uri);
+    if (fileInfo.size! / 1024 / 1024 > 3) {
+      alert('3Mb 이하의 사진을 선택해주세요');
+      return;
+    }
+
+    let localUri = result.uri;
+    let filename = localUri.split('/').pop();
+
+    // Infer the type of the image
+    let match = /\.(\w+)$/.exec(filename!);
+    let type = match ? `image/${match[1]}` : `image`;
+
+    let formData = new FormData();
+    formData.append('image', { type: type, uri: localUri, name: filename });
+    console.log(formData);
+    try {
+      const res = await uploadImage(formData);
+      console.log(res);
+      setImage(res.data.location);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+
     dispatch(getUserData());
   }, [dispatch]);
 
@@ -60,6 +109,7 @@ const UploadProfileContainer = () => {
   return (
     <UploadProfile
       user={user}
+      image={image}
       accessToken={accessToken}
       isUniqueNickName={isUniqueNickName}
       step={step}
@@ -72,7 +122,7 @@ const UploadProfileContainer = () => {
       onChangeNickName={onChangeNickName}
       onNickNameCheck={onNickNameCheck}
       onUploadProfile={onUploadProfile}
-      onUploadProfileImage={onUploadProfileImage}
+      onGetProfileImage={onGetProfileImage}
     />
   );
 };

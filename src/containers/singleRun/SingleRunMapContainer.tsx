@@ -203,12 +203,21 @@ const SingleRunMapContainer = () => {
     }
   }, [isRunning]);
 
-  const getPermissions = async () => {
-    await requestForegroundPermissionsAsync();
-    await requestBackgroundPermissionsAsync();
-  };
   useEffect(() => {
-    getPermissions();
+    (async () => {
+      try {
+        await requestForegroundPermissionsAsync();
+        console.log('포그라운드 권한성공');
+        try {
+          await requestBackgroundPermissionsAsync();
+          console.log('백그라운드 권한성공');
+        } catch (err) {
+          console.log(err);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
 
     startWatchLocation();
     return () => {
