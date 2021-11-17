@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { HStack, Box, Text, VStack } from 'native-base';
+import React, { useEffect, useRef } from 'react';
+import { HStack, Box, VStack } from 'native-base';
 import OperationButton from './OperationButton';
 import { secondToTimeString, getDistanceString, getPaceString } from '../../lib/util/strFormat';
-import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
 type SingleRunMapProps = {
@@ -70,24 +69,6 @@ const SingleRunMap = ({
     sendProps();
   }, [section, runData]);
 
-  const handleEvent = (event: WebViewMessageEvent) => {
-    const data = JSON.parse(event.nativeEvent.data);
-    switch (data.type) {
-      case 'start': {
-        onStartRunning();
-        return;
-      }
-      case 'stop': {
-        onStopRunning();
-        return;
-      }
-      case 'finish': {
-        onFinishRunning();
-        return;
-      }
-    }
-  };
-
   return (
     <VStack flex={1} bgColor="white">
       <Box flex={1} bgColor="gray">
@@ -95,12 +76,11 @@ const SingleRunMap = ({
           scrollEnabled={false}
           parentRef={webview}
           path="singleRunOnlyMap"
-          onMessage={handleEvent}
           onLoadEnd={sendProps}
           nestedScrollEnabled={true}
         />
       </Box>
-      <Box w="100%" h="315px" px="35px">
+      <VStack w="100%" h="315px" px="35px">
         <HStack mt="20px" w="100%" alignItems="center">
           <VStack
             height="47px"
@@ -127,17 +107,33 @@ const SingleRunMap = ({
             <Keyword>페이스</Keyword>
           </VStack>
         </HStack>
-        <HStack alignItems="center" justifyContent="center" mt="30px">
+        <HStack alignItems="center" justifyContent="center" flex={1}>
           {isRunning ? (
-            <OperationButton type="pause" size={88} onLongPress={onStopRunning} />
+            <OperationButton
+              type="pause"
+              size={88}
+              onPress={onStopRunning}
+              onLongPress={onStopRunning}
+            />
           ) : (
             <>
-              <OperationButton type="start" size={88} onLongPress={onStartRunning} />
-              <OperationButton type="stop" size={88} onLongPress={onFinishRunning} ml="24px" />
+              <OperationButton
+                type="start"
+                size={88}
+                onPress={onStartRunning}
+                onLongPress={onStartRunning}
+              />
+              <OperationButton
+                type="stop"
+                size={88}
+                onPress={onFinishRunning}
+                onLongPress={onFinishRunning}
+                ml="24px"
+              />
             </>
           )}
         </HStack>
-      </Box>
+      </VStack>
     </VStack>
   );
 };
