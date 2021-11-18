@@ -3,9 +3,12 @@ import React, { useRef } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
-type CreateMultiRoomProps = {};
+type CreateMultiRoomProps = {
+  handleCreateMultiRoom: (data: Room) => void;
+  handleGoBack: () => void;
+};
 
-const CreateMultiRoom = ({}: CreateMultiRoomProps) => {
+const CreateMultiRoom = ({ handleCreateMultiRoom, handleGoBack }: CreateMultiRoomProps) => {
   const webview = useRef<any>();
 
   const sendProps = () => {
@@ -15,9 +18,12 @@ const CreateMultiRoom = ({}: CreateMultiRoomProps) => {
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
-      case 'logout': {
-        return;
-      }
+      case 'createMultiRoom':
+        handleCreateMultiRoom(data.value);
+        break;
+      case 'goBack':
+        handleGoBack();
+        break;
     }
   };
 
@@ -29,7 +35,6 @@ const CreateMultiRoom = ({}: CreateMultiRoomProps) => {
         onLoad={sendProps}
         onMessage={handleEvent}
       />
-      ;
     </Box>
   );
 };

@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/core';
 import { Box } from 'native-base';
 import React, { useRef } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
@@ -32,14 +33,14 @@ const ReadySingleRun = ({}: ReadySingleRunProps) => {
   };
 
   return (
-    <Box flex={1}>
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
       <CustomWebview
         parentRef={webview}
         path="readySingleRun"
         onLoad={sendProps}
         onMessage={handleEvent}
       />
-    </Box>
+    </SafeAreaView>
   );
 };
 

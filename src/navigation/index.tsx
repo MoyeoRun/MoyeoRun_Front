@@ -21,6 +21,7 @@ import UploadProfileContainer from '../containers/profile/UploadProfileContainer
 import CreateMultiRoomContainer from '../containers/multiRun/CreateMultiRoomContainer';
 import MyPageContainer from '../containers/profile/MyPageContainer';
 import LoginContainer from '../containers/auth/LoginContainer';
+import MultiRoomContainer from '../containers/multiRun/MultiRoomContainer';
 
 export default function Navigation({
   navigationRef,
@@ -50,6 +51,7 @@ function RootNavigator() {
         component={BottomTabNavigator}
         options={{ headerShown: false }}
       />
+
       <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
       <Stack.Screen name="MyPage" component={MyPageContainer} options={{ title: '내정보' }} />
       <Stack.Screen
@@ -74,6 +76,11 @@ function RootNavigator() {
         component={CreateMultiRoomContainer}
         options={{ headerShown: false, title: '방만들기' }}
       />
+      <Stack.Screen
+        name="MultiRoom"
+        component={MultiRoomContainer}
+        options={{ headerShown: false, title: '방만들기' }}
+      />
     </Stack.Navigator>
   );
 }
@@ -89,8 +96,8 @@ function BottomTabNavigator() {
       initialRouteName="Home"
       backBehavior="history"
       detachInactiveScreens={true}
-      safeAreaInsets={{ bottom: 0 }}
       screenOptions={{
+        unmountOnBlur: true,
         headerShown: false,
         tabBarActiveTintColor: colors[colorScheme].tint,
         tabBarStyle: {
@@ -107,6 +114,7 @@ function BottomTabNavigator() {
         component={BottomTabContainer.HomeTabContainer}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: '홈',
+
           tabBarIcon: ({ color, focused }) =>
             focused ? <Icon.HomeFillIcon color={'#1162FF'} /> : <Icon.HomeIcon color={color} />,
         })}

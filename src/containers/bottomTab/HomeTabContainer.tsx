@@ -1,5 +1,6 @@
 import { setItemAsync } from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import HomeTab from '../../components/bottomTab/HomeTab';
 import { RootState } from '../../modules';
@@ -95,12 +96,14 @@ const HomeTabContainer = () => {
 
   if (!user) return null;
   return (
-    <HomeTab
-      runList={runList}
-      missionList={missionList}
-      lastRecordList={lastRecordList}
-      user={user}
-    />
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
+      <HomeTab
+        runList={runList}
+        missionList={missionList}
+        lastRecordList={lastRecordList}
+        user={user}
+      />
+    </SafeAreaView>
   );
 };
 

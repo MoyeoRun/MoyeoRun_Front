@@ -3,6 +3,7 @@ import { Box, ScrollView } from 'native-base';
 import { useWindowDimensions, Animated } from 'react-native';
 import SingleRunPaceContainer from '../../containers/singleRun/SingleRunPaceContainer';
 import SingleRunMapContainer from '../../containers/singleRun/SingleRunMapContainer';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SingleRunning = () => {
   const { width: windowWidth } = useWindowDimensions();
@@ -10,7 +11,7 @@ const SingleRunning = () => {
   const scrollX = useRef(new Animated.Value(1)).current;
 
   return (
-    <Box flex={1}>
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
       <ScrollView
         horizontal={true}
         bounces={false}
@@ -36,7 +37,7 @@ const SingleRunning = () => {
           <SingleRunMapContainer />
         </Box>
       </ScrollView>
-    </Box>
+    </SafeAreaView>
   );
 };
 

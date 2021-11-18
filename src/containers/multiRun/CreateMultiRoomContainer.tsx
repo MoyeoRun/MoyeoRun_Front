@@ -1,17 +1,49 @@
 import { useNavigation } from '@react-navigation/core';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 import CreateMultiRoom from '../../components/multiRun/CreateMultiRoom';
-import { RootState } from '../../modules';
+import { createRoom } from '../../modules/room';
 
 const CreateMultiRoomContainer = () => {
-  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [dispatch]);
+  const handleCreateMultiRoom = async ({
+    title,
+    description,
+    startDate,
+    targetDistance,
+    targetTime,
+    limitMember,
+    roomImage,
+  }: Room) => {
+    await dispatch(
+      createRoom({
+        title,
+        description,
+        startDate,
+        targetDistance,
+        targetTime,
+        limitMember,
+        roomImage,
+      }),
+    );
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'BottomTab', state: { routes: [{ name: 'Running' }] } }],
+    });
+  };
 
-  return <CreateMultiRoom />;
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
+  return (
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }} edges={['top']}>
+      <CreateMultiRoom handleCreateMultiRoom={handleCreateMultiRoom} handleGoBack={handleGoBack} />
+    </SafeAreaView>
+  );
 };
 
 export default CreateMultiRoomContainer;

@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/core';
 import { setItemAsync } from 'expo-secure-store';
 import React, { useEffect, useRef } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import Login from '../../components/auth/Login';
 import { setAuthorizeToken } from '../../lib/api/auth';
@@ -46,7 +47,11 @@ const LoginContainer = () => {
     }
   }, [user]);
 
-  return <Login onKakaoOauth={onKakaoOauth} />;
+  return (
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
+      <Login onKakaoOauth={onKakaoOauth} />
+    </SafeAreaView>
+  );
 };
 
 export default LoginContainer;

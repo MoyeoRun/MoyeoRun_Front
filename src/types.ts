@@ -25,33 +25,85 @@ type Token = { token: string; expiresIn: string };
 //room
 type Room = {
   id: number; //방 아이디
+  roomImage: string | null; //모여런 이미지
   title: string; //방 제목
-  isOpen: boolean; //현재 방이 열려있는지 여부
+  status: 'Open' | 'Close'; //현재 방이 열려있는지 여부
   description: string | null; // 방 설명
   limitMember: number; //인원 제한
-  userAmount: number; //참가 인원 수
-  multiRoomMember: Array<Partial<User>>; //참가 유저 리스트
   startDate: string; //모여런 시작 일시 ISOString
   targetDistance: number; //모여런 목표 거리 Km단위
   targetTime: number; //모여런 목표 시간 밀리세컨드 단위
-  roomImage: string | null; //모여런 이미지
+  multiRoomMember: Array<{
+    roomId: number;
+    userId: number;
+    runId: number | null;
+    rank: number | null;
+    isOwner: boolean;
+    isReady: boolean;
+    multiRoomUser: Partial<User>;
+  }>; //참가 유저 리스트
 };
+
 const room: Room = {
-  id: 1,
-  title: '바람 부는 날 5Km 함께 뛰어요',
-  isOpen: true,
-  description: 'ㅎㅇ',
-  limitMember: 4,
-  userAmount: 3,
-  multiRoomMember: [
-    { id: 1, name: '황인서', image: '' },
-    { id: 2, name: '김건훈', image: '' },
-    { id: 3, name: '조인혁', image: '' },
-  ],
-  startDate: '2021-11-14T12:31:04.672Z',
-  targetDistance: 3,
-  targetTime: 30,
+  id: 2,
   roomImage: '',
+  title: '테스트',
+  status: 'Open',
+  description: '음',
+  startDate: '2021-11-1T13:30:00.000Z',
+  targetDistance: 1,
+  targetTime: 2700000,
+  limitMember: 7,
+  multiRoomMember: [
+    {
+      roomId: 2,
+      userId: 8,
+      runId: null,
+      rank: null,
+      isOwner: true,
+      isReady: false,
+      multiRoomUser: {
+        id: 1,
+        name: '비둘기',
+        email: 'sjsjsj1246@naver.com',
+        nickName: 'sjsjsj1246',
+        image:
+          'https://images.unsplash.com/photo-1586083702768-190ae093d34d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=918&q=80',
+      },
+    },
+    {
+      roomId: 2,
+      userId: 8,
+      runId: null,
+      rank: null,
+      isOwner: false,
+      isReady: false,
+      multiRoomUser: {
+        id: 2,
+        name: '뻐꾸기',
+        email: 'sjsjsj1246@naver.com',
+        nickName: 'sjsjsj1246',
+        image:
+          'https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+      },
+    },
+    {
+      roomId: 2,
+      userId: 8,
+      runId: null,
+      rank: null,
+      isOwner: false,
+      isReady: true,
+      multiRoomUser: {
+        id: 3,
+        name: '까치',
+        email: 'sjsjsj1246@naver.com',
+        nickName: 'sjsjsj1246',
+        image:
+          'https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=776&q=80',
+      },
+    },
+  ],
 };
 
 type RoomList = {
@@ -273,10 +325,15 @@ type WebviewPath =
   | 'recordDetail'
   | 'readySingleRun'
   | 'singleRunOnlyMap'
-  | 'makeRoom'
-  | 'room'
+  | 'createMultiRoom'
+  | 'multiRoom'
   | 'bodyInfo'
   | 'uploadProfile'
   | 'uploadBodyInfo'
   | 'uploadNickName'
   | 'myPage';
+
+type RecordTabProps = {
+  singleRunHistory: RunHistory;
+  multiRunHistory: RunHistory;
+};

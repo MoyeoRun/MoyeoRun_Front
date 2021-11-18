@@ -5,7 +5,7 @@ import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
 type RecordTabProps = {
-  user: User;
+  user: User | null;
   startWeekDay: string;
   runHistory: RunHistory | null;
   chaneWeek: (day: string) => void;
