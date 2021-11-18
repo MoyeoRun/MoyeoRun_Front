@@ -11,7 +11,7 @@ const GET_ROOM_LIST = 'room/GET_ROOM_LIST';
 const CHANGE_ROOM_STATUS = 'room/CHANGE_ROOM_STATUS';
 
 export const createRoom = createAction(CREATE_ROOM, roomAPI.createRoom);
-export const joinRoom = createAction(JOIN_ROOM, roomAPI.createRoom);
+export const joinRoom = createAction(JOIN_ROOM, roomAPI.joinRoom);
 export const exitRoom = createAction(EXIT_ROOM, roomAPI.exitRoom);
 export const deleteRoom = createAction(DELETE_ROOM, roomAPI.deleteRoom);
 export const getRoomById = createAction(GET_ROOM_BY_ID, roomAPI.getRoomById);

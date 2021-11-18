@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import { Box } from 'native-base';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
@@ -22,6 +22,7 @@ const RunningTab = ({ user, moyeoRunList, singleRunGuideList }: RunningTabProps)
 
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
+    console.log(data);
     switch (data.type) {
       case 'goCreateMultiRoom': {
         navigation.navigate('CreateMultiRoom');
@@ -33,6 +34,10 @@ const RunningTab = ({ user, moyeoRunList, singleRunGuideList }: RunningTabProps)
       }
     }
   };
+
+  useEffect(() => {
+    sendProps();
+  }, [user, moyeoRunList, singleRunGuideList]);
 
   return (
     <Box flex={1}>

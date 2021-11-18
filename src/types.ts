@@ -25,6 +25,7 @@ type Token = { token: string; expiresIn: string };
 //room
 type Room = {
   id: number; //방 아이디
+  roomOwner: Partial<User>;
   title: string; //방 제목
   isOpen: boolean; //현재 방이 열려있는지 여부
   description: string | null; // 방 설명
@@ -38,15 +39,16 @@ type Room = {
 };
 const room: Room = {
   id: 1,
+  roomOwner: { id: 1, name: '황인서', nickName: 'sjsjsj1246' },
   title: '바람 부는 날 5Km 함께 뛰어요',
   isOpen: true,
   description: 'ㅎㅇ',
   limitMember: 4,
   userAmount: 3,
   multiRoomMember: [
-    { id: 1, name: '황인서', image: '' },
-    { id: 2, name: '김건훈', image: '' },
-    { id: 3, name: '조인혁', image: '' },
+    { id: 1, name: '황인서', nickName: 'sjsjsj1246', image: '' },
+    { id: 2, name: '김건훈', nickName: 'dnatuna123', image: '' },
+    { id: 3, name: '조인혁', nickName: 'inheoykjo42', image: '' },
   ],
   startDate: '2021-11-14T12:31:04.672Z',
   targetDistance: 3,

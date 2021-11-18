@@ -34,7 +34,13 @@ const CreateMultiRoomContainer = () => {
     });
   };
 
-  return <CreateMultiRoom handleCreateMultiRoom={handleCreateMultiRoom} />;
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
+  return (
+    <CreateMultiRoom handleCreateMultiRoom={handleCreateMultiRoom} handleGoBack={handleGoBack} />
+  );
 };
 
 export default CreateMultiRoomContainer;

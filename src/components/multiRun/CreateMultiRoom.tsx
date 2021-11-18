@@ -5,9 +5,10 @@ import CustomWebview from '../common/CustomWebview';
 
 type CreateMultiRoomProps = {
   handleCreateMultiRoom: (data: Room) => void;
+  handleGoBack: () => void;
 };
 
-const CreateMultiRoom = ({ handleCreateMultiRoom }: CreateMultiRoomProps) => {
+const CreateMultiRoom = ({ handleCreateMultiRoom, handleGoBack }: CreateMultiRoomProps) => {
   const webview = useRef<any>();
 
   const sendProps = () => {
@@ -20,6 +21,9 @@ const CreateMultiRoom = ({ handleCreateMultiRoom }: CreateMultiRoomProps) => {
       case 'createMultiRoom':
         handleCreateMultiRoom(data.value);
         break;
+      case 'goBack':
+        handleGoBack();
+        break;
     }
   };
 
@@ -31,7 +35,6 @@ const CreateMultiRoom = ({ handleCreateMultiRoom }: CreateMultiRoomProps) => {
         onLoad={sendProps}
         onMessage={handleEvent}
       />
-      ;
     </Box>
   );
 };

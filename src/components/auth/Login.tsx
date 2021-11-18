@@ -77,23 +77,27 @@ const Login = ({ onKakaoOauth }: LoginProps) => {
             <OauthItem
               fontColor="#3C1E1E"
               bg="#FEE600"
+              _pressed={{ bgColor: '#FEE600' }}
               url={apiUrl['kakao'].code}
               handleOauth={handleOauth}
             >
               카카오톡 계정으로 로그인
             </OauthItem>
             <NaverIcon position="absolute" left="20px" top="87px" zIndex="1" />
-            <OauthItem bg="#27D34A" handleOauth={handleOauth}>
+            <OauthItem bg="#27D34A" handleOauth={handleOauth} _pressed={{ bgColor: '#27D34A' }}>
               네이버 계정으로 로그인
             </OauthItem>
             <AppleIcon position="absolute" left="20px" top="148px" zIndex="1" />
-            <OauthItem bg="#111111">애플 계정으로 로그인</OauthItem>
+            <OauthItem bg="#111111" _pressed={{ bgColor: '#111111' }}>
+              애플 계정으로 로그인
+            </OauthItem>
             <GoogleIcon position="absolute" left="20px" top="216px" zIndex="1" />
             <OauthItem
               fontColor="#686868"
               borderColor="#D1D1D1"
               borderWidth="1px"
               handleOauth={handleOauth}
+              _pressed={{ bgColor: '#D1D1D1' }}
             >
               구글 계정으로 로그인
             </OauthItem>
