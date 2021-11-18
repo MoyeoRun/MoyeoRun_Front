@@ -14,6 +14,7 @@ import TokenManager from './src/TokenManager';
 import * as Sentry from 'sentry-expo';
 import config from './src/config';
 import Notification from './src/Notification';
+import useSocket from './src/lib/hooks/useSocket';
 
 Sentry.init({
   dsn: config.sentry_dsn,
@@ -25,6 +26,7 @@ const App = () => {
   const { isLoadingComplete, accessToken, refreshToken } = useCachedResources();
   const navigationRef = useNavigationContainerRef();
   store.dispatch(setToken({ accessToken, refreshToken }));
+  useSocket(config.socketEndpoint);
 
   return (
     <Provider store={store}>
