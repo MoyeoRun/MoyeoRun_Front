@@ -1,13 +1,16 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import MultiRoom from '../../components/multiRun/MultiRoom';
 import { RootState } from '../../modules';
 import { getRoomById, joinRoom, exitRoom, deleteRoom } from '../../modules/room';
 
-const MultiRoomContainer = ({ roomId }: { roomId: Room['id'] }) => {
+const MultiRoomContainer = ({ route }: any) => {
+  const { roomId } = route.params;
   const { room } = useSelector((state: RootState) => state.room);
   const { user } = useSelector((state: RootState) => state.user);
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -33,18 +36,24 @@ const MultiRoomContainer = ({ roomId }: { roomId: Room['id'] }) => {
     navigation.goBack();
   };
 
+  const handleRefresh = async () => {
+    await dispatch(getRoomById(roomId));
+  };
+
   useEffect(() => {
     dispatch(getRoomById(roomId));
-  }, [dispatch]);
+  }, [dispatch, route]);
 
   return (
     <MultiRoom
       room={room}
       user={user}
+      statusbarHeight={insets.top}
       handleJoinRoom={handleJoinRoom}
       handleExitRoom={handleExitRoom}
       handleDeleteRoom={handleDeleteRoom}
       handleGoBack={handleGoBack}
+      handleRefresh={handleRefresh}
     />
   );
 };

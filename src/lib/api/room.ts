@@ -42,6 +42,7 @@ export const getRoomById = async (roomId: Room['id']) => {
 };
 
 export const getRoomList = async () => {
-  const { data } = await axios.get<RoomList>('http://45.248.73.50:30007/room');
+  const { data } = await axios.get<RoomList>('http://45.248.73.50:30007/multi/list');
+  console.log(data);
   return data;
 };

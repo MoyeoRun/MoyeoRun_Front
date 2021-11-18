@@ -18,6 +18,7 @@ export type RootStackParamList = {
   Welcome: undefined;
   NotFound: undefined;
   CreateMultiRoom: undefined;
+  MultiRoom: { roomId: number };
 };
 
 export type BottomTabParamList = {

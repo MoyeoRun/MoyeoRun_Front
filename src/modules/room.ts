@@ -24,15 +24,15 @@ export const changeRoomStatus = createAction(
 type RoomState = {
   room: Room | null;
   roomStatus: RoomState | null;
-  roomList: Array<Room>;
-  participantRoom: Room | null;
+  openRoomList: Array<Room>;
+  currentRoom: Array<Room> | null;
 };
 
 const initialState: RoomState = {
   room: null,
   roomStatus: null,
-  roomList: [],
-  participantRoom: null,
+  openRoomList: [],
+  currentRoom: [],
 };
 
 export default handleActions<RoomState, any>(
@@ -51,13 +51,17 @@ export default handleActions<RoomState, any>(
     }),
     ...pender({
       type: GET_ROOM_BY_ID,
+      onSuccess: (state, { payload }) => ({
+        ...state,
+        room: payload,
+      }),
     }),
     ...pender({
       type: GET_ROOM_LIST,
       onSuccess: (state, { payload }) => ({
         ...state,
-        roomList: payload.roomList,
-        participantRoom: payload.participantRoom,
+        openRoomList: payload.openRoomList || [],
+        currentRoom: payload.currentRoom || [],
       }),
     }),
   },

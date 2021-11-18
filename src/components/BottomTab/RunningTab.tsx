@@ -5,18 +5,29 @@ import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
 type RunningTabProps = {
-  user: object;
-  moyeoRunList: Array<any>;
+  user: User | null;
+  openRoomList: Array<Room>;
+  currentRoom: Array<Room> | null;
+  handleRefresh: () => void;
   singleRunGuideList: Array<any>;
 };
 
-const RunningTab = ({ user, moyeoRunList, singleRunGuideList }: RunningTabProps) => {
+const RunningTab = ({
+  user,
+  openRoomList,
+  currentRoom,
+  handleRefresh,
+  singleRunGuideList,
+}: RunningTabProps) => {
   const webview = useRef<any>();
   const navigation = useNavigation();
 
   const sendProps = () => {
     webview.current.postMessage(
-      JSON.stringify({ type: 'runningTab', value: { user, moyeoRunList, singleRunGuideList } }),
+      JSON.stringify({
+        type: 'runningTab',
+        value: { user, openRoomList, currentRoom, singleRunGuideList },
+      }),
     );
   };
 
@@ -24,20 +35,24 @@ const RunningTab = ({ user, moyeoRunList, singleRunGuideList }: RunningTabProps)
     const data = JSON.parse(event.nativeEvent.data);
     console.log(data);
     switch (data.type) {
-      case 'goCreateMultiRoom': {
+      case 'goCreateMultiRoom':
         navigation.navigate('CreateMultiRoom');
-        return;
-      }
-      case 'goReadySingleRun': {
+        break;
+      case 'goReadySingleRun':
         navigation.navigate('ReadySingleRun');
-        return;
-      }
+        break;
+      case 'goRoomById':
+        navigation.navigate('MultiRoom', { roomId: data.value });
+        break;
+      case 'refresh':
+        handleRefresh();
+        break;
     }
   };
 
   useEffect(() => {
     sendProps();
-  }, [user, moyeoRunList, singleRunGuideList]);
+  }, [user, openRoomList, currentRoom, singleRunGuideList]);
 
   return (
     <Box flex={1}>
@@ -47,7 +62,6 @@ const RunningTab = ({ user, moyeoRunList, singleRunGuideList }: RunningTabProps)
         onLoad={sendProps}
         onMessage={handleEvent}
       />
-      ;
     </Box>
   );
 };

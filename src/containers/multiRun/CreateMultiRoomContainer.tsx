@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import CreateMultiRoom from '../../components/multiRun/CreateMultiRoom';
 import { createRoom } from '../../modules/room';
@@ -39,7 +40,9 @@ const CreateMultiRoomContainer = () => {
   };
 
   return (
-    <CreateMultiRoom handleCreateMultiRoom={handleCreateMultiRoom} handleGoBack={handleGoBack} />
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }} edges={['top']}>
+      <CreateMultiRoom handleCreateMultiRoom={handleCreateMultiRoom} handleGoBack={handleGoBack} />
+    </SafeAreaView>
   );
 };
 

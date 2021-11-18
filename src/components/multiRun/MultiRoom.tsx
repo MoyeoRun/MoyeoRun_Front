@@ -6,24 +6,39 @@ import CustomWebview from '../common/CustomWebview';
 type MultiRoomProps = {
   user: User | null;
   room: Room | null;
+  statusbarHeight: number;
   handleJoinRoom: () => void;
   handleExitRoom: () => void;
   handleDeleteRoom: () => void;
   handleGoBack: () => void;
+  handleRefresh: () => void;
 };
 
 const MultiRoom = ({
   user,
   room,
+  statusbarHeight,
   handleJoinRoom,
   handleExitRoom,
   handleDeleteRoom,
   handleGoBack,
+  handleRefresh,
 }: MultiRoomProps) => {
   const webview = useRef<any>();
 
   const sendProps = () => {
-    webview.current.postMessage(JSON.stringify({ type: 'multiRoom', value: { user, room } }));
+    console.log(room && room.multiRoomMember.filter((item) => item.isOwner)[0]);
+    webview.current.postMessage(
+      JSON.stringify({
+        type: 'multiRoom',
+        value: {
+          user,
+          room,
+          statusbarHeight,
+          roomOwner: room && room.multiRoomMember.filter((item) => item.isOwner)[0].multiRoomUser,
+        },
+      }),
+    );
   };
 
   useEffect(() => {
@@ -32,6 +47,7 @@ const MultiRoom = ({
 
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
+    console.log(data);
     switch (data.type) {
       case 'joinRoom':
         handleJoinRoom();
@@ -44,6 +60,9 @@ const MultiRoom = ({
         break;
       case 'goBack':
         handleGoBack();
+        break;
+      case 'refresh':
+        handleRefresh();
         break;
     }
   };

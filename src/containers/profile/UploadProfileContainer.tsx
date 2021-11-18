@@ -12,6 +12,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import { SaveFormat } from 'expo-image-manipulator';
 import { Box, Image } from 'native-base';
 import { Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const UploadProfileContainer = () => {
   const { user, isUniqueNickName } = useSelector((state: RootState) => state.user);
@@ -107,23 +108,25 @@ const UploadProfileContainer = () => {
   }, [accessToken]);
 
   return (
-    <UploadProfile
-      user={user}
-      image={image}
-      accessToken={accessToken}
-      isUniqueNickName={isUniqueNickName}
-      step={step}
-      weight={weight}
-      height={height}
-      nickName={nickName}
-      setWeight={setWeight}
-      setHeight={setHeight}
-      setStep={setStep}
-      onChangeNickName={onChangeNickName}
-      onNickNameCheck={onNickNameCheck}
-      onUploadProfile={onUploadProfile}
-      onGetProfileImage={onGetProfileImage}
-    />
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
+      <UploadProfile
+        user={user}
+        image={image}
+        accessToken={accessToken}
+        isUniqueNickName={isUniqueNickName}
+        step={step}
+        weight={weight}
+        height={height}
+        nickName={nickName}
+        setWeight={setWeight}
+        setHeight={setHeight}
+        setStep={setStep}
+        onChangeNickName={onChangeNickName}
+        onNickNameCheck={onNickNameCheck}
+        onUploadProfile={onUploadProfile}
+        onGetProfileImage={onGetProfileImage}
+      />
+    </SafeAreaView>
   );
 };
 

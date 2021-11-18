@@ -32,13 +32,7 @@ const App = () => {
         <Notification>
           <SafeAreaProvider>
             <NativeBaseProvider theme={customTheme}>
-              {!isLoadingComplete ? (
-                <Onboarding />
-              ) : (
-                <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
-                  <Navigation navigationRef={navigationRef} />
-                </SafeAreaView>
-              )}
+              {!isLoadingComplete ? <Onboarding /> : <Navigation navigationRef={navigationRef} />}
               <StatusBar style="dark" />
             </NativeBaseProvider>
           </SafeAreaProvider>

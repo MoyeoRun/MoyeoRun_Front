@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import MyPage from '../../components/profile/MyPage';
 import { RootState } from '../../modules';
@@ -17,7 +18,11 @@ const MyPageContainer = () => {
 
   if (!user) return null;
 
-  return <MyPage user={user} />;
+  return (
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
+      <MyPage user={user} />
+    </SafeAreaView>
+  );
 };
 
 export default MyPageContainer;
