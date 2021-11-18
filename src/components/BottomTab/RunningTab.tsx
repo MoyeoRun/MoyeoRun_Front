@@ -23,6 +23,10 @@ const RunningTab = ({ user, moyeoRunList, singleRunGuideList }: RunningTabProps)
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
+      case 'goCreateMultiRoom': {
+        navigation.navigate('CreateMultiRoom');
+        return;
+      }
       case 'goReadySingleRun': {
         navigation.navigate('ReadySingleRun');
         return;

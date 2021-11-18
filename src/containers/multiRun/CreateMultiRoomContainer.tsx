@@ -1,16 +1,40 @@
 import { useNavigation } from '@react-navigation/core';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import CreateMultiRoom from '../../components/multiRun/CreateMultiRoom';
-import { RootState } from '../../modules';
+import { createRoom } from '../../modules/room';
 
 const CreateMultiRoomContainer = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [dispatch]);
+  const handleCreateMultiRoom = async ({
+    title,
+    description,
+    startDate,
+    targetDistance,
+    targetTime,
+    limitMember,
+    roomImage,
+  }: Room) => {
+    await dispatch(
+      createRoom({
+        title,
+        description,
+        startDate,
+        targetDistance,
+        targetTime,
+        limitMember,
+        roomImage,
+      }),
+    );
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'BottomTab', state: { routes: [{ name: 'Running' }] } }],
+    });
+  };
 
-  return <CreateMultiRoom />;
+  return <CreateMultiRoom handleCreateMultiRoom={handleCreateMultiRoom} />;
 };
 
 export default CreateMultiRoomContainer;
