@@ -110,15 +110,12 @@ type RoomList = {
   participantRoom: Room | null; //현재 참여중인 모여런
   roomList: Array<Partial<Room>>; //전체 모여런 리스트
 };
-
 type RoomStatus = {
   connectedUserId: Array<User['id']>; //현재 대기중인 유저 목록
 };
 const roomStatus: RoomStatus = {
   connectedUserId: [1, 2, 3],
-};
-
-//moyeoRun
+}; //moyeoRun
 type Point = {
   latitude: number; //현재 위치의 위도
   longitude: number; //현재 위치의 경도
@@ -364,3 +361,52 @@ type RecordTabProps = {
   singleRunHistory: RunHistory;
   multiRunHistory: RunHistory;
 };
+
+// 소켓 관련 타입
+
+type SocketJoin = {
+  userId: User['id'];
+};
+
+type SocketWelcome = {
+  roomId: Room['id'] | null;
+  status: 'Open' | 'running' | 'Close' | null;
+};
+
+type SocketReady = {
+  roomId: Room['id'];
+  user: User;
+};
+
+type SocketPrepareType = string;
+
+type SocketRoomStatus = {
+  connectedUserId: Array<{
+    userId: User['id'];
+    roomId: Room['id'];
+    isOwner: boolean;
+    isReady: boolean;
+  }>; //현재 대기중인 유저 목록
+};
+
+type SocketStart = {
+  message: string;
+  roomId: Room['id'];
+};
+
+type SocketReadyError = {
+  error: any;
+};
+
+type SocketRunData = {
+  userId: User['id'];
+  roomId: Room['id'];
+  runData: RunData;
+};
+
+type SocketRunBroadCast = {
+  userId: User['id'];
+  runData: RunData;
+};
+
+type SocketFinish = string;
