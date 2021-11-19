@@ -108,6 +108,17 @@ const SingleRunMapContainer = () => {
   };
 
   useEffect(() => {
+    if (targetDistance && runStatus.distance > targetDistance) {
+      speak('축하합니다 목표 거리를 달성하셨습니다');
+      dispatch(changeSingleRunState('runStatus', { ...runStatus, distance: targetDistance }));
+      onFinishRunning();
+    }
+    if (targetTime && runStatus.time > targetTime) {
+      speak('축하합니다 목표 시간을 달성하셨습니다');
+      dispatch(changeSingleRunState('runStatus', { ...runStatus, time: targetTime }));
+      onFinishRunning();
+    }
+
     if (runStatus.distance > distanceInterval) {
       distanceInterval += distanceInterval;
       speak(
