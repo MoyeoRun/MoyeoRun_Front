@@ -3,12 +3,14 @@ import { pender } from 'redux-pender';
 import * as runAPI from '../lib/api/run';
 
 const END_MULTI_RUN = 'multiRun/END_MULTI_RUN' as const;
+const INIT_ROOM = 'multiRun/INIT_ROOM' as const;
 const INIT_MY_RUN_DATA = 'multiRun/INIT_MY_RUN_DATA' as const;
 const INIT_OTHERS_RUN_DATA = 'multiRun/INIT_OTHERS_RUN_DATA' as const;
 const CONCAT_MY_RUN_DATA_BY_USER_ID = 'multiRun/CONCAT_RUN_DATA_BY_USER_ID' as const;
 const CONCAT_OTHERS_RUN_DATA_BY_USER_ID = 'multiRun/CONCAT_RUN_DATA_BY_USER_ID' as const;
 
 export const endMultiRun = createAction(END_MULTI_RUN, runAPI.endMultiRun);
+export const initRoom = createAction(INIT_ROOM, (room: Room) => room);
 export const initMyRunData = createAction(INIT_MY_RUN_DATA, (user: Partial<User>) => user);
 export const initOthersRunData = createAction(
   INIT_OTHERS_RUN_DATA,
@@ -39,6 +41,10 @@ const initialState: MultiRunState = {
 
 export default handleActions<MultiRunState, any>(
   {
+    [INIT_ROOM]: (state, { payload: room }) => ({
+      ...state,
+      room,
+    }),
     [INIT_MY_RUN_DATA]: (state, { payload: user }) => ({
       ...state,
       myRunData: {

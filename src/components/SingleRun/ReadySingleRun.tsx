@@ -5,9 +5,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
-type ReadySingleRunProps = {};
+type ReadySingleRunProps = {
+  goSingleRun: ({
+    targetTime,
+    targetDistance,
+  }: {
+    targetTime: number | null;
+    targetDistance: number | null;
+  }) => void;
+};
 
-const ReadySingleRun = ({}: ReadySingleRunProps) => {
+const ReadySingleRun = ({ goSingleRun }: ReadySingleRunProps) => {
   const webview = useRef<any>();
   const navigation = useNavigation();
 
@@ -18,8 +26,8 @@ const ReadySingleRun = ({}: ReadySingleRunProps) => {
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
-      case 'startFreeRun': {
-        navigation.reset({ index: 0, routes: [{ name: 'SingleRun' }] });
+      case 'goSingleRun': {
+        goSingleRun(data.value);
         return;
       }
       case 'goBack': {

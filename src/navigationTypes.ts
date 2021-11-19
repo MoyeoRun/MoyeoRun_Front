@@ -9,16 +9,30 @@ declare global {
 }
 
 export type RootStackParamList = {
+  //바텀 탭
   BottomTab: NavigatorScreenParams<BottomTabParamList> | undefined;
-  Login: undefined;
-  MyPage: undefined;
-  UploadProfile: undefined;
+
+  //기록
+  RecordDetail: undefined;
+  RecordAnalysis: undefined;
+
+  //개인런
   ReadySingleRun: undefined;
   SingleRun: undefined;
-  Welcome: undefined;
-  NotFound: undefined;
+
+  //멀티런
   CreateMultiRoom: undefined;
   MultiRoom: { roomId: number };
+  MultiRun: { room: Room };
+
+  //프로필
+  UploadProfile: undefined;
+  MyPage: undefined;
+
+  //미분류
+  Login: undefined;
+  Welcome: undefined;
+  NotFound: undefined;
 };
 
 export type BottomTabParamList = {

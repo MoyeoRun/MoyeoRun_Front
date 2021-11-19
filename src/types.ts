@@ -353,6 +353,7 @@ type WebviewPath =
   | 'singleRunOnlyMap'
   | 'createMultiRoom'
   | 'multiRoom'
+  | 'multiRun'
   | 'bodyInfo'
   | 'uploadProfile'
   | 'uploadBodyInfo'

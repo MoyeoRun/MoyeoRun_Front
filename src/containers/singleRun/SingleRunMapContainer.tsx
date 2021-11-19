@@ -1,13 +1,11 @@
 import { useNavigation } from '@react-navigation/core';
 import {
   LocationAccuracy,
-  requestBackgroundPermissionsAsync,
+  LocationObject,
   requestForegroundPermissionsAsync,
-  startLocationUpdatesAsync,
-  stopLocationUpdatesAsync,
   watchPositionAsync,
 } from 'expo-location';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SingleRunMap from '../../components/singleRun/SingleRunMap';
 import { RootState } from '../../modules';
@@ -23,41 +21,36 @@ import useInterval from '../../lib/hooks/useInterval';
 import { getDistance } from '../../lib/util/calcRunData';
 import { speak } from 'expo-speech';
 import { getDistanceString, getPaceString } from '../../lib/util/strFormat';
-import * as TaskManager from 'expo-task-manager';
 
+let watchLocation: { remove: () => void };
 let stopWatch = new Stopwatch();
-let distanceInterval: number = 0.5;
+let distanceInterval: number = 1;
 
 const SingleRunMapContainer = () => {
-  const [currentPoint, setCurrentPoint] = useState<Point | null>(null);
-  const { isRunning, section, runStatus, runData, startDate } = useSelector(
-    (state: RootState) => state.singleRun,
-  );
+  const { isRunning, section, runStatus, runData, startDate, targetTime, targetDistance } =
+    useSelector((state: RootState) => state.singleRun);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const onStartRunning = () => {
+  const onStartRunning = useCallback(() => {
     dispatch(changeSingleRunState('isRunning', true));
     if (!startDate) {
       dispatch(changeSingleRunState('startDate', new Date().toISOString()));
       speak('안녕하세요, 오늘도 즐거운 러닝 하세요');
     }
-  };
+  }, []);
 
-  const onStopRunning = () => {
+  const onStopRunning = useCallback(() => {
     dispatch(changeSingleRunState('isRunning', false));
     if (runData[section].length !== 0) dispatch(addNewSection());
-  };
+  }, [runData, section]);
 
   const onFinishRunning = async () => {
     const filterRunData = runData.filter((item) => item.length !== 0);
-    console.log(filterRunData);
-    if (!startDate) console.log('@@@시작 시간 오류 ' + startDate);
     await dispatch(
       finishSingleRun({
-        type: 'free',
-        targetDistance: null,
-        targetTime: null,
+        targetDistance,
+        targetTime,
         runPace: runStatus.pace,
         runTime: runStatus.time,
         runDistance: runStatus.distance,
@@ -71,129 +64,67 @@ const SingleRunMapContainer = () => {
     });
   };
 
-  const onUpdateRunData = () => {
-    if (!currentPoint || !isRunning) return;
-
+  const listenPosition = ({ latitude, longitude, altitude }: LocationObject['coords']) => {
     const currentRunData = runData[section];
+    const currentTime = stopWatch.getTime();
     const lastPoint =
       currentRunData.length === 0 ? null : currentRunData[currentRunData.length - 1];
-    let currentDistance = runStatus.distance;
+    let currentDistance = 0;
     let momentPace =
       section > 0 ? runData[section - 1][runData[section - 1].length - 1].momentPace : 0;
 
     if (lastPoint) {
-      if (currentPoint.currentTime - lastPoint.currentTime < 1000) return;
-      currentDistance = getDistance(
-        lastPoint.latitude,
-        lastPoint.longitude,
-        currentPoint.latitude,
-        currentPoint.longitude,
-      );
+      if (stopWatch.getTime() - lastPoint.currentTime < 1000) return;
+      currentDistance = lastPoint
+        ? getDistance(lastPoint.latitude, lastPoint.longitude, latitude, longitude)
+        : 0;
       momentPace =
-        currentDistance === 0
-          ? 0
-          : (currentPoint.currentTime - lastPoint.currentTime) / 60000 / currentDistance;
-    }
-
-    console.log('@@@ 위치정보 계산', {
-      runData,
-      section,
-      currentRunData,
-      lastPoint,
-      currentDistance,
-      momentPace,
-      currentTime: currentPoint.currentTime,
-    });
-
-    if (runStatus.distance + currentDistance > distanceInterval) {
-      distanceInterval += distanceInterval;
-      speak(
-        `현재 페이스는 ${getPaceString(runStatus.pace)}, 달린 거리는 ${getDistanceString(
-          runStatus.distance + currentDistance,
-        )}입니다.`,
-      );
+        currentDistance === 0 ? 0 : (currentTime - lastPoint.currentTime) / 60000 / currentDistance;
     }
 
     dispatch(
       updateRunData({
-        latitude: currentPoint.latitude,
-        longitude: currentPoint.longitude,
-        currentAltitude: currentPoint.currentAltitude,
-        currentTime: currentPoint.currentTime,
-        currentDistance: runStatus.distance + currentDistance,
+        latitude,
+        longitude,
+        currentAltitude: altitude!,
+        currentTime: stopWatch.getTime(),
+        currentDistance: currentDistance,
         momentPace,
       }),
     );
-    dispatch(
-      changeSingleRunState('runStatus', {
-        time: currentPoint.currentTime,
-        distance: runStatus.distance + currentDistance,
-        pace:
-          runStatus.distance + currentDistance === 0
-            ? 0
-            : currentPoint.currentTime / 60000 / (runStatus.distance + currentDistance),
-      }),
+  };
+
+  const startWatchLocation = async () => {
+    watchLocation = await watchPositionAsync(
+      {
+        accuracy: LocationAccuracy.Highest,
+        timeInterval: 1000,
+        distanceInterval: 0,
+      },
+      ({ coords }) => {
+        if (coords.altitude) listenPosition(coords);
+      },
     );
   };
 
-  TaskManager.defineTask(
-    'background-location-task',
-    ({ data, error }: { data: any; error: any }) => {
-      console.log(data);
-      if (error) {
-        console.log(error);
-        return;
-      }
-      if (data) {
-        const {
-          coords: { latitude, longitude, altitude },
-        } = data.locations[0];
-
-        if (altitude)
-          setCurrentPoint({
-            latitude,
-            longitude,
-            currentAltitude: altitude,
-            currentTime: stopWatch.getTime(),
-            currentDistance: 0,
-            momentPace: 0,
-          });
-      }
-    },
-  );
-
-  const startWatchLocation = async () => {
-    await startLocationUpdatesAsync('background-location-task', {
-      accuracy: LocationAccuracy.Balanced,
-      deferredUpdatesInterval: 1000,
-      deferredUpdatesDistance: 1,
-      foregroundService: {
-        notificationTitle: '개인런',
-        notificationBody: '지금 러닝중!',
-        notificationColor: '#1162FF',
-      },
-    });
-  };
-
-  const stopWatchLocation = () => {
-    console.log('정지');
-    try {
-      stopLocationUpdatesAsync('background-location-task');
-    } catch (e) {
-      console.log(e);
+  useEffect(() => {
+    if (runStatus.distance > distanceInterval) {
+      distanceInterval += distanceInterval;
+      speak(
+        `현재 페이스는 ${getPaceString(runStatus.pace)}, 달린 거리는 ${getDistanceString(
+          runStatus.distance,
+        )}입니다.`,
+      );
     }
-  };
+  }, [runStatus]);
 
+  //스탑워치의 시간을 500ms간격으로 체크하여 시간을 업데이트해줍니다.
   useInterval(
     () => {
       dispatch(changeSingleRunState('runStatus', { ...runStatus, time: stopWatch.getTime() }));
     },
-    isRunning ? 2000 : null,
+    isRunning ? 500 : null,
   );
-
-  useEffect(() => {
-    onUpdateRunData();
-  }, [currentPoint]);
 
   useEffect(() => {
     if (isRunning) {
@@ -208,21 +139,15 @@ const SingleRunMapContainer = () => {
       try {
         await requestForegroundPermissionsAsync();
         console.log('포그라운드 권한성공');
-        try {
-          await requestBackgroundPermissionsAsync();
-          console.log('백그라운드 권한성공');
-        } catch (err) {
-          console.log(err);
-        }
       } catch (err) {
+        alert('위치 권한이 필요합니다!');
         console.log(err);
       }
     })();
-
     startWatchLocation();
     return () => {
       dispatch(initRunData());
-      stopWatchLocation();
+      watchLocation.remove();
       stopWatch.reset();
     };
   }, []);
