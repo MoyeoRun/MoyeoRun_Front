@@ -6,13 +6,7 @@ import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
 type ReadySingleRunProps = {
-  goSingleRun: ({
-    targetTime,
-    targetDistance,
-  }: {
-    targetTime: number | null;
-    targetDistance: number | null;
-  }) => void;
+  goSingleRun: ({ type, targetTime, targetDistance }: Partial<RunRecord>) => void;
 };
 
 const ReadySingleRun = ({ goSingleRun }: ReadySingleRunProps) => {

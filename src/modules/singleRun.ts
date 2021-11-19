@@ -14,13 +14,11 @@ export const updateRunData = createAction(UPDATE_RUN_DATA, (data: Point) => data
 export const addNewSection = createAction(ADD_NEW_SECTION);
 export const setTarget = createAction(
   SET_TARGET,
-  ({
+  ({ type, targetTime, targetDistance }: Partial<RunRecord>) => ({
+    type,
     targetTime,
     targetDistance,
-  }: {
-    targetTime: number | null;
-    targetDistance: number | null;
-  }) => ({ targetTime, targetDistance }),
+  }),
 );
 export const changeSingleRunState = createAction(
   CHANGE_SINGLE_RUN_STATE,
@@ -55,6 +53,7 @@ export default handleActions<SingleRunState, any>(
   {
     [SET_TARGET]: (state, { payload }) => ({
       ...state,
+      type: payload.type,
       targetTime: payload.targetTime,
       targetDistance: payload.targetDistance,
     }),

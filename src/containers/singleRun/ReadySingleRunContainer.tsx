@@ -8,14 +8,8 @@ const ReadySingleRunContainer = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const goSingleRun = ({
-    targetTime,
-    targetDistance,
-  }: {
-    targetTime: number | null;
-    targetDistance: number | null;
-  }) => {
-    dispatch(setTarget({ targetTime, targetDistance }));
+  const goSingleRun = ({ type, targetTime, targetDistance }: Partial<RunRecord>) => {
+    dispatch(setTarget({ type, targetTime, targetDistance }));
     navigation.navigate('SingleRun');
   };
 
