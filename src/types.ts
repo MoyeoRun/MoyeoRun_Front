@@ -34,8 +34,8 @@ type Room = {
   targetDistance: number; //모여런 목표 거리 Km단위
   targetTime: number; //모여런 목표 시간 밀리세컨드 단위
   multiRoomMember: Array<{
-    roomId: number;
-    userId: number;
+    roomId: Room['id'];
+    userId: User['id'];
     runId: number | null;
     rank: number | null;
     isOwner: boolean;
@@ -147,10 +147,28 @@ type RunStatus = {
 };
 const runStatus: RunStatus = { time: 0, distance: 0, pace: 0 };
 
-type OthersRunData = Array<{ userId: User['id'] } & { runData: RunData }>;
-const othersRunDataP: OthersRunData = [
+type MyRunData = {
+  user: Partial<User>;
+  runStatus: RunStatus;
+  runData: RunData;
+};
+
+type OthersRunData = Array<{
+  user: Partial<User>;
+  runStatus: RunStatus;
+  runData: RunData;
+}>;
+const othersRunData: OthersRunData = [
   {
-    userId: 1,
+    user: {
+      id: 1,
+      name: '비둘기',
+      email: 'sjsjsj1246@naver.com',
+      nickName: 'sjsjsj1246',
+      image:
+        'https://images.unsplash.com/photo-1586083702768-190ae093d34d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=918&q=80',
+    },
+    runStatus: { time: 0, distance: 0, pace: 0 },
     runData: [
       {
         latitude: 37.659187827620975,
@@ -163,7 +181,15 @@ const othersRunDataP: OthersRunData = [
     ],
   },
   {
-    userId: 2,
+    user: {
+      id: 1,
+      name: '비둘기',
+      email: 'sjsjsj1246@naver.com',
+      nickName: 'sjsjsj1246',
+      image:
+        'https://images.unsplash.com/photo-1586083702768-190ae093d34d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=918&q=80',
+    },
+    runStatus: { time: 0, distance: 0, pace: 0 },
     runData: [
       {
         latitude: 37.659181827620975,
@@ -327,6 +353,7 @@ type WebviewPath =
   | 'singleRunOnlyMap'
   | 'createMultiRoom'
   | 'multiRoom'
+  | 'multiRun'
   | 'bodyInfo'
   | 'uploadProfile'
   | 'uploadBodyInfo'
