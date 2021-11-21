@@ -10,12 +10,14 @@ type SocketState = {
   roomId: Room['id'] | null;
   status: any | null;
   isConnected: boolean;
+  isReady: boolean;
 };
 
 const initialState: SocketState = {
   socket: null,
   roomId: null,
   status: null,
+  isReady: false,
   isConnected: false,
 };
 

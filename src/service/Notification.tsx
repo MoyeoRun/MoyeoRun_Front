@@ -2,9 +2,9 @@ import React from 'react';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { useState, useEffect, useRef } from 'react';
-import { setNotificationToken } from './modules/auth';
-import store from './store';
-import { uploadProfile } from './modules/user';
+import { setNotificationToken } from '../modules/auth';
+import { uploadProfile } from '../modules/user';
+import { useDispatch } from 'react-redux';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -21,14 +21,15 @@ type NotificationProps = {
 const Notification = ({ children }: NotificationProps): JSX.Element => {
   const [expoPushToken, setExpoPushToken] = useState<any>('');
   const [notification, setNotification] = useState<any>(false);
+  const dispatch = useDispatch();
   const notificationListener = useRef<any>();
   const responseListener = useRef<any>();
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
       setExpoPushToken(token);
-      if (token) store.dispatch(setNotificationToken(token));
-      if (token) store.dispatch(uploadProfile({ token }));
+      if (token) dispatch(setNotificationToken(token));
+      if (token) dispatch(uploadProfile({ token }));
     });
 
     // This listener is fired whenever a notification is received while the app is foregrounded

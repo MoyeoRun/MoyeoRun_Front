@@ -33,7 +33,6 @@ const RunningTab = ({
 
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
-    console.log(data);
     switch (data.type) {
       case 'goCreateMultiRoom':
         navigation.navigate('CreateMultiRoom');

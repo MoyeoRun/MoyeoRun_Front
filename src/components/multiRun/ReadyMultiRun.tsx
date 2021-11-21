@@ -3,27 +3,19 @@ import React, { useEffect, useRef } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
-type MultiRunProps = {
-  time: number;
-  user: User;
+type ReadyMultiRunProps = {
   room: Room;
-  userRunData: UserRunData;
-  handleExit: () => void;
+  userList: Array<Partial<User>>;
 };
 
-const MultiRun = ({ time, user, room, userRunData, handleExit }: MultiRunProps) => {
+const ReadyMultiRun = ({ room, userList }: ReadyMultiRunProps) => {
   const webview = useRef<any>();
 
   const sendProps = () => {
     webview.current.postMessage(
       JSON.stringify({
-        type: 'multiRun',
-        value: {
-          time,
-          user,
-          room,
-          userRunData,
-        },
+        type: 'readyMultiRun',
+        value: { connectedUser: userList, roomMember: room.multiRoomMember },
       }),
     );
   };
@@ -31,21 +23,18 @@ const MultiRun = ({ time, user, room, userRunData, handleExit }: MultiRunProps) 
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
-      case '':
-        handleExit();
-        break;
     }
   };
 
   useEffect(() => {
     sendProps();
-  }, [time, user, room, userRunData]);
+  }, []);
 
   return (
     <Box flex={1}>
       <CustomWebview
         parentRef={webview}
-        path="multiRun"
+        path="readyMultiRun"
         onLoad={sendProps}
         onMessage={handleEvent}
       />
@@ -53,4 +42,4 @@ const MultiRun = ({ time, user, room, userRunData, handleExit }: MultiRunProps) 
   );
 };
 
-export default MultiRun;
+export default ReadyMultiRun;

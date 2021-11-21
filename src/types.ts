@@ -111,11 +111,14 @@ type RoomList = {
   roomList: Array<Partial<Room>>; //전체 모여런 리스트
 };
 type RoomStatus = {
-  connectedUserId: Array<User['id']>; //현재 대기중인 유저 목록
+  connectedUserId: Array<{
+    userId: User['id'];
+    roomId: Room['id'];
+    isOwner: boolean;
+    isReady: boolean;
+  }>; //현재 대기중인 유저 목록
 };
-const roomStatus: RoomStatus = {
-  connectedUserId: [1, 2, 3],
-}; //moyeoRun
+
 type Point = {
   latitude: number; //현재 위치의 위도
   longitude: number; //현재 위치의 경도
@@ -144,18 +147,13 @@ type RunStatus = {
 };
 const runStatus: RunStatus = { time: 0, distance: 0, pace: 0 };
 
-type MyRunData = {
-  user: Partial<User>;
-  runStatus: RunStatus;
-  runData: RunData;
-};
-
-type OthersRunData = Array<{
+type UserRunData = Array<{
   user: Partial<User>;
   runStatus: RunStatus;
   runData: RunData;
 }>;
-const othersRunData: OthersRunData = [
+
+const othersRunData: UserRunData = [
   {
     user: {
       id: 1,
@@ -349,6 +347,7 @@ type WebviewPath =
   | 'readySingleRun'
   | 'singleRunOnlyMap'
   | 'createMultiRoom'
+  | 'readyMultiRun'
   | 'multiRoom'
   | 'multiRun'
   | 'bodyInfo'

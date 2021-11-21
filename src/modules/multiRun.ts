@@ -5,20 +5,17 @@ import * as runAPI from '../lib/api/run';
 const END_MULTI_RUN = 'multiRun/END_MULTI_RUN' as const;
 const INIT_MY_RUN_DATA = 'multiRun/INIT_MY_RUN_DATA' as const;
 const INIT_OTHERS_RUN_DATA = 'multiRun/INIT_OTHERS_RUN_DATA' as const;
-const UPDATE_MY_RUN_DATA = 'multiRun/UPDATE_MY_RUN_DATA' as const;
 const UPDATE_OTHERS_RUN_DATA = 'multiRun/UPDATE_OTHERS_RUN_DATA' as const;
 const INIT_RUN_DATA = 'multiRun/INIT_RUN_DATA' as const;
 const UPDATE_TIME = 'multiRun/UPDATE_TIME' as const;
 const CHANGE_MULTI_RUN_STATE = 'multiRun/CHANGE_MULTI_RUN_STATE' as const;
 
 export const endMultiRun = createAction(END_MULTI_RUN, runAPI.endMultiRun);
-export const initMyRunData = createAction(INIT_MY_RUN_DATA, (user: Partial<User>) => user);
-export const initOthersRunData = createAction(
+export const initUserRunData = createAction(
   INIT_OTHERS_RUN_DATA,
-  (userList: Array<Partial<User>>) => userList,
+  (userList: Room['multiRoomMember']) => userList,
 );
-export const UpdateMyRunData = createAction(UPDATE_MY_RUN_DATA, (data: Point) => data);
-export const UpdateOthersRunData = createAction(
+export const updateUserRunData = createAction(
   UPDATE_OTHERS_RUN_DATA,
   (data: { userId: User['id']; runData: RunData }) => data,
 );
@@ -34,16 +31,16 @@ export const changeMultiRunState = createAction(
 
 type MultiRunState = {
   time: number;
+  room: Room | null;
   startDate: string | null;
-  myRunData: MyRunData | null;
-  othersRunData: OthersRunData | null;
+  userRunData: UserRunData | null;
 };
 
 const initialState: MultiRunState = {
   time: 0,
+  room: null,
   startDate: null,
-  myRunData: null,
-  othersRunData: null,
+  userRunData: null,
 };
 
 export default handleActions<MultiRunState, any>(
@@ -62,25 +59,17 @@ export default handleActions<MultiRunState, any>(
         runData: [],
       },
     }),
-    [INIT_OTHERS_RUN_DATA]: (state, { payload: userList }) => ({
+    [INIT_OTHERS_RUN_DATA]: (state, { payload }: { payload: Room['multiRoomMember'] }) => ({
       ...state,
-      othersRunData: userList.map((item: Partial<User>) => ({
-        user: item,
+      userRunData: payload.map((item) => ({
+        user: item.multiRoomUser,
         runStatus: { time: 0, distance: 0, pace: 0 },
         runData: [],
       })),
     }),
-    [UPDATE_MY_RUN_DATA]: (state, { payload: data }) => ({
-      ...state,
-      myRunData: {
-        user: state.myRunData!.user,
-        runStatus: data.runStatus,
-        runData: state.myRunData!.runData.concat(data.point),
-      },
-    }),
     [UPDATE_OTHERS_RUN_DATA]: (state, { payload: data }) => ({
       ...state,
-      othersRunData: state.othersRunData!.map((item) =>
+      userRunData: state.userRunData!.map((item) =>
         item.user.id === data.userId
           ? {
               user: item.user,

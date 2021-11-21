@@ -27,7 +27,6 @@ const MultiRoom = ({
   const webview = useRef<any>();
 
   const sendProps = () => {
-    console.log(room && room.multiRoomMember.filter((item) => item.isOwner)[0]);
     webview.current.postMessage(
       JSON.stringify({
         type: 'multiRoom',
@@ -47,7 +46,6 @@ const MultiRoom = ({
 
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
-    console.log(data);
     switch (data.type) {
       case 'joinRoom':
         handleJoinRoom();

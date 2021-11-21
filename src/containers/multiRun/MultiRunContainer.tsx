@@ -7,6 +7,7 @@ import {
 } from 'expo-location';
 import { speak } from 'expo-speech';
 import React, { useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { Stopwatch } from 'ts-stopwatch';
 import MultiRun from '../../components/multiRun/MultiRun';
@@ -15,37 +16,34 @@ import { getDistance } from '../../lib/util/calcRunData';
 import { getDistanceString, getPaceString } from '../../lib/util/strFormat';
 import { RootState } from '../../modules';
 import {
-  UpdateOthersRunData,
+  updateUserRunData,
   endMultiRun,
-  UpdateMyRunData,
   initRunData,
   updateTime,
-  initOthersRunData,
-  initMyRunData,
+  initUserRunData,
   changeMultiRunState,
 } from '../../modules/multiRun';
+import { getRoomById } from '../../modules/room';
 
 let watchLocation: { remove: () => void };
 let stopWatch = new Stopwatch();
 let distanceInterval: number = 1;
 
-type MultiRunProps = {
-  room: Room;
-  userList: Array<User>;
-};
-
-const MultiRunContainer = ({ room, userList }: MultiRunProps) => {
-  const { time, startDate, myRunData, othersRunData } = useSelector(
-    (state: RootState) => state.multiRun,
-  );
+const MultiRunContainer = () => {
+  const { time, startDate, userRunData } = useSelector((state: RootState) => state.multiRun);
   const { user } = useSelector((state: RootState) => state.user);
+  const { room } = useSelector((state: RootState) => state.room);
+  const { socket, roomId } = useSelector((state: RootState) => state.socket);
+
   const [runDataBuffer, setRunDataBuffer] = useState<RunData>([]);
-  const { socket } = useSelector((state: RootState) => state.socket);
+
+  const myRunData = userRunData && user && userRunData.find((item) => item.user.id === user.id);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const handleEndRun = async () => {
-    if (!myRunData) return;
+    if (!myRunData || !room) return;
     await dispatch(
       endMultiRun({
         targetDistance: room.targetDistance,
@@ -68,8 +66,9 @@ const MultiRunContainer = ({ room, userList }: MultiRunProps) => {
   };
 
   const listenPosition = ({ latitude, longitude, altitude }: LocationObject['coords']) => {
+    if (!myRunData || !user) return;
     const currentTime = stopWatch.getTime();
-    const lastPoint = runData[runData.length - 1];
+    const lastPoint = myRunData.runData[myRunData.runData.length - 1];
     const currentDistance = lastPoint
       ? getDistance(lastPoint.latitude, lastPoint.longitude, latitude, longitude)
       : 0;
@@ -91,13 +90,18 @@ const MultiRunContainer = ({ room, userList }: MultiRunProps) => {
 
     setRunDataBuffer(runDataBuffer.concat());
     dispatch(
-      UpdateMyRunData({
-        latitude,
-        longitude,
-        currentAltitude: altitude!,
-        currentTime: stopWatch.getTime(),
-        currentDistance: currentDistance,
-        momentPace,
+      updateUserRunData({
+        userId: user.id,
+        runData: [
+          {
+            latitude,
+            longitude,
+            currentAltitude: altitude!,
+            currentTime: stopWatch.getTime(),
+            currentDistance: currentDistance,
+            momentPace,
+          },
+        ],
       }),
     );
   };
@@ -120,8 +124,8 @@ const MultiRunContainer = ({ room, userList }: MultiRunProps) => {
   }, 500);
 
   useEffect(() => {
-    if (socket && user) {
-      socket.emit('RunData', {
+    if (socket && user && room) {
+      socket.emit('runData', {
         userId: user.id,
         roomId: room.id,
         runData: runDataBuffer,
@@ -144,8 +148,6 @@ const MultiRunContainer = ({ room, userList }: MultiRunProps) => {
     stopWatch.start();
     dispatch(changeMultiRunState('startDate', new Date().toISOString()));
     startWatchLocation();
-    initMyRunData(user!);
-    initOthersRunData(userList);
     return () => {
       dispatch(initRunData());
       watchLocation.remove();
@@ -153,9 +155,15 @@ const MultiRunContainer = ({ room, userList }: MultiRunProps) => {
   }, []);
 
   useEffect(() => {
+    if (room) {
+      initUserRunData(room.multiRoomMember);
+    }
+  }, [room]);
+
+  useEffect(() => {
     if (socket) {
       socket.on('runBroadCast', (data: SocketRunBroadCast) => {
-        dispatch(UpdateOthersRunData(data));
+        dispatch(updateUserRunData(data));
       });
       socket.on('finish', (message: SocketFinish) => {
         speak('목표를 달성했습니다!');
@@ -167,16 +175,24 @@ const MultiRunContainer = ({ room, userList }: MultiRunProps) => {
     };
   }, [socket]);
 
-  useEffect(() => {}, [dispatch]);
+  useEffect(() => {
+    if (roomId) {
+      dispatch(getRoomById(roomId));
+    }
+  }, [dispatch]);
+
+  if (!room || !user || !userRunData) return null;
 
   return (
-    <MultiRun
-      time={time}
-      user={user}
-      othersRunData={othersRunData}
-      myRunData={myRunData}
-      handleExit={handleExit}
-    />
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
+      <MultiRun
+        time={time}
+        user={user}
+        room={room}
+        userRunData={userRunData}
+        handleExit={handleExit}
+      />
+    </SafeAreaView>
   );
 };
 
