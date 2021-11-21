@@ -12,6 +12,7 @@ type MultiRunProps = {
 };
 
 const MultiRun = ({ time, user, room, userRunData, handleExit }: MultiRunProps) => {
+  console.log({ time, user, room, userRunData });
   const webview = useRef<any>();
 
   const sendProps = () => {

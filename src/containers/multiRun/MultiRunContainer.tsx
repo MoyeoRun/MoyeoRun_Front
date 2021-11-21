@@ -30,6 +30,7 @@ let stopWatch = new Stopwatch();
 let distanceInterval: number = 1;
 
 const MultiRunContainer = () => {
+  const [point, setPoint] = useState<LocationObject['coords'] | null>(null);
   const { time, startDate, userRunData } = useSelector((state: RootState) => state.multiRun);
   const { user } = useSelector((state: RootState) => state.user);
   const { room } = useSelector((state: RootState) => state.room);
@@ -91,13 +92,18 @@ const MultiRunContainer = () => {
     setRunDataBuffer(runDataBuffer.concat());
     dispatch(
       updateUserRunData({
-        userId: user.id,
+        user: user,
+        runStatus: {
+          time: currentTime,
+          distance: currentDistance,
+          pace: currentDistance ? currentTime / 60000 / currentDistance : 0,
+        },
         runData: [
           {
             latitude,
             longitude,
             currentAltitude: altitude!,
-            currentTime: stopWatch.getTime(),
+            currentTime,
             currentDistance: currentDistance,
             momentPace,
           },
@@ -114,23 +120,32 @@ const MultiRunContainer = () => {
         distanceInterval: 0,
       },
       ({ coords }) => {
-        if (coords.altitude) listenPosition(coords);
+        if (coords.altitude) setPoint(coords);
       },
     );
   };
 
-  useInterval(() => {
-    dispatch(updateTime(stopWatch.getTime()));
-  }, 500);
+  //스탑워치 listen
+  // useInterval(
+  //   () => {
+  //     dispatch(updateTime(stopWatch.getTime()));
+  //   },
+  //   isRunning ? 500 : null,
+  // );
 
   useEffect(() => {
-    if (socket && user && room) {
+    if (point) {
+      listenPosition(point);
+    }
+  }, [point]);
+
+  useEffect(() => {
+    if (runDataBuffer.length !== 0 && socket && user && room) {
       socket.emit('runData', {
         userId: user.id,
         roomId: room.id,
         runData: runDataBuffer,
       });
-
       setRunDataBuffer([]);
     }
   }, [runDataBuffer]);
@@ -145,6 +160,10 @@ const MultiRunContainer = () => {
         console.log(err);
       }
     })();
+    console.log('멀티 런 접속 roomId: ', roomId);
+    if (roomId) {
+      dispatch(getRoomById(roomId));
+    }
     stopWatch.start();
     dispatch(changeMultiRunState('startDate', new Date().toISOString()));
     startWatchLocation();
@@ -155,8 +174,10 @@ const MultiRunContainer = () => {
   }, []);
 
   useEffect(() => {
-    if (room) {
-      initUserRunData(room.multiRoomMember);
+    if (room && !userRunData) {
+      console.log('roomData 로드 완료 room: ', room);
+      console.log(room.multiRoomMember);
+      dispatch(initUserRunData(room.multiRoomMember));
     }
   }, [room]);
 
@@ -174,12 +195,6 @@ const MultiRunContainer = () => {
       socket!.off('finish');
     };
   }, [socket]);
-
-  useEffect(() => {
-    if (roomId) {
-      dispatch(getRoomById(roomId));
-    }
-  }, [dispatch]);
 
   if (!room || !user || !userRunData) return null;
 
