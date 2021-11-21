@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MultiRoom from '../../components/multiRun/MultiRoom';
 import { RootState } from '../../modules';
 import { getRoomById, joinRoom, exitRoom, deleteRoom } from '../../modules/room';
+import { setSocket } from '../../modules/socket';
 
 const MultiRoomContainer = ({ route }: any) => {
   const { roomId } = route.params;
@@ -17,11 +18,13 @@ const MultiRoomContainer = ({ route }: any) => {
   const handleJoinRoom = async () => {
     await dispatch(joinRoom(roomId));
     dispatch(getRoomById(roomId));
+    dispatch(setSocket({ roomId: roomId }));
   };
 
   const handleExitRoom = async () => {
     await dispatch(exitRoom(roomId));
     dispatch(getRoomById(roomId));
+    dispatch(setSocket({ roomId: roomId }));
   };
 
   const handleDeleteRoom = async () => {

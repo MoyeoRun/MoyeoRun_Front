@@ -23,7 +23,8 @@ export type RootStackParamList = {
   //멀티런
   CreateMultiRoom: undefined;
   MultiRoom: { roomId: number };
-  MultiRun: { room: Room };
+  ReadyMultiRun: { roomId: number };
+  MultiRun: { roomId: number };
 
   //프로필
   UploadProfile: undefined;

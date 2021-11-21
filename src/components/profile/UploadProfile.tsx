@@ -56,7 +56,6 @@ const UploadProfile = ({
         );
         break;
       case 'uploadNickName':
-        console.log({ type: 'uploadNickName', value: { isUniqueNickName } });
         webview.current.postMessage(
           JSON.stringify({ type: 'uploadNickName', value: { isUniqueNickName } }),
         );
@@ -66,7 +65,6 @@ const UploadProfile = ({
 
   const handleEvent = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
-    console.log(data);
     switch (data.type) {
       case 'uploadProfile':
         onUploadProfile();

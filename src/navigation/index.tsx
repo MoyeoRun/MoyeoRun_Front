@@ -25,6 +25,7 @@ import MultiRoomContainer from '../containers/multiRun/MultiRoomContainer';
 import RecordDetailContainer from '../containers/record/RecordDetailContainer';
 import RecordAnalysisContainer from '../containers/record/RecordAnalysisContainer';
 import MultiRunContainer from '../containers/multiRun/MultiRunContainer';
+import ReadyMultiRunContainer from '../containers/multiRun/ReadyMultiRunContainer';
 
 export default function Navigation({
   navigationRef,
@@ -88,6 +89,11 @@ function RootNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="ReadyMultiRun"
+        component={ReadyMultiRunContainer}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="MultiRun"
         component={MultiRunContainer}
         options={{ headerShown: false }}
@@ -138,7 +144,6 @@ function BottomTabNavigator() {
         component={BottomTabContainer.HomeTabContainer}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: '홈',
-
           tabBarIcon: ({ color, focused }) =>
             focused ? <Icon.HomeFillIcon color={'#1162FF'} /> : <Icon.HomeIcon color={color} />,
         })}
