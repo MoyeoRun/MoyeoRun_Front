@@ -6,30 +6,41 @@ import CustomWebview from '../common/CustomWebview';
 
 type RecordTabProps = {
   user: User | null;
-  startWeekDay: string;
   runHistory: RunHistory | null;
-  chaneWeek: (day: string) => void;
+  runRecord: RunRecord | null;
+  getRunHistory: ({
+    startDay,
+    endDay,
+    runType,
+  }: {
+    startDay: string;
+    endDay: string;
+    runType: string;
+  }) => void;
+  getRunRecord: ({ id, runType }: { id: string; runType: string }) => void;
 };
 
-const RecordTab = ({ startWeekDay, runHistory, chaneWeek }: RecordTabProps) => {
+const RecordTab = ({ runHistory, runRecord, getRunHistory, getRunRecord }: RecordTabProps) => {
   const webview = useRef<any>();
-  const navigation = useNavigation();
-
   const sendProps = () => {
     webview.current.postMessage(
-      JSON.stringify({ type: 'recordTab', value: { startWeekDay, runHistory } }),
+      JSON.stringify({ type: 'recordTab', value: { runHistory, runRecord } }),
     );
   };
 
   useEffect(() => {
     sendProps();
-  }, [startWeekDay, runHistory]);
+  }, [runHistory, runRecord]);
 
   const handleEvent = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
-      case 'changeWeek': {
-        chaneWeek(data.value);
+      case 'runHistory': {
+        getRunHistory(data.value);
+        return;
+      }
+      case 'runRecord': {
+        getRunRecord(data.value);
         return;
       }
     }
