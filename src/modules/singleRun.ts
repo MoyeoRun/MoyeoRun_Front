@@ -35,6 +35,7 @@ type SingleRunState = {
   startDate: string | null;
   runStatus: RunStatus;
   runData: Array<RunData>;
+  type: RunRecord['type'] | null;
   targetTime: number | null;
   targetDistance: number | null;
 };
@@ -45,6 +46,7 @@ const initialState: SingleRunState = {
   runStatus: { time: 0, distance: 0, pace: 0 },
   runData: [[]],
   startDate: null,
+  type: null,
   targetTime: null,
   targetDistance: null,
 };

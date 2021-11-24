@@ -13,35 +13,25 @@ const ReadySingleRun = ({ goSingleRun }: ReadySingleRunProps) => {
   const webview = useRef<any>();
   const navigation = useNavigation();
 
-  const sendProps = () => {
-    webview.current.postMessage(JSON.stringify({ type: 'ReadySingleRun', value: {} }));
-  };
-
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
+    console.log(data);
     switch (data.type) {
-      case 'goSingleRun': {
+      case 'goSingleRun':
         goSingleRun(data.value);
-        return;
-      }
-      case 'goBack': {
+        break;
+      case 'goBack':
         navigation.reset({
           index: 0,
           routes: [{ name: 'BottomTab', state: { routes: [{ name: 'Running' }] } }],
         });
-        return;
-      }
+        break;
     }
   };
 
   return (
     <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
-      <CustomWebview
-        parentRef={webview}
-        path="readySingleRun"
-        onLoad={sendProps}
-        onMessage={handleEvent}
-      />
+      <CustomWebview parentRef={webview} path="readySingleRun" onMessage={handleEvent} />
     </SafeAreaView>
   );
 };

@@ -10,10 +10,8 @@ const ReadySingleRunContainer = () => {
 
   const goSingleRun = ({ type, targetTime, targetDistance }: Partial<RunRecord>) => {
     dispatch(setTarget({ type, targetTime, targetDistance }));
-    navigation.navigate('SingleRun');
+    navigation.reset({ index: 0, routes: [{ name: 'SingleRun' }] });
   };
-
-  useEffect(() => {}, [dispatch]);
 
   return <ReadySingleRun goSingleRun={goSingleRun} />;
 };

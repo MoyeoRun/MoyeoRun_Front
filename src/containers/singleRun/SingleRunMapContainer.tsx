@@ -5,7 +5,7 @@ import {
   requestForegroundPermissionsAsync,
   watchPositionAsync,
 } from 'expo-location';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SingleRunMap from '../../components/singleRun/SingleRunMap';
 import { RootState } from '../../modules';
@@ -27,7 +27,8 @@ let stopWatch = new Stopwatch();
 let distanceInterval: number = 1;
 
 const SingleRunMapContainer = () => {
-  const { isRunning, section, runStatus, runData, startDate, targetTime, targetDistance } =
+  const [point, setPoint] = useState<LocationObject['coords'] | null>(null);
+  const { isRunning, section, runStatus, runData, startDate, type, targetTime, targetDistance } =
     useSelector((state: RootState) => state.singleRun);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ const SingleRunMapContainer = () => {
     const filterRunData = runData.filter((item) => item.length !== 0);
     await dispatch(
       finishSingleRun({
+        type: type!,
         targetDistance,
         targetTime,
         runPace: runStatus.pace,
@@ -65,6 +67,7 @@ const SingleRunMapContainer = () => {
   };
 
   const listenPosition = ({ latitude, longitude, altitude }: LocationObject['coords']) => {
+    if (!isRunning) return;
     const currentRunData = runData[section];
     const currentTime = stopWatch.getTime();
     const lastPoint =
@@ -102,10 +105,16 @@ const SingleRunMapContainer = () => {
         distanceInterval: 0,
       },
       ({ coords }) => {
-        if (coords.altitude) listenPosition(coords);
+        if (coords.altitude) setPoint(coords);
       },
     );
   };
+
+  useEffect(() => {
+    if (point) {
+      listenPosition(point);
+    }
+  }, [point]);
 
   useEffect(() => {
     if (targetDistance && runStatus.distance > targetDistance) {

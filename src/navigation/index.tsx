@@ -13,7 +13,6 @@ import LinkingConfiguration from './LinkingConfiguration';
 import NotFound from '../components/NotFound';
 import Welcome from '../components/Welcome';
 import SingleRunning from '../components/singleRun/SingleRunning';
-import ReadySingleRun from '../components/singleRun/ReadySingleRun';
 import useColorScheme from '../lib/hooks/useColorScheme';
 
 import * as BottomTabContainer from '../containers/bottomTab';
@@ -26,6 +25,7 @@ import RecordDetailContainer from '../containers/record/RecordDetailContainer';
 import RecordAnalysisContainer from '../containers/record/RecordAnalysisContainer';
 import MultiRunContainer from '../containers/multiRun/MultiRunContainer';
 import ReadyMultiRunContainer from '../containers/multiRun/ReadyMultiRunContainer';
+import ReadySingleRunContainer from '../containers/singleRun/ReadySingleRunContainer';
 
 export default function Navigation({
   navigationRef,
@@ -72,7 +72,7 @@ function RootNavigator() {
       {/* 개인런 */}
       <Stack.Screen
         name="ReadySingleRun"
-        component={ReadySingleRun}
+        component={ReadySingleRunContainer}
         options={{ headerShown: false }}
       />
       <Stack.Screen name="SingleRun" component={SingleRunning} options={{ headerShown: false }} />
