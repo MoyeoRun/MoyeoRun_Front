@@ -68,13 +68,15 @@ const MultiRunContainer = () => {
 
   const listenPosition = ({ latitude, longitude, altitude }: LocationObject['coords']) => {
     if (!myRunData || !user) return;
+
     const currentTime = stopWatch.getTime();
     const lastPoint = myRunData.runData[myRunData.runData.length - 1];
-    const currentDistance = lastPoint
+    const momentDistance = lastPoint
       ? getDistance(lastPoint.latitude, lastPoint.longitude, latitude, longitude)
       : 0;
+    const currentDistance = lastPoint ? lastPoint.currentDistance + momentDistance : momentDistance;
     const momentPace =
-      currentDistance === 0 ? 0 : (currentTime - lastPoint.currentTime) / 60000 / currentDistance;
+      momentDistance === 0 ? 0 : (currentTime - lastPoint.currentTime) / 60000 / currentDistance;
 
     if (lastPoint) {
       if (stopWatch.getTime() - lastPoint.currentTime < 1000) return;
@@ -92,19 +94,14 @@ const MultiRunContainer = () => {
     setRunDataBuffer(runDataBuffer.concat());
     dispatch(
       updateUserRunData({
-        user: user,
-        runStatus: {
-          time: currentTime,
-          distance: currentDistance,
-          pace: currentDistance ? currentTime / 60000 / currentDistance : 0,
-        },
+        userId: user.id,
         runData: [
           {
             latitude,
             longitude,
             currentAltitude: altitude!,
             currentTime,
-            currentDistance: currentDistance,
+            currentDistance,
             momentPace,
           },
         ],
@@ -125,13 +122,10 @@ const MultiRunContainer = () => {
     );
   };
 
-  //스탑워치 listen
-  // useInterval(
-  //   () => {
-  //     dispatch(updateTime(stopWatch.getTime()));
-  //   },
-  //   isRunning ? 500 : null,
-  // );
+  // 스탑워치 listen
+  useInterval(() => {
+    dispatch(updateTime(stopWatch.getTime()));
+  }, 500);
 
   useEffect(() => {
     if (point) {
@@ -188,6 +182,7 @@ const MultiRunContainer = () => {
       });
       socket.on('finish', (message: SocketFinish) => {
         speak('목표를 달성했습니다!');
+        handleEndRun();
       });
     }
     return () => {

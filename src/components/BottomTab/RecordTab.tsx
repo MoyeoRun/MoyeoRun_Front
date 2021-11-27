@@ -39,7 +39,7 @@ const RecordTab = ({ startWeekDay, runHistory, chaneWeek }: RecordTabProps) => {
     <Box flex={1}>
       <CustomWebview
         parentRef={webview}
-        path="recordTab"
+        path="friendTab"
         onMessage={handleEvent}
         onLoadEnd={sendProps}
       />

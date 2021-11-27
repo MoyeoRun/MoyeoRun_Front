@@ -16,7 +16,7 @@ export const initUserRunData = createAction(
 );
 export const updateUserRunData = createAction(
   UPDATE_USER_RUN_DATA,
-  (data: { user: User; runStatus: RunStatus; runData: RunData }) => data,
+  (data: { userId: User['id']; runData: RunData }) => data,
 );
 export const updateTime = createAction(UPDATE_TIME, (time: number) => time);
 export const initRunData = createAction(INIT_RUN_DATA);
@@ -62,18 +62,25 @@ export default handleActions<MultiRunState, any>(
     }),
     [UPDATE_USER_RUN_DATA]: (
       state,
-      { payload: data }: { payload: { user: User; runStatus: RunStatus; runData: RunData } },
+      { payload: data }: { payload: { userId: User['id']; runData: RunData } },
     ) => ({
       ...state,
-      userRunData: state.userRunData!.map((item) =>
-        item.user.id === data.user.id
+      userRunData: state.userRunData!.map((item) => {
+        const lastPoint = data.runData[data.runData.length - 1];
+        return item.user.id === data.userId
           ? {
               user: item.user,
-              runStatus: data.runStatus,
+              runStatus: {
+                time: lastPoint.currentTime,
+                distance: lastPoint.currentDistance,
+                pace: lastPoint.currentDistance
+                  ? lastPoint.currentTime / 60000 / lastPoint.currentDistance
+                  : 0,
+              },
               runData: item.runData.concat(data.runData),
             }
-          : item,
-      ),
+          : item;
+      }),
     }),
     ...pender({
       type: END_MULTI_RUN,
