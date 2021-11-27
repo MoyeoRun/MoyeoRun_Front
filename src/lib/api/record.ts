@@ -5,7 +5,7 @@ export const getSingleRunHistoryByStartEndDays = async (startDay: string,endDay:
   const start = new Date(startDay);
   const end = new Date(endDay);
   const query = qs.stringify({ start: start.toISOString(), end: end.toISOString() });
-  const { data } = await axios.get<RunHistory>(`http://45.248.73.50:30007/running/list?${query}`);
+  const { data } = await axios.get<RunHistory>(`http://45.248.73.50:30007/running/list/single?${query}`);
   return data;
 };
 export const getSingleRunRecordById = async (recordId: string) => {
@@ -15,11 +15,12 @@ export const getSingleRunRecordById = async (recordId: string) => {
 
 
 
-export const getMultiRunHistoryByStartEndDays = async (startDay: string,endDay: string ) => {
+export const getMultiRunHistoryByStartEndDays = async (startDay: string, endDay: string) => {
+  console.log(startDay,endDay);
   const start = new Date(startDay);
   const end = new Date(endDay);
   const query = qs.stringify({ start: start.toISOString(), end: end.toISOString() });
-  const { data } = await axios.get<RunHistory>(`http://45.248.73.50:30007/running/list?${query}`);
+  const { data } = await axios.get<RunHistory>(`http://45.248.73.50:30007/running/list/multi?${query}`);
   return data;
 };
 export const getMultiRunRecordById = async (recordId: string) => {

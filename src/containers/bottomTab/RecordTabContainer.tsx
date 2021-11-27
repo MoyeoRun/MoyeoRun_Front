@@ -54,7 +54,7 @@ const RecordTabContainer = () => {
         dispatch(getMultiRunRecordById(id));
       }
       default: {
-        console.log('getRunHistory 타입 잘못 입력');
+        console.log('getRunRecord 타입 잘못 입력');
       }
     }
   };
