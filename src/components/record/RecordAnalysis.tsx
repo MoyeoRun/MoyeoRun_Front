@@ -3,33 +3,21 @@ import React, { useRef } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
-type RecordAnalysisProps = {};
+type RecordAnalysisProps = {
+  runData: RunData;
+};
 
-const RecordAnalysis = ({}: RecordAnalysisProps) => {
+const RecordAnalysis = ({ runData }: RecordAnalysisProps) => {
   const webview = useRef<any>();
 
   const sendProps = () => {
-    webview.current.postMessage(JSON.stringify({ type: 'recordAnalysis', value: {} }));
-  };
-
-  const handleEvent = (event: WebViewMessageEvent) => {
-    const data = JSON.parse(event.nativeEvent.data);
-    switch (data.type) {
-      case 'logout': {
-        return;
-      }
-    }
+    console.log(runData);
+    webview.current.postMessage(JSON.stringify({ type: 'recordAnalysis', value: runData }));
   };
 
   return (
     <Box flex={1}>
-      <CustomWebview
-        parentRef={webview}
-        path="recordAnalysis"
-        onLoad={sendProps}
-        onMessage={handleEvent}
-      />
-      ;
+      <CustomWebview parentRef={webview} path="recordAnalysis" onLoad={sendProps} />
     </Box>
   );
 };

@@ -21,11 +21,12 @@ import CreateMultiRoomContainer from '../containers/multiRun/CreateMultiRoomCont
 import MyPageContainer from '../containers/profile/MyPageContainer';
 import LoginContainer from '../containers/auth/LoginContainer';
 import MultiRoomContainer from '../containers/multiRun/MultiRoomContainer';
-import RecordDetailContainer from '../containers/record/RecordDetailContainer';
+import SingleRecordDetailContainer from '../containers/record/SingleRecordDetailContainer';
 import RecordAnalysisContainer from '../containers/record/RecordAnalysisContainer';
 import MultiRunContainer from '../containers/multiRun/MultiRunContainer';
 import ReadyMultiRunContainer from '../containers/multiRun/ReadyMultiRunContainer';
 import ReadySingleRunContainer from '../containers/singleRun/ReadySingleRunContainer';
+import MultiRecordDetailContainer from '../containers/record/MultiRecordDetailContainer';
 
 export default function Navigation({
   navigationRef,
@@ -59,8 +60,13 @@ function RootNavigator() {
 
       {/* 기록 */}
       <Stack.Screen
-        name="RecordDetail"
-        component={RecordDetailContainer}
+        name="SingleRecordDetail"
+        component={SingleRecordDetailContainer}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MultiRecordDetail"
+        component={MultiRecordDetailContainer}
         options={{ headerShown: false }}
       />
       <Stack.Screen

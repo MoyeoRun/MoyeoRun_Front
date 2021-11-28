@@ -1,41 +1,41 @@
-import { Box } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import RecordTab from '../../components/bottomTab/RecordTab';
 import { RootState } from '../../modules';
-import {
-  getSingleRecordListByStartEndDays,
-  getMultiRunRecordListByStartEndDays,
-} from '../../modules/record';
+import { getMultiRecordList, getSingleRecordList, initRecordList } from '../../modules/record';
 
 const RecordTabContainer = () => {
   const { singleRecordList, multiRecordList } = useSelector((state: RootState) => state.record);
   const [endDay, setEndDay] = useState(new Date());
-  const [mode, setMode] = useState<'single' | 'multi'>('multi');
+  const [mode, setMode] = useState<number>(0);
   const dispatch = useDispatch();
 
   const getRecordList = () => {
     const startDay = new Date(endDay.getFullYear(), endDay.getMonth(), endDay.getDate() - 6);
     switch (mode) {
-      case 'single': {
-        dispatch(getSingleRecordListByStartEndDays(startDay, endDay));
+      case 0: {
+        dispatch(getMultiRecordList(startDay, endDay));
         return;
       }
-      case 'multi': {
-        dispatch(getMultiRunRecordListByStartEndDays(startDay, endDay));
+      case 1: {
+        dispatch(getSingleRecordList(startDay, endDay));
         return;
       }
     }
   };
 
-  const onQueryChange = ({ key, value }: { key: 'mode' | 'endDay'; value: any }) => {
-    if (key === 'mode') setMode(value);
-    if (key === 'endDay') setEndDay(value);
+  const onQueryChange = ({ type, value }: { type: 'mode' | 'endDay'; value: any }) => {
+    console.log({ type, value });
+    if (type === 'mode') setMode(value);
+    if (type === 'endDay') setEndDay(new Date(value));
   };
 
   useEffect(() => {
     getRecordList();
+    return () => {
+      dispatch(initRecordList());
+    };
   }, [dispatch, endDay, mode]);
 
   return (
