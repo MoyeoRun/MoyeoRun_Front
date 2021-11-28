@@ -1,13 +1,14 @@
+import { Box } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import RecordTab from '../../components/bottomTab/RecordTab';
 import { RootState } from '../../modules';
 import {
-  getSingleRunHistoryByStartEndDays,
-  getMultiRunHistoryByStartEndDays,
-  getSingleRunRecordById,
-  getMultiRunRecordById,
+  getSingleRecordListByStartEndDays,
+  getMultiRunRecordListByStartEndDays,
+  getSpecificRunRecordById,
+  getSpecificMultiRunRecordById,
 } from '../../modules/record';
 
 const InitEndDay = new Date();
@@ -18,13 +19,11 @@ const InitStartDay = new Date(
 );
 
 const RecordTabContainer = () => {
-  const { runHistory, runRecord } = useSelector((state: RootState) => state.record);
+  const { singleRecordList, multiRecordList } = useSelector((state: RootState) => state.record);
   const { user } = useSelector((state: RootState) => state.user);
-  const [startDay, setStartDay] = useState<string>(InitStartDay.toISOString());
-  const [endDay, setEndDay] = useState<string>(InitEndDay.toISOString());
   const dispatch = useDispatch();
 
-  const getRunHistory = ({
+  const getRecordList = ({
     startDay,
     endDay,
     runType,
@@ -33,44 +32,38 @@ const RecordTabContainer = () => {
     endDay: string;
     runType: string;
   }) => {
+    console.log('런히스토리 인수 확인 : ', startDay, endDay, runType);
     switch (runType) {
       case 'single': {
-        dispatch(getSingleRunHistoryByStartEndDays(startDay, endDay));
+        console.log('single week: ', startDay, endDay, runType);
+        dispatch(getSingleRecordListByStartEndDays(startDay, endDay));
+        return;
       }
       case 'multi': {
-        dispatch(getMultiRunHistoryByStartEndDays(startDay, endDay));
+        console.log('multi week: ', startDay, endDay, runType);
+        dispatch(getMultiRunRecordListByStartEndDays(startDay, endDay));
+        return;
       }
       default: {
-        console.log('getRunHistory 타입 잘못 입력');
-      }
-    }
-  };
-  const getRunRecord = ({ id, runType }: { id: string; runType: string }) => {
-    switch (runType) {
-      case 'single': {
-        dispatch(getSingleRunRecordById(id));
-      }
-      case 'multi': {
-        dispatch(getMultiRunRecordById(id));
-      }
-      default: {
-        console.log('getRunRecord 타입 잘못 입력');
+        console.log('getRecordList 타입 잘못 입력');
       }
     }
   };
 
   useEffect(() => {
-    getRunHistory({ startDay, endDay, runType: 'multi' });
-  }, [dispatch]);
+    const startDay = new Date();
+    const endDay = new Date(startDay.getFullYear(), startDay.getMonth(), startDay.getDate() - 6);
+    dispatch(getMultiRunRecordListByStartEndDays(startDay.toISOString(), endDay.toISOString()));
+  }, []);
 
+  if (singleRecordList === null && multiRecordList === null) return <Box></Box>;
   return (
     <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
       <RecordTab
         user={user}
-        runHistory={runHistory}
-        runRecord={runRecord}
-        getRunHistory={getRunHistory}
-        getRunRecord={getRunRecord}
+        singleRecordList={singleRecordList}
+        multiRecordList={multiRecordList}
+        getRecordList={getRecordList}
       />
     </SafeAreaView>
   );
