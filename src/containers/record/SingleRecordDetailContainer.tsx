@@ -1,26 +1,29 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import RecordAnalysis from '../../components/record/RecordAnalysis';
+import SingleRecordDetail from '../../components/record/SIngleRecordDetail';
 import { RootState } from '../../modules';
-import { getSingleRecord } from '../../modules/record';
+import { getSingleRecord, initRecord } from '../../modules/record';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const RecordAnalysisContainer = ({ route }: any) => {
+const SingleRecordDetailContainer = ({ route }: any) => {
   const { singleRecord } = useSelector((state: RootState) => state.record);
   const { recordId } = route.params;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!singleRecord) dispatch(getSingleRecord(recordId));
+    dispatch(getSingleRecord(recordId));
+    return () => {
+      dispatch(initRecord());
+    };
   }, [dispatch]);
 
   if (!singleRecord) return null;
   return (
     <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
-      <RecordAnalysis runData={singleRecord.runData} />
+      <SingleRecordDetail singleRecord={singleRecord} />
     </SafeAreaView>
   );
 };
 
-export default RecordAnalysisContainer;
+export default SingleRecordDetailContainer;
