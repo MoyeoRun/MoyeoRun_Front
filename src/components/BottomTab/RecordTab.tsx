@@ -6,9 +6,9 @@ import CustomWebview from '../common/CustomWebview';
 
 type RecordTabProps = {
   user: User | null;
-  runHistory: RunHistory | null;
-  runRecord: RunRecord | null;
-  getRunHistory: ({
+  singleRecordList: RunHistory | null;
+  multiRecordList: { multiRoom: Room; rank: number } | null;
+  getRecordList: ({
     startDay,
     endDay,
     runType,
@@ -17,35 +17,34 @@ type RecordTabProps = {
     endDay: string;
     runType: string;
   }) => void;
-  getRunRecord: ({ id, runType }: { id: string; runType: string }) => void;
 };
 
-const RecordTab = ({ runHistory, runRecord, getRunHistory, getRunRecord }: RecordTabProps) => {
+const RecordTab = ({ user, singleRecordList, multiRecordList, getRecordList }: RecordTabProps) => {
   const webview = useRef<any>();
   const sendProps = () => {
+    // console.log('전달', singleRecordList, multiRecordList);
     webview.current.postMessage(
-      JSON.stringify({ type: 'recordTab', value: { runHistory, runRecord } }),
+      JSON.stringify({ type: 'recordTab', value: { singleRecordList, multiRecordList } }),
     );
   };
 
   useEffect(() => {
     sendProps();
-  }, [runHistory, runRecord]);
+  }, [singleRecordList, multiRecordList]);
 
   const handleEvent = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
-      case 'runHistory': {
-        getRunHistory(data.value);
+      case 'recordList': {
+        getRecordList(data.value);
         return;
       }
-      case 'runRecord': {
-        getRunRecord(data.value);
+      case 'console': {
+        console.log(data.value);
         return;
       }
     }
   };
-
   return (
     <Box flex={1}>
       <CustomWebview

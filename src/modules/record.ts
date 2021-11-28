@@ -2,69 +2,72 @@ import { createAction, handleActions } from 'redux-actions';
 import { pender } from 'redux-pender';
 import * as recordAPI from '../lib/api/record';
 
-// const GET_RUN_HISTORY_BY_WEEK = 'record/GET_RUN_HISTORY_BY_WEEK';
-// const GET_RUN_RECORD_BY_ID = 'record/GET_RUN_RECORD_BY_ID';
 
-const GET_SINGLE_RUN_HISTORY_BY_START_END_DAYS = 'record/GET_SINGLE_RUN_HISTORY_BY_START_END_DAYS';
-const GET_MULTI_RUN_HISTORY_BY_START_END_DAYS = 'record/GET_MULTI_RUN_HISTORY_BY_START_END_DAYS';
-const GET_SINGLE_RUN_RECORD_BY_ID = 'record/GET_SINGLE_RUN_RECORD_BY_ID';
-const GET_MULTI_RUN_RECORD_BY_ID = 'record/GET_MULTI_RUN_RECORD_BY_ID';
+const GET_SINGLE_RUN_RECORD_LIST_BY_START_END_DAYS = 'record/GET_SINGLE_RUN_RECORD_LIST_BY_START_END_DAYS';
+const GET_MULTI_RECORD_LIST_BY_START_END_DAYS = 'record/GET_MULTI_RECORD_LIST_BY_START_END_DAYS';
+const GET_SPECIFIC_RUN_RECORD_BY_ID = 'record/GET_SPECIFIC_RUN_RECORD_BY_ID';
+const GET_SPECIFIC_MULTI_RUN_RECORD_BY_ID = 'record/GET_SPECIFIC_MULTI_RUN_RECORD_BY_ID';
 
-export const getSingleRunHistoryByStartEndDays = createAction(
-  GET_SINGLE_RUN_HISTORY_BY_START_END_DAYS,
-  recordAPI.getSingleRunHistoryByStartEndDays,
+export const getSingleRecordListByStartEndDays = createAction(
+  GET_SINGLE_RUN_RECORD_LIST_BY_START_END_DAYS,
+  recordAPI.getSingleRecordListByStartEndDays,
 );
-export const getSingleRunRecordById = createAction(GET_SINGLE_RUN_RECORD_BY_ID, recordAPI.getSingleRunRecordById);
-export const getMultiRunHistoryByStartEndDays = createAction(
-  GET_MULTI_RUN_HISTORY_BY_START_END_DAYS,
-  recordAPI.getSingleRunHistoryByStartEndDays,
-);
-export const getMultiRunRecordById = createAction(GET_MULTI_RUN_RECORD_BY_ID, recordAPI.getMultiRunRecordById);
+export const getMultiRunRecordListByStartEndDays = createAction(
+  GET_MULTI_RECORD_LIST_BY_START_END_DAYS,
+  recordAPI.getMultiRunRecordListByStartEndDays,
+  );
+export const getSpecificRunRecordById = createAction(GET_SPECIFIC_RUN_RECORD_BY_ID, recordAPI.getSpecificRunRecordById);
+export const getSpecificMultiRunRecordById = createAction(GET_SPECIFIC_MULTI_RUN_RECORD_BY_ID, recordAPI.getSpecificMultiRunRecordById);
 
 
 
 
 
 type RecordState = {
-  runHistory: RunHistory | null;
-  runRecord: RunRecord | null;
+  singleRecordList: RunHistory | null;
+  multiRecordList: { multiRoom: Room, rank: number } | null;
+  specificRecord: RunRecord | null;
+  specificMultiRecord : {multiRoomWithMember : Room, myRunData : RunRecord} | null;
 };
 
 const initialState: RecordState = {
-  runHistory: null,
-  runRecord: null,
+  singleRecordList: null,
+  multiRecordList: null,
+  specificRecord: null,
+  specificMultiRecord: null,
 };
 
 export default handleActions<RecordState, any>(
   {
     ...pender({
-      type: GET_SINGLE_RUN_HISTORY_BY_START_END_DAYS,
-      onSuccess: (state, { payload: runHistory }) => ({
+      type: GET_SINGLE_RUN_RECORD_LIST_BY_START_END_DAYS,
+      onSuccess: (state, { payload: singleRecordList }) => ({
         ...state,
-        runHistory,
+        singleRecordList,
+        multiRecordList: null,
+      }),
+    }),
+    ...pender({
+      type: GET_MULTI_RECORD_LIST_BY_START_END_DAYS,
+      onSuccess: (state, { payload: multiRecordList }) => ({
+        ...state,
+        singleRecordList: null,
+        multiRecordList,
       }),
     }),
 
     ...pender({
-      type: GET_SINGLE_RUN_RECORD_BY_ID,
-      onSuccess: (state, { payload: runRecord }) => ({
+      type: GET_SPECIFIC_RUN_RECORD_BY_ID,
+      onSuccess: (state, { payload: specificRunRecord }) => ({
         ...state,
-        runRecord,
-      }),
-    }),
-
-    ...pender({
-      type: GET_MULTI_RUN_HISTORY_BY_START_END_DAYS,
-      onSuccess: (state, { payload: runHistory }) => ({
-        ...state,
-        runHistory,
+        specificRunRecord,
       }),
     }),
     ...pender({
-      type: GET_MULTI_RUN_RECORD_BY_ID,
-      onSuccess: (state, { payload: runRecord }) => ({
+      type: GET_SPECIFIC_MULTI_RUN_RECORD_BY_ID,
+      onSuccess: (state, { payload: specificMultiRecord }) => ({
         ...state,
-        runRecord,
+        specificMultiRecord,
       }),
     }),
   },
