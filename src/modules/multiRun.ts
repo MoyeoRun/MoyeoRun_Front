@@ -3,8 +3,8 @@ import { pender } from 'redux-pender';
 import * as runAPI from '../lib/api/run';
 
 const END_MULTI_RUN = 'multiRun/END_MULTI_RUN' as const;
-const INIT_USER_RUN_DATA = 'multiRun/INIT_OTHERS_RUN_DATA' as const;
-const UPDATE_USER_RUN_DATA = 'multiRun/UPDATE_OTHERS_RUN_DATA' as const;
+const INIT_USER_RUN_DATA = 'multiRun/INIT_USER_RUN_DATA' as const;
+const UPDATE_USER_RUN_DATA = 'multiRun/UPDATE_USER_RUN_DATA' as const;
 const INIT_RUN_DATA = 'multiRun/INIT_RUN_DATA' as const;
 const UPDATE_TIME = 'multiRun/UPDATE_TIME' as const;
 const CHANGE_MULTI_RUN_STATE = 'multiRun/CHANGE_MULTI_RUN_STATE' as const;

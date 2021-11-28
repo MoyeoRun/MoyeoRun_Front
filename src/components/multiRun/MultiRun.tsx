@@ -8,48 +8,42 @@ type MultiRunProps = {
   user: User;
   room: Room;
   userRunData: UserRunData;
-  handleExit: () => void;
+  handleEndRun: () => void;
 };
 
-const MultiRun = ({ time, user, room, userRunData, handleExit }: MultiRunProps) => {
+const MultiRun = ({ time, user, room, userRunData, handleEndRun }: MultiRunProps) => {
   console.log({ time, user, room, userRunData });
   const webview = useRef<any>();
-
-  const sendProps = () => {
-    webview.current.postMessage(
-      JSON.stringify({
-        type: 'multiRun',
-        value: {
-          time,
-          user,
-          room,
-          userRunData,
-        },
-      }),
-    );
-  };
 
   const handleEvent = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
-      case '':
-        handleExit();
+      case 'runEnd':
+        handleEndRun();
         break;
     }
   };
 
   useEffect(() => {
-    sendProps();
-  }, [time, user, room, userRunData]);
+    if (time) webview.current.postMessage(JSON.stringify({ type: 'time', value: time }));
+  }, [time]);
+
+  useEffect(() => {
+    if (user) webview.current.postMessage(JSON.stringify({ type: 'user', value: user }));
+  }, [user]);
+
+  useEffect(() => {
+    if (room) webview.current.postMessage(JSON.stringify({ type: 'room', value: room }));
+  }, [room]);
+
+  useEffect(() => {
+    if (userRunData)
+      webview.current.postMessage(JSON.stringify({ type: 'userRunData', value: userRunData }));
+  }, [userRunData]);
 
   return (
     <Box flex={1}>
-      <CustomWebview
-        parentRef={webview}
-        path="multiRun"
-        onLoad={sendProps}
-        onMessage={handleEvent}
-      />
+      <CustomWebview parentRef={webview} path="multiRun" onMessage={handleEvent} />
     </Box>
   );
 };

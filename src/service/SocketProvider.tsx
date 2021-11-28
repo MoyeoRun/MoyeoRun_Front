@@ -29,7 +29,7 @@ const SocketProvider = ({ children, serverUrl, navigationRef }: SocketProviderPr
   const onWelcome = ({ roomId, status, isReady }: any) => {
     console.log('welcome', roomId, status, isReady);
     dispatch(setSocket({ roomId, status, isReady }));
-    if (isReady == true) {
+    if (status == 'Ready') {
       navigationRef.reset({ index: 0, routes: [{ name: 'ReadyMultiRun' }] });
     }
     if (status == 'Running') {

@@ -30,6 +30,7 @@ let stopWatch = new Stopwatch();
 let distanceInterval: number = 1;
 
 const MultiRunContainer = () => {
+  const [isRunning, setIsRunning] = useState(false);
   const [point, setPoint] = useState<LocationObject['coords'] | null>(null);
   const { time, startDate, userRunData } = useSelector((state: RootState) => state.multiRun);
   const { user } = useSelector((state: RootState) => state.user);
@@ -45,7 +46,7 @@ const MultiRunContainer = () => {
 
   const handleEndRun = async () => {
     if (!myRunData || !room) return;
-    await dispatch(
+    dispatch(
       endMultiRun({
         targetDistance: room.targetDistance,
         targetTime: room.targetTime,
@@ -60,10 +61,6 @@ const MultiRunContainer = () => {
       index: 0,
       routes: [{ name: 'BottomTab', state: { routes: [{ name: 'Record' }] } }],
     });
-  };
-
-  const handleExit = () => {
-    handleEndRun();
   };
 
   const listenPosition = ({ latitude, longitude, altitude }: LocationObject['coords']) => {
@@ -91,7 +88,16 @@ const MultiRunContainer = () => {
       );
     }
 
-    setRunDataBuffer(runDataBuffer.concat());
+    setRunDataBuffer(
+      runDataBuffer.concat({
+        latitude,
+        longitude,
+        currentAltitude: altitude!,
+        currentTime,
+        currentDistance,
+        momentPace,
+      }),
+    );
     dispatch(
       updateUserRunData({
         userId: user.id,
@@ -123,9 +129,12 @@ const MultiRunContainer = () => {
   };
 
   // 스탑워치 listen
-  useInterval(() => {
-    dispatch(updateTime(stopWatch.getTime()));
-  }, 500);
+  useInterval(
+    () => {
+      dispatch(updateTime(stopWatch.getTime()));
+    },
+    isRunning ? 500 : null,
+  );
 
   useEffect(() => {
     if (point) {
@@ -154,23 +163,22 @@ const MultiRunContainer = () => {
         console.log(err);
       }
     })();
-    console.log('멀티 런 접속 roomId: ', roomId);
     if (roomId) {
       dispatch(getRoomById(roomId));
     }
     stopWatch.start();
     dispatch(changeMultiRunState('startDate', new Date().toISOString()));
     startWatchLocation();
+    setIsRunning(true);
     return () => {
       dispatch(initRunData());
       watchLocation.remove();
+      setIsRunning(false);
     };
   }, []);
 
   useEffect(() => {
     if (room && !userRunData) {
-      console.log('roomData 로드 완료 room: ', room);
-      console.log(room.multiRoomMember);
       dispatch(initUserRunData(room.multiRoomMember));
     }
   }, [room]);
@@ -181,7 +189,7 @@ const MultiRunContainer = () => {
         dispatch(updateUserRunData(data));
       });
       socket.on('finish', (message: SocketFinish) => {
-        speak('목표를 달성했습니다!');
+        speak('러닝을 종료합니다');
         handleEndRun();
       });
     }
@@ -194,13 +202,13 @@ const MultiRunContainer = () => {
   if (!room || !user || !userRunData) return null;
 
   return (
-    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }} edges={['bottom']}>
       <MultiRun
         time={time}
         user={user}
         room={room}
         userRunData={userRunData}
-        handleExit={handleExit}
+        handleEndRun={handleEndRun}
       />
     </SafeAreaView>
   );
