@@ -259,7 +259,7 @@ type RunStatistics = Array<{
   averagePaceOfTerm: number;
 }>;
 
-type RunHistory = {
+type SingleRunHistory = {
   totalTime: number;
   totalDistance: number;
   totalAveragePace: number;
@@ -267,7 +267,15 @@ type RunHistory = {
   runningList: Array<RunRecord>;
 };
 
-const recordList: RunHistory = {
+type MultiRunHistory = {
+  totalTime: number;
+  totalDistance: number;
+  totalAveragePace: number;
+  analysisRunningListBetweenTerm: RunStatistics;
+  runningList: Array<{ multiRoom: Room; rank: number }>;
+};
+
+const recordList: SingleRunHistory = {
   totalTime: 928616,
   totalDistance: 444.854192,
   totalAveragePace: 6.231213545312,
@@ -308,6 +316,44 @@ const recordList: RunHistory = {
   ],
 };
 
+const multiRunHistory = {
+  totalTime: 1517869,
+  totalDistance: 888.4948360000001,
+  totalAveragePace: 14.835090205541217,
+  analysisRunningListBetweenTerm: [
+    {
+      count: 1,
+      date: '2021-11-12T17:11:43.749Z',
+      totalDistanceOfTerm: 111.213548,
+      totalTimeOfTerm: 232154,
+      averagePaceOfTerm: 6.231213545312,
+    },
+    {
+      count: 7,
+      date: '2021-11-13T23:37:55.754Z',
+      totalDistanceOfTerm: 777.281288,
+      totalTimeOfTerm: 1285715,
+      averagePaceOfTerm: 23.438966865770432,
+    },
+  ],
+  runningList: [
+    {
+      multiRoom: {
+        id: 9,
+        roomImage: null,
+        title: '방 제목',
+        status: 'Close',
+        description: '같이 뛰아요',
+        startDate: '2021-11-16T19:35:00.000Z',
+        targetDistance: 5,
+        targetTime: 500000,
+        limitMember: 4,
+      },
+      rank: 1,
+    },
+  ],
+};
+
 type NotificationContent = {
   title: string | null;
   body: string | null;
@@ -334,6 +380,6 @@ type WebviewPath =
   | 'myPage';
 
 type RecordTabProps = {
-  singleRunHistory: RunHistory;
-  multiRunHistory: RunHistory;
+  singleRunHistory: SingleRunHistory;
+  multiRunHistory: SingleRunHistory;
 };

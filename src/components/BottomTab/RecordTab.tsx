@@ -5,54 +5,43 @@ import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
 type RecordTabProps = {
-  user: User | null;
-  singleRecordList: RunHistory | null;
-  multiRecordList: { multiRoom: Room; rank: number } | null;
-  getRecordList: ({
-    startDay,
-    endDay,
-    runType,
-  }: {
-    startDay: string;
-    endDay: string;
-    runType: string;
-  }) => void;
+  endDay: Date;
+  mode: 'single' | 'multi';
+  singleRecordList: SingleRunHistory | null;
+  multiRecordList: MultiRunHistory | null;
+  onQueryChange: ({ key, value }: { key: 'mode' | 'endDay'; value: any }) => void;
 };
 
-const RecordTab = ({ user, singleRecordList, multiRecordList, getRecordList }: RecordTabProps) => {
+const RecordTab = ({
+  endDay,
+  mode,
+  singleRecordList,
+  multiRecordList,
+  onQueryChange,
+}: RecordTabProps) => {
   const webview = useRef<any>();
-  const sendProps = () => {
-    // console.log('전달', singleRecordList, multiRecordList);
-    webview.current.postMessage(
-      JSON.stringify({ type: 'recordTab', value: { singleRecordList, multiRecordList } }),
-    );
-  };
-
-  useEffect(() => {
-    sendProps();
-  }, [singleRecordList, multiRecordList]);
+  const navigation = useNavigation();
 
   const handleEvent = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
-      case 'recordList': {
-        getRecordList(data.value);
-        return;
-      }
-      case 'console': {
-        console.log(data.value);
-        return;
-      }
+      case 'queryChange':
+        onQueryChange(data.value);
+        break;
+      case 'goDetail':
+        navigation.navigate('RecordDetail', { recordId: data.value });
+        break;
     }
   };
+
+  useEffect(() => {}, [endDay]);
+  useEffect(() => {}, [mode]);
+  useEffect(() => {}, [singleRecordList]);
+  useEffect(() => {}, [multiRecordList]);
+
   return (
     <Box flex={1}>
-      <CustomWebview
-        parentRef={webview}
-        path="recordTab"
-        onMessage={handleEvent}
-        onLoadEnd={sendProps}
-      />
+      <CustomWebview parentRef={webview} path="recordTab" onMessage={handleEvent} />
     </Box>
   );
 };

@@ -19,6 +19,8 @@ export type RootStackParamList = {
   NotFound: undefined;
   CreateMultiRoom: undefined;
   MultiRoom: { roomId: number };
+  RecordDetail: { recordId: number };
+  RecordAnalysis: { recordId: number };
 };
 
 export type BottomTabParamList = {

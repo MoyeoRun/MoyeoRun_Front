@@ -7,63 +7,45 @@ import { RootState } from '../../modules';
 import {
   getSingleRecordListByStartEndDays,
   getMultiRunRecordListByStartEndDays,
-  getSpecificRunRecordById,
-  getSpecificMultiRunRecordById,
 } from '../../modules/record';
-
-const InitEndDay = new Date();
-const InitStartDay = new Date(
-  InitEndDay.getFullYear(),
-  InitEndDay.getMonth(),
-  InitEndDay.getDate() - 6,
-);
 
 const RecordTabContainer = () => {
   const { singleRecordList, multiRecordList } = useSelector((state: RootState) => state.record);
-  const { user } = useSelector((state: RootState) => state.user);
+  const [endDay, setEndDay] = useState(new Date());
+  const [mode, setMode] = useState<'single' | 'multi'>('multi');
   const dispatch = useDispatch();
 
-  const getRecordList = ({
-    startDay,
-    endDay,
-    runType,
-  }: {
-    startDay: string;
-    endDay: string;
-    runType: string;
-  }) => {
-    console.log('런히스토리 인수 확인 : ', startDay, endDay, runType);
-    switch (runType) {
+  const getRecordList = () => {
+    const startDay = new Date(endDay.getFullYear(), endDay.getMonth(), endDay.getDate() - 6);
+    switch (mode) {
       case 'single': {
-        console.log('single week: ', startDay, endDay, runType);
         dispatch(getSingleRecordListByStartEndDays(startDay, endDay));
         return;
       }
       case 'multi': {
-        console.log('multi week: ', startDay, endDay, runType);
         dispatch(getMultiRunRecordListByStartEndDays(startDay, endDay));
         return;
-      }
-      default: {
-        console.log('getRecordList 타입 잘못 입력');
       }
     }
   };
 
-  useEffect(() => {
-    const startDay = new Date();
-    const endDay = new Date(startDay.getFullYear(), startDay.getMonth(), startDay.getDate() - 6);
-    dispatch(getMultiRunRecordListByStartEndDays(startDay.toISOString(), endDay.toISOString()));
-  }, []);
+  const onQueryChange = ({ key, value }: { key: 'mode' | 'endDay'; value: any }) => {
+    if (key === 'mode') setMode(value);
+    if (key === 'endDay') setEndDay(value);
+  };
 
-  if (singleRecordList === null && multiRecordList === null) return <Box></Box>;
+  useEffect(() => {
+    getRecordList();
+  }, [dispatch, endDay, mode]);
+
   return (
     <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
       <RecordTab
-        user={user}
+        endDay={endDay}
+        mode={mode}
         singleRecordList={singleRecordList}
         multiRecordList={multiRecordList}
-        getRecordList={getRecordList}
+        onQueryChange={onQueryChange}
       />
     </SafeAreaView>
   );
