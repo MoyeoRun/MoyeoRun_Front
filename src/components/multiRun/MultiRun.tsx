@@ -1,5 +1,5 @@
 import { Box } from 'native-base';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
@@ -12,7 +12,7 @@ type MultiRunProps = {
 };
 
 const MultiRun = ({ time, user, room, userRunData, handleEndRun }: MultiRunProps) => {
-  console.log({ time, user, room, userRunData });
+  const [isLoadEnd, setIsLoadEnd] = useState(false);
   const webview = useRef<any>();
 
   const handleEvent = (event: WebViewMessageEvent) => {
@@ -25,25 +25,35 @@ const MultiRun = ({ time, user, room, userRunData, handleEndRun }: MultiRunProps
   };
 
   useEffect(() => {
-    if (time) webview.current.postMessage(JSON.stringify({ type: 'time', value: time }));
-  }, [time]);
+    if (isLoadEnd && time)
+      webview.current.postMessage(JSON.stringify({ type: 'time', value: time }));
+  }, [isLoadEnd, time]);
 
   useEffect(() => {
-    if (user) webview.current.postMessage(JSON.stringify({ type: 'user', value: user }));
-  }, [user]);
+    if (isLoadEnd && user)
+      webview.current.postMessage(JSON.stringify({ type: 'user', value: user }));
+  }, [isLoadEnd, user]);
 
   useEffect(() => {
-    if (room) webview.current.postMessage(JSON.stringify({ type: 'room', value: room }));
-  }, [room]);
+    if (isLoadEnd && room)
+      webview.current.postMessage(JSON.stringify({ type: 'room', value: room }));
+  }, [isLoadEnd, room]);
 
   useEffect(() => {
-    if (userRunData)
+    if (isLoadEnd && userRunData)
       webview.current.postMessage(JSON.stringify({ type: 'userRunData', value: userRunData }));
-  }, [userRunData]);
+  }, [isLoadEnd, userRunData]);
 
   return (
     <Box flex={1}>
-      <CustomWebview parentRef={webview} path="multiRun" onMessage={handleEvent} />
+      <CustomWebview
+        parentRef={webview}
+        path="multiRun"
+        onMessage={handleEvent}
+        onLoadEnd={() => {
+          setIsLoadEnd(true);
+        }}
+      />
     </Box>
   );
 };
