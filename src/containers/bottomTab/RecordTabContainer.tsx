@@ -26,7 +26,6 @@ const RecordTabContainer = () => {
   };
 
   const onQueryChange = ({ type, value }: { type: 'mode' | 'endDay'; value: any }) => {
-    console.log({ type, value });
     if (type === 'mode') setMode(value);
     if (type === 'endDay') setEndDay(new Date(value));
   };

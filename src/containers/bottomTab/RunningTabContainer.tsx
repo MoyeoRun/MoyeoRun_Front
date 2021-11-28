@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/core';
+import { requestForegroundPermissionsAsync } from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,6 +45,7 @@ const RunningTabContainer = () => {
   };
 
   useEffect(() => {
+    requestForegroundPermissionsAsync();
     dispatch(getRoomList());
   }, []);
 

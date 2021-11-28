@@ -30,6 +30,7 @@ let stopWatch = new Stopwatch();
 let distanceInterval: number = 1;
 
 const MultiRunContainer = () => {
+  const [isRunning, setIsRunning] = useState(false);
   const [point, setPoint] = useState<LocationObject['coords'] | null>(null);
   const { time, startDate, userRunData } = useSelector((state: RootState) => state.multiRun);
   const { user } = useSelector((state: RootState) => state.user);
@@ -45,8 +46,10 @@ const MultiRunContainer = () => {
 
   const handleEndRun = async () => {
     if (!myRunData || !room) return;
-    await dispatch(
+    dispatch(
       endMultiRun({
+        roomId: room.id,
+        type: 'multi',
         targetDistance: room.targetDistance,
         targetTime: room.targetTime,
         runPace: myRunData.runStatus.pace,
@@ -62,19 +65,17 @@ const MultiRunContainer = () => {
     });
   };
 
-  const handleExit = () => {
-    handleEndRun();
-  };
-
   const listenPosition = ({ latitude, longitude, altitude }: LocationObject['coords']) => {
     if (!myRunData || !user) return;
+
     const currentTime = stopWatch.getTime();
     const lastPoint = myRunData.runData[myRunData.runData.length - 1];
-    const currentDistance = lastPoint
+    const momentDistance = lastPoint
       ? getDistance(lastPoint.latitude, lastPoint.longitude, latitude, longitude)
       : 0;
+    const currentDistance = lastPoint ? lastPoint.currentDistance + momentDistance : momentDistance;
     const momentPace =
-      currentDistance === 0 ? 0 : (currentTime - lastPoint.currentTime) / 60000 / currentDistance;
+      momentDistance === 0 ? 0 : (currentTime - lastPoint.currentTime) / 60000 / currentDistance;
 
     if (lastPoint) {
       if (stopWatch.getTime() - lastPoint.currentTime < 1000) return;
@@ -89,22 +90,26 @@ const MultiRunContainer = () => {
       );
     }
 
-    setRunDataBuffer(runDataBuffer.concat());
+    setRunDataBuffer(
+      runDataBuffer.concat({
+        latitude,
+        longitude,
+        currentAltitude: altitude!,
+        currentTime,
+        currentDistance,
+        momentPace,
+      }),
+    );
     dispatch(
       updateUserRunData({
-        user: user,
-        runStatus: {
-          time: currentTime,
-          distance: currentDistance,
-          pace: currentDistance ? currentTime / 60000 / currentDistance : 0,
-        },
+        userId: user.id,
         runData: [
           {
             latitude,
             longitude,
             currentAltitude: altitude!,
             currentTime,
-            currentDistance: currentDistance,
+            currentDistance,
             momentPace,
           },
         ],
@@ -125,13 +130,13 @@ const MultiRunContainer = () => {
     );
   };
 
-  //스탑워치 listen
-  // useInterval(
-  //   () => {
-  //     dispatch(updateTime(stopWatch.getTime()));
-  //   },
-  //   isRunning ? 500 : null,
-  // );
+  // 스탑워치 listen
+  useInterval(
+    () => {
+      dispatch(updateTime(stopWatch.getTime()));
+    },
+    isRunning ? 500 : null,
+  );
 
   useEffect(() => {
     if (point) {
@@ -160,23 +165,22 @@ const MultiRunContainer = () => {
         console.log(err);
       }
     })();
-    console.log('멀티 런 접속 roomId: ', roomId);
     if (roomId) {
       dispatch(getRoomById(roomId));
     }
     stopWatch.start();
     dispatch(changeMultiRunState('startDate', new Date().toISOString()));
     startWatchLocation();
+    setIsRunning(true);
     return () => {
       dispatch(initRunData());
       watchLocation.remove();
+      setIsRunning(false);
     };
   }, []);
 
   useEffect(() => {
     if (room && !userRunData) {
-      console.log('roomData 로드 완료 room: ', room);
-      console.log(room.multiRoomMember);
       dispatch(initUserRunData(room.multiRoomMember));
     }
   }, [room]);
@@ -187,7 +191,8 @@ const MultiRunContainer = () => {
         dispatch(updateUserRunData(data));
       });
       socket.on('finish', (message: SocketFinish) => {
-        speak('목표를 달성했습니다!');
+        speak('러닝을 종료합니다');
+        handleEndRun();
       });
     }
     return () => {
@@ -199,13 +204,13 @@ const MultiRunContainer = () => {
   if (!room || !user || !userRunData) return null;
 
   return (
-    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }}>
+    <SafeAreaView mode="padding" style={{ flex: 1, backgroundColor: 'white' }} edges={['bottom']}>
       <MultiRun
         time={time}
         user={user}
         room={room}
         userRunData={userRunData}
-        handleExit={handleExit}
+        handleEndRun={handleEndRun}
       />
     </SafeAreaView>
   );

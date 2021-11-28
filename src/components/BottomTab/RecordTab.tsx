@@ -19,7 +19,7 @@ const RecordTab = ({
   multiRecordList,
   onQueryChange,
 }: RecordTabProps) => {
-  const [isLoad, setIsLoad] = useState(false);
+  const [isLoadEnd, setIsLoadEnd] = useState(false);
   const webview = useRef<any>();
   const navigation = useNavigation();
 
@@ -39,29 +39,32 @@ const RecordTab = ({
   };
 
   useEffect(() => {
-    if (!isLoad) return;
-    webview.current.postMessage(JSON.stringify({ type: 'endDay', value: endDay.toISOString() }));
-  }, [endDay, isLoad]);
+    if (isLoadEnd) {
+      webview.current.postMessage(JSON.stringify({ type: 'endDay', value: endDay.toISOString() }));
+    }
+  }, [endDay, isLoadEnd]);
 
   useEffect(() => {
-    if (!isLoad) return;
-    webview.current.postMessage(JSON.stringify({ type: 'mode', value: mode }));
-  }, [mode, isLoad]);
+    if (isLoadEnd) {
+      webview.current.postMessage(JSON.stringify({ type: 'mode', value: mode }));
+    }
+  }, [mode, isLoadEnd]);
 
   useEffect(() => {
-    if (!isLoad) return;
-    webview.current.postMessage(
-      JSON.stringify({ type: 'singleRecordList', value: singleRecordList }),
-    );
-  }, [singleRecordList, isLoad]);
+    if (isLoadEnd) {
+      webview.current.postMessage(
+        JSON.stringify({ type: 'singleRecordList', value: singleRecordList }),
+      );
+    }
+  }, [singleRecordList, isLoadEnd]);
 
   useEffect(() => {
-    if (!isLoad) return;
-    console.log(multiRecordList);
-    webview.current.postMessage(
-      JSON.stringify({ type: 'multiRecordList', value: multiRecordList }),
-    );
-  }, [multiRecordList, isLoad]);
+    if (isLoadEnd) {
+      webview.current.postMessage(
+        JSON.stringify({ type: 'multiRecordList', value: multiRecordList }),
+      );
+    }
+  }, [multiRecordList, isLoadEnd]);
 
   return (
     <Box flex={1}>
@@ -70,7 +73,7 @@ const RecordTab = ({
         path="recordTab"
         onMessage={handleEvent}
         onLoadEnd={() => {
-          setIsLoad(true);
+          setIsLoadEnd(true);
         }}
       />
     </Box>
