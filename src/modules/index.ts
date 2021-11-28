@@ -5,6 +5,7 @@ import user from './user';
 import room from './room';
 import image from './image';
 import record from './record';
+import socket from './socket';
 import singleRun from './singleRun';
 import multiRun from './multiRun';
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   record,
   singleRun,
   multiRun,
+  socket,
   pender: penderReducer,
 });
 

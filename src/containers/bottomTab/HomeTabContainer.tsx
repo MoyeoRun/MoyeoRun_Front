@@ -1,15 +1,12 @@
-import { setItemAsync } from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import HomeTab from '../../components/bottomTab/HomeTab';
 import { RootState } from '../../modules';
-import { logout } from '../../modules/auth';
 import { getUserData } from '../../modules/user';
 
 const HomeTabContainer = () => {
   const { user } = useSelector((state: RootState) => state.user);
-  const { accessToken, refreshToken } = useSelector((state: RootState) => state.auth);
 
   const [runList] = useState([
     {
@@ -17,6 +14,8 @@ const HomeTabContainer = () => {
       title: '바람 부는 날 10Km 함께 뛰어요',
       waiting: 25,
       startDate: null,
+      limitMember: 9,
+      multiRoomMember: [1, 2, 3],
       image:
         'https://images.unsplash.com/photo-1604314923234-5144a466130f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1632&q=80',
     },
@@ -25,12 +24,16 @@ const HomeTabContainer = () => {
       title: '도심 속 달리기',
       waiting: 12,
       startDate: null,
+      limitMember: 9,
+      multiRoomMember: [1, 2, 3],
       image:
         'https://images.unsplash.com/photo-1509339022327-1e1e25360a41?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
     },
     {
       id: 3,
       title: '강변 러너스',
+      limitMember: 9,
+      multiRoomMember: [1, 2, 3],
       waiting: 4,
       startDate: null,
       image:

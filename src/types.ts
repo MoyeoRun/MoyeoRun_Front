@@ -34,8 +34,8 @@ type Room = {
   targetDistance: number; //모여런 목표 거리 Km단위
   targetTime: number; //모여런 목표 시간 밀리세컨드 단위
   multiRoomMember: Array<{
-    roomId: number;
-    userId: number;
+    roomId: Room['id'];
+    userId: User['id'];
     runId: number | null;
     rank: number | null;
     isOwner: boolean;
@@ -110,15 +110,15 @@ type RoomList = {
   participantRoom: Room | null; //현재 참여중인 모여런
   roomList: Array<Partial<Room>>; //전체 모여런 리스트
 };
-
 type RoomStatus = {
-  connectedUserId: Array<User['id']>; //현재 대기중인 유저 목록
-};
-const roomStatus: RoomStatus = {
-  connectedUserId: [1, 2, 3],
+  connectedUserId: Array<{
+    userId: User['id'];
+    roomId: Room['id'];
+    isOwner: boolean;
+    isReady: boolean;
+  }>; //현재 대기중인 유저 목록
 };
 
-//moyeoRun
 type Point = {
   latitude: number; //현재 위치의 위도
   longitude: number; //현재 위치의 경도
@@ -147,10 +147,23 @@ type RunStatus = {
 };
 const runStatus: RunStatus = { time: 0, distance: 0, pace: 0 };
 
-type OthersRunData = Array<{ userId: User['id'] } & { runData: RunData }>;
-const othersRunDataP: OthersRunData = [
+type UserRunData = Array<{
+  user: Partial<User>;
+  runStatus: RunStatus;
+  runData: RunData;
+}>;
+
+const othersRunData: UserRunData = [
   {
-    userId: 1,
+    user: {
+      id: 1,
+      name: '비둘기',
+      email: 'sjsjsj1246@naver.com',
+      nickName: 'sjsjsj1246',
+      image:
+        'https://images.unsplash.com/photo-1586083702768-190ae093d34d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=918&q=80',
+    },
+    runStatus: { time: 0, distance: 0, pace: 0 },
     runData: [
       {
         latitude: 37.659187827620975,
@@ -163,7 +176,15 @@ const othersRunDataP: OthersRunData = [
     ],
   },
   {
-    userId: 2,
+    user: {
+      id: 1,
+      name: '비둘기',
+      email: 'sjsjsj1246@naver.com',
+      nickName: 'sjsjsj1246',
+      image:
+        'https://images.unsplash.com/photo-1586083702768-190ae093d34d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=918&q=80',
+    },
+    runStatus: { time: 0, distance: 0, pace: 0 },
     runData: [
       {
         latitude: 37.659181827620975,
@@ -372,7 +393,9 @@ type WebviewPath =
   | 'readySingleRun'
   | 'singleRunOnlyMap'
   | 'createMultiRoom'
+  | 'readyMultiRun'
   | 'multiRoom'
+  | 'multiRun'
   | 'bodyInfo'
   | 'uploadProfile'
   | 'uploadBodyInfo'
@@ -383,3 +406,52 @@ type RecordTabProps = {
   singleRunHistory: SingleRunHistory;
   multiRunHistory: SingleRunHistory;
 };
+
+// 소켓 관련 타입
+
+type SocketJoin = {
+  userId: User['id'];
+};
+
+type SocketWelcome = {
+  roomId: Room['id'] | null;
+  status: 'Open' | 'running' | 'Close' | null;
+};
+
+type SocketReady = {
+  roomId: Room['id'];
+  user: User;
+};
+
+type SocketPrepareType = string;
+
+type SocketRoomStatus = {
+  connectedUserId: Array<{
+    userId: User['id'];
+    roomId: Room['id'];
+    isOwner: boolean;
+    isReady: boolean;
+  }>; //현재 대기중인 유저 목록
+};
+
+type SocketStart = {
+  message: string;
+  roomId: Room['id'];
+};
+
+type SocketReadyError = {
+  error: any;
+};
+
+type SocketRunData = {
+  userId: User['id'];
+  roomId: Room['id'];
+  runData: RunData;
+};
+
+type SocketRunBroadCast = {
+  userId: User['id'];
+  runData: RunData;
+};
+
+type SocketFinish = string;

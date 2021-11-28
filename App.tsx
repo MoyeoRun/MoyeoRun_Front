@@ -10,10 +10,11 @@ import store from './src/store';
 import { setToken } from './src/modules/auth';
 import Navigation from './src/navigation';
 import { useNavigationContainerRef } from '@react-navigation/core';
-import TokenManager from './src/TokenManager';
+import TokenManager from './src/service/TokenManager';
 import * as Sentry from 'sentry-expo';
 import config from './src/config';
-import Notification from './src/Notification';
+import Notification from './src/service/Notification';
+import SocketProvider from './src/service/SocketProvider';
 
 Sentry.init({
   dsn: config.sentry_dsn,
@@ -28,16 +29,18 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <TokenManager navigationRef={navigationRef}>
-        <Notification>
-          <SafeAreaProvider>
-            <NativeBaseProvider theme={customTheme}>
-              {!isLoadingComplete ? <Onboarding /> : <Navigation navigationRef={navigationRef} />}
-              <StatusBar style="dark" />
-            </NativeBaseProvider>
-          </SafeAreaProvider>
-        </Notification>
-      </TokenManager>
+      <SocketProvider serverUrl={config.socketEndpoint} navigationRef={navigationRef}>
+        <TokenManager navigationRef={navigationRef}>
+          <Notification>
+            <SafeAreaProvider>
+              <NativeBaseProvider theme={customTheme}>
+                {!isLoadingComplete ? <Onboarding /> : <Navigation navigationRef={navigationRef} />}
+                <StatusBar style="dark" />
+              </NativeBaseProvider>
+            </SafeAreaProvider>
+          </Notification>
+        </TokenManager>
+      </SocketProvider>
     </Provider>
   );
 };

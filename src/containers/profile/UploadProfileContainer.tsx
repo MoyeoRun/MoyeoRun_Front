@@ -77,10 +77,8 @@ const UploadProfileContainer = () => {
 
     let formData = new FormData();
     formData.append('image', { type: type, uri: localUri, name: filename });
-    console.log(formData);
     try {
       const res = await uploadImage(formData);
-      console.log(res);
       setImage(res.data.location);
     } catch (e) {
       console.log(e);

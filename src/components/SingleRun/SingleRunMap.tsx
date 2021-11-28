@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import { HStack, Box, VStack } from 'native-base';
 import OperationButton from './OperationButton';
 import { secondToTimeString, getDistanceString, getPaceString } from '../../lib/util/strFormat';
@@ -137,4 +137,4 @@ const SingleRunMap = ({
     </VStack>
   );
 };
-export default SingleRunMap;
+export default memo(SingleRunMap);

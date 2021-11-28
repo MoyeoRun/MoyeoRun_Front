@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import RecordDetail from '../../components/record/recordDetail';
+import RecordDetail from '../../components/record/RecordDetail';
 import { RootState } from '../../modules';
 
 const RecordDetailContainer = () => {

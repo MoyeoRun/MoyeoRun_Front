@@ -6,7 +6,7 @@ const FriendTab = () => {
   const webview = useRef<any>();
 
   return (
-    <Box>
+    <Box flex={1}>
       <CustomWebview path="friendTab" parentRef={webview} />
     </Box>
   );

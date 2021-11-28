@@ -13,7 +13,6 @@ import LinkingConfiguration from './LinkingConfiguration';
 import NotFound from '../components/NotFound';
 import Welcome from '../components/Welcome';
 import SingleRunning from '../components/singleRun/SingleRunning';
-import ReadySingleRun from '../components/singleRun/ReadySingleRun';
 import useColorScheme from '../lib/hooks/useColorScheme';
 
 import * as BottomTabContainer from '../containers/bottomTab';
@@ -22,6 +21,11 @@ import CreateMultiRoomContainer from '../containers/multiRun/CreateMultiRoomCont
 import MyPageContainer from '../containers/profile/MyPageContainer';
 import LoginContainer from '../containers/auth/LoginContainer';
 import MultiRoomContainer from '../containers/multiRun/MultiRoomContainer';
+import RecordDetailContainer from '../containers/record/RecordDetailContainer';
+import RecordAnalysisContainer from '../containers/record/RecordAnalysisContainer';
+import MultiRunContainer from '../containers/multiRun/MultiRunContainer';
+import ReadyMultiRunContainer from '../containers/multiRun/ReadyMultiRunContainer';
+import ReadySingleRunContainer from '../containers/singleRun/ReadySingleRunContainer';
 
 export default function Navigation({
   navigationRef,
@@ -46,41 +50,67 @@ function RootNavigator() {
   return (
     // 기본 탭을 Login으로 함으로써 토큰의 존재 여부를 먼저 검사합니다.
     <Stack.Navigator initialRouteName="Login">
+      {/* 바텀탭 */}
       <Stack.Screen
         name="BottomTab"
         component={BottomTabNavigator}
         options={{ headerShown: false }}
       />
 
-      <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
-      <Stack.Screen name="MyPage" component={MyPageContainer} options={{ title: '내정보' }} />
+      {/* 기록 */}
+      <Stack.Screen
+        name="RecordDetail"
+        component={RecordDetailContainer}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RecordAnalysis"
+        component={RecordAnalysisContainer}
+        options={{ headerShown: false }}
+      />
+
+      {/* 개인런 */}
+      <Stack.Screen
+        name="ReadySingleRun"
+        component={ReadySingleRunContainer}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="SingleRun" component={SingleRunning} options={{ headerShown: false }} />
+
+      {/* 멀티런 */}
+      <Stack.Screen
+        name="CreateMultiRoom"
+        component={CreateMultiRoomContainer}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MultiRoom"
+        component={MultiRoomContainer}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ReadyMultiRun"
+        component={ReadyMultiRunContainer}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MultiRun"
+        component={MultiRunContainer}
+        options={{ headerShown: false }}
+      />
+
+      {/* 프로필 */}
+      <Stack.Screen name="MyPage" component={MyPageContainer} />
       <Stack.Screen
         name="UploadProfile"
         component={UploadProfileContainer}
         options={{ headerShown: false }}
       />
+
+      {/* 미분류 */}
+      <Stack.Screen name="Login" component={LoginContainer} options={{ headerShown: false }} />
       <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
-      <Stack.Screen
-        name="SingleRun"
-        component={SingleRunning}
-        options={{ title: '개인런', headerShown: false }}
-      />
-      <Stack.Screen
-        name="ReadySingleRun"
-        component={ReadySingleRun}
-        options={{ title: '개인런준비', headerShown: false }}
-      />
-      <Stack.Screen
-        name="CreateMultiRoom"
-        component={CreateMultiRoomContainer}
-        options={{ headerShown: false, title: '방만들기' }}
-      />
-      <Stack.Screen
-        name="MultiRoom"
-        component={MultiRoomContainer}
-        options={{ headerShown: false, title: '방만들기' }}
-      />
+      <Stack.Screen name="NotFound" component={NotFound} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
@@ -114,7 +144,6 @@ function BottomTabNavigator() {
         component={BottomTabContainer.HomeTabContainer}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: '홈',
-
           tabBarIcon: ({ color, focused }) =>
             focused ? <Icon.HomeFillIcon color={'#1162FF'} /> : <Icon.HomeIcon color={color} />,
         })}

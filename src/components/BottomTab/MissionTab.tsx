@@ -6,7 +6,7 @@ const MissionTab = () => {
   const webview = useRef<any>();
 
   return (
-    <Box>
+    <Box flex={1}>
       <CustomWebview path="missionTab" parentRef={webview} />
     </Box>
   );
