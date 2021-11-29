@@ -1,33 +1,41 @@
 import { useNavigation } from '@react-navigation/core';
 import { Box } from 'native-base';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
 
-type RecordDetailProps = {};
+type SingleRecordDetailProps = {
+  singleRecord: RunRecord;
+};
 
-const RecordDetail = ({}: RecordDetailProps) => {
+const SingleRecordDetail = ({ singleRecord }: SingleRecordDetailProps) => {
   const webview = useRef<any>();
   const navigation = useNavigation();
 
   const sendProps = () => {
-    webview.current.postMessage(JSON.stringify({ type: 'recordDetail', value: { user } }));
+    webview.current.postMessage(
+      JSON.stringify({ type: 'singleRecordDetail', value: singleRecord }),
+    );
   };
 
   const handleEvent = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.type) {
-      case 'recordDetail': {
-        navigation.navigate('Welcome');
+      case 'goAnalysis': {
+        navigation.navigate('RecordAnalysis', { recordId: data.value });
         return;
       }
     }
   };
 
+  useEffect(() => {
+    sendProps();
+  }, [singleRecord]);
+
   return (
-    <Box>
+    <Box flex={1}>
       <CustomWebview
-        path="recordDetail"
+        path="singleRecordDetail"
         parentRef={webview}
         onLoad={sendProps}
         onMessage={handleEvent}
@@ -36,4 +44,4 @@ const RecordDetail = ({}: RecordDetailProps) => {
   );
 };
 
-export default RecordDetail;
+export default SingleRecordDetail;

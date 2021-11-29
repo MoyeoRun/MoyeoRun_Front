@@ -13,8 +13,9 @@ export type RootStackParamList = {
   BottomTab: NavigatorScreenParams<BottomTabParamList> | undefined;
 
   //기록
-  RecordDetail: undefined;
-  RecordAnalysis: undefined;
+  MultiRecordDetail: { recordId: number };
+  SingleRecordDetail: { recordId: number };
+  RecordAnalysis: { recordId: number };
 
   //개인런
   ReadySingleRun: undefined;

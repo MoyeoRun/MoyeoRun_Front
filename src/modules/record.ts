@@ -2,39 +2,63 @@ import { createAction, handleActions } from 'redux-actions';
 import { pender } from 'redux-pender';
 import * as recordAPI from '../lib/api/record';
 
-const GET_RUN_HISTORY_BY_WEEK = 'record/GET_RUN_HISTORY_BY_WEEK';
-const GET_RUN_RECORD_BY_ID = 'record/GET_RUN_RECORD_BY_ID';
+const GET_SINGLE_RECORD_LIST = 'record/GET_SINGLE_RECORD_LIST';
+const GET_MULTI_RECORD_LIST = 'record/GET_MULTI_RECORD_LIST';
+const GET_SINGLE_RECORD = 'record/GET_SINGLE_RECORD';
+const INIT_RECORD_LIST = 'record/INIT_RECORD_LIST';
+const INIT_RECORD = 'record/INIT_RECORD';
 
-export const getRunHistoryByWeek = createAction(
-  GET_RUN_HISTORY_BY_WEEK,
-  recordAPI.getRunHistoryByWeek,
+export const getSingleRecordList = createAction(
+  GET_SINGLE_RECORD_LIST,
+  recordAPI.getSingleRecordList,
 );
-export const getRunRecordById = createAction(GET_RUN_RECORD_BY_ID, recordAPI.getRunRecordById);
+export const getMultiRecordList = createAction(GET_MULTI_RECORD_LIST, recordAPI.getMultiRecordList);
+export const getSingleRecord = createAction(GET_SINGLE_RECORD, recordAPI.getSingleRecord);
+export const initRecordList = createAction(INIT_RECORD_LIST);
+export const initRecord = createAction(INIT_RECORD);
 
 type RecordState = {
-  runHistory: RunHistory | null;
-  runRecord: RunRecord | null;
+  singleRecordList: SingleRunHistory | null;
+  multiRecordList: MultiRunHistory | null;
+  singleRecord: RunRecord | null;
 };
 
 const initialState: RecordState = {
-  runHistory: null,
-  runRecord: null,
+  singleRecordList: null,
+  multiRecordList: null,
+  singleRecord: null,
 };
 
 export default handleActions<RecordState, any>(
   {
+    [INIT_RECORD_LIST]: (state) => ({
+      ...state,
+      singleRecordList: initialState.singleRecordList,
+      multiRecordList: initialState.multiRecordList,
+    }),
+    [INIT_RECORD]: (state) => ({
+      ...state,
+      singleRecord: initialState.singleRecord,
+    }),
     ...pender({
-      type: GET_RUN_HISTORY_BY_WEEK,
-      onSuccess: (state, { payload: runHistory }) => ({
+      type: GET_SINGLE_RECORD_LIST,
+      onSuccess: (state, { payload: singleRecordList }) => ({
         ...state,
-        runHistory,
+        singleRecordList,
       }),
     }),
     ...pender({
-      type: GET_RUN_RECORD_BY_ID,
-      onSuccess: (state, { payload: runRecord }) => ({
+      type: GET_MULTI_RECORD_LIST,
+      onSuccess: (state, { payload: multiRecordList }) => ({
         ...state,
-        runRecord,
+        multiRecordList,
+      }),
+    }),
+    ...pender({
+      type: GET_SINGLE_RECORD,
+      onSuccess: (state, { payload: singleRecord }) => ({
+        ...state,
+        singleRecord,
       }),
     }),
   },

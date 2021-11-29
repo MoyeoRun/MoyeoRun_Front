@@ -48,6 +48,8 @@ const MultiRunContainer = () => {
     if (!myRunData || !room) return;
     dispatch(
       endMultiRun({
+        roomId: room.id,
+        type: 'multi',
         targetDistance: room.targetDistance,
         targetTime: room.targetTime,
         runPace: myRunData.runStatus.pace,
