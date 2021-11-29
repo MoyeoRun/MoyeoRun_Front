@@ -48,6 +48,14 @@ const SingleRunMapContainer = () => {
 
   const onFinishRunning = async () => {
     const filterRunData = runData.filter((item) => item.length !== 0);
+    if (filterRunData[0].length === 0) {
+      console.log('데이터가 하나도 없음');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'BottomTab', state: { routes: [{ name: 'Record' }] } }],
+      });
+      return;
+    }
     await dispatch(
       finishSingleRun({
         type: type!,
@@ -56,7 +64,7 @@ const SingleRunMapContainer = () => {
         runPace: runStatus.pace,
         runTime: runStatus.time,
         runDistance: runStatus.distance,
-        runData: filterRunData.length === 0 ? [[]] : filterRunData,
+        runData: filterRunData,
         createdAt: startDate || new Date().toISOString(),
       }),
     );
