@@ -1,7 +1,8 @@
-import { Box, Button } from 'native-base';
-import React, { useRef } from 'react';
+import { Box } from 'native-base';
+import React, { useRef, useState } from 'react';
 import { WebViewMessageEvent } from 'react-native-webview';
 import CustomWebview from '../common/CustomWebview';
+import ShareRecord from '../ShareRunData';
 
 type HomeTabProps = {
   runList: Array<object>;
@@ -12,7 +13,7 @@ type HomeTabProps = {
 
 const HomeTab = ({ runList, missionList, lastRecordList, user }: HomeTabProps) => {
   const webview = useRef<any>();
-
+  const [open, setOpen] = useState(false);
   const sendProps = () => {
     webview.current.postMessage(
       JSON.stringify({ type: 'homeTab', value: { runList, missionList, lastRecordList, user } }),
