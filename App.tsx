@@ -15,6 +15,7 @@ import * as Sentry from 'sentry-expo';
 import config from './src/config';
 import Notification from './src/service/Notification';
 import SocketProvider from './src/service/SocketProvider';
+import { LogBox } from 'react-native';
 
 Sentry.init({
   dsn: config.sentry_dsn,
@@ -23,6 +24,8 @@ Sentry.init({
 });
 
 const App = () => {
+  LogBox.ignoreLogs(['Setting a timer for a long period of time']);
+
   const { isLoadingComplete, accessToken, refreshToken } = useCachedResources();
   const navigationRef = useNavigationContainerRef();
   store.dispatch(setToken({ accessToken, refreshToken }));

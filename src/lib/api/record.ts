@@ -18,6 +18,14 @@ export const getMultiRecordList = async (startDay: Date, endDay: Date) => {
 };
 
 export const getSingleRecord = async (recordId: string) => {
+  console.log(recordId);
   const { data } = await axios.get<RunRecord>(`http://45.248.73.50:30007/running/${recordId}`);
+  return data;
+};
+
+export const getmultiRecord = async (recordId: string) => {
+  const { data } = await axios.get<RunRecord>(
+    `http://45.248.73.50:30007/running/multi/${recordId}`,
+  );
   return data;
 };
