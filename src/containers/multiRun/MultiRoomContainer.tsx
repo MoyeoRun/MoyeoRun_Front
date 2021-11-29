@@ -49,7 +49,7 @@ const MultiRoomContainer = ({ route }: any) => {
     () => {
       dispatch(getRoomById(roomId));
     },
-    watchStatus ? 5000 : null,
+    watchStatus ? 1000 : null,
   );
 
   useEffect(() => {
