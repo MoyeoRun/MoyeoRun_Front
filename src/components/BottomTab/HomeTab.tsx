@@ -34,7 +34,6 @@ const HomeTab = ({ runList, missionList, lastRecordList, user }: HomeTabProps) =
         onLoad={sendProps}
         onMessage={handleEvent}
       />
-      <ShareRecord open={true} />
     </Box>
   );
 };
