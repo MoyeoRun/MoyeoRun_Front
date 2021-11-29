@@ -75,7 +75,10 @@ export default handleActions<SingleRunState, any>(
             time: payload.currentTime,
             distance: state.runStatus.distance + payload.currentDistance,
             pace: payload.currentDistance
-              ? payload.currentTime / 1000 / 60 / payload.currentDistance
+              ? payload.currentTime /
+                1000 /
+                60 /
+                (state.runStatus.distance + payload.currentDistance)
               : 0,
           }
         : state.runStatus,

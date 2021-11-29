@@ -68,7 +68,7 @@ const MultiRunContainer = () => {
   const listenPosition = ({ latitude, longitude, altitude }: LocationObject['coords']) => {
     if (!myRunData || !user) return;
 
-    const currentTime = stopWatch.getTime();
+    const currentTime = time;
     const lastPoint = myRunData.runData[myRunData.runData.length - 1];
     const momentDistance = lastPoint
       ? getDistance(lastPoint.latitude, lastPoint.longitude, latitude, longitude)
@@ -78,7 +78,7 @@ const MultiRunContainer = () => {
       momentDistance === 0 ? 0 : (currentTime - lastPoint.currentTime) / 60000 / currentDistance;
 
     if (lastPoint) {
-      if (stopWatch.getTime() - lastPoint.currentTime < 1000) return;
+      if (time - lastPoint.currentTime < 1000) return;
     }
 
     if (currentDistance > distanceInterval) {
